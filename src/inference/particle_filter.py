@@ -36,3 +36,18 @@ class RegimeParticleFilter:
         # regime posterior at this step
         post = np.bincount(self.particles, weights=self.weights, minlength=self.K)
         return post / post.sum()
+
+if __name__ == "__main__":
+    P = np.array([
+        [0.90, 0.05, 0.05],
+        [0.10, 0.80, 0.10],
+        [0.05, 0.15, 0.80]
+    ])
+    mu = np.array([0.001, -0.002, 0.000])
+    sigma = np.array([0.01, 0.025, 0.015])
+    pf = RegimeParticleFilter(P, mu, sigma, n_particles=1000)
+    obs_series = [0.0012, 0.0008, -0.015, -0.022, 0.0005]
+    for obs in obs_series:
+        post = pf.step(obs)
+        print(f"Obs: {obs:+.4f} | Posterior state probabilities: {np.round(post, 3)}")
+

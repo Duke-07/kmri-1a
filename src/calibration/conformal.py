@@ -1,5 +1,11 @@
 import numpy as np
 
+def _quantile_higher(a, q):
+    try:
+        return np.quantile(a, q, method='higher')
+    except TypeError:
+        return np.quantile(a, q, interpolation='higher')
+
 def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
     """return prediction sets with marginal coverage 1-alpha."""
     cal_probs = model.predict(X_cal)
@@ -7,7 +13,7 @@ def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
     cal_scores = 1 - cal_probs[np.arange(len(y_cal)), y_cal]
     n = len(cal_scores)
     q_level = np.ceil((n + 1) * (1 - alpha)) / n
-    q_hat = np.quantile(cal_scores, q_level, interpolation='higher')
+    q_hat = _quantile_higher(cal_scores, q_level)
     
     test_probs = model.predict(X_test)
     pred_sets = test_probs >= (1 - q_hat) # boolean mask of regimes in set
@@ -27,7 +33,7 @@ def adaptive_prediction_sets(model, X_cal, y_cal, X_test, alpha=0.1):
     cal_scores = cumsum[np.arange(len(y_cal)), rank_of_true]
     n = len(cal_scores)
     q_level = np.ceil((n + 1) * (1 - alpha)) / n
-    q_hat = np.quantile(cal_scores, q_level, interpolation='higher')
+    q_hat = _quantile_higher(cal_scores, q_level)
     
     test_probs = model.predict(X_test)
     sorted_idx_t = np.argsort(-test_probs, axis=1)
@@ -59,3 +65,30 @@ def adaptive_conformal_inference(scores_stream, alpha_target=0.1, gamma=0.01):
         coverage_path.append((alpha_t, covered))
         
     return coverage_path
+
+class MockModel:
+    def __init__(self, probs):
+        self.probs = probs
+    def predict(self, X):
+        return self.probs[X]
+
+if __name__ == "__main__":
+    np.random.seed(42)
+    # mock 100 calibration samples, 20 test samples, 5 classes
+    cal_probs = np.random.dirichlet(np.ones(5), size=100)
+    y_cal = np.random.randint(0, 5, size=100)
+    test_probs = np.random.dirichlet(np.ones(5), size=20)
+    
+    model_cal = MockModel(cal_probs)
+    model_test = MockModel(test_probs)
+    
+    X_cal = np.arange(100)
+    X_test = np.arange(20)
+    
+    sets, q_hat = split_conformal_classifier(model_cal, X_cal, y_cal, X_test, alpha=0.1)
+    print(f"Split Conformal q_hat threshold: {q_hat:.4f}")
+    print(f"Sample prediction set (first test point): {sets[0]}")
+    
+    aps_sets, aps_q_hat = adaptive_prediction_sets(model_cal, X_cal, y_cal, X_test, alpha=0.1)
+    print(f"Adaptive Prediction Sets q_hat: {aps_q_hat:.4f}")
+

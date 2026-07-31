@@ -53,3 +53,27 @@ def deflated_sharpe_ratio(sharpe, n_obs, n_trials, skew=0.0, kurt=3.0):
     sr_std = np.sqrt((1 - skew * sharpe + (kurt - 1) / 4 * sharpe ** 2) / (n_obs - 1))
     z = (sharpe - e_max * sr_std) / max(sr_std, 1e-12)
     return float(norm.cdf(z))
+
+if __name__ == "__main__":
+    P = np.array([
+        [0.95, 0.03, 0.02, 0.00, 0.00],
+        [0.05, 0.90, 0.05, 0.00, 0.00],
+        [0.02, 0.08, 0.85, 0.03, 0.02],
+        [0.00, 0.00, 0.10, 0.80, 0.10],
+        [0.00, 0.00, 0.05, 0.05, 0.90]
+    ])
+    means = np.array([0.0008, 0.0002, 0.0000, -0.0010, -0.0025])
+    vols = np.array([0.008, 0.012, 0.015, 0.022, 0.035])
+    
+    mc = RegimeConditionedMC(P, means, vols, K=5)
+    init_dist = np.array([0.5, 0.3, 0.2, 0.0, 0.0])
+    paths, states = mc.simulate(init_dist, horizon=252, n_sims=1000)
+    var_95, cvar_95 = regime_var(paths, alpha=0.05)
+    print(f"1-Year Monte Carlo Simulation (1000 paths):")
+    print(f"  Final Mean Return: {paths[:, -1].mean() - 1:.4%}")
+    print(f"  Regime-Conditioned VaR (95%): {var_95:.4%}")
+    print(f"  Regime-Conditioned CVaR (95%): {cvar_95:.4%}")
+    
+    dsr = deflated_sharpe_ratio(sharpe=1.2, n_obs=1260, n_trials=20)
+    print(f"Deflated Sharpe Ratio (Sharpe 1.2 over 5yrs, 20 trials): {dsr:.4f}")
+

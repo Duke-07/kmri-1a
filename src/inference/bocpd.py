@@ -33,3 +33,14 @@ def bocpd(data, hazard=1/100, mu0=0.0, kappa0=1.0, alpha0=1.0, beta0=1.0):
         beta = np.concatenate([[beta0], beta_new])
         
     return R
+
+if __name__ == "__main__":
+    np.random.seed(42)
+    # 50 days of low vol, 50 days of high vol shock
+    series_a = np.random.normal(0.001, 0.01, 50)
+    series_b = np.random.normal(-0.005, 0.04, 50)
+    data = np.concatenate([series_a, series_b])
+    R = bocpd(data, hazard=1/50)
+    print(f"BOCPD Run length matrix shape: {R.shape}")
+    print(f"Max probability run length at t=50 (changepoint day): {np.argmax(R[:, 50])}")
+
