@@ -1,11 +1,11 @@
 import numpy as np
 
 class RegimeParticleFilter:
-    """Bootstrap particle filter for a K-regime HMM with Gaussian emissions."""
+    """bootstrap particle filter for a k-regime HMM with Gaussian emissions."""
     def __init__(self, P, mu, sigma, n_particles=5000, seed=42):
-        self.P = P # (K, K) transition matrix
-        self.mu = mu # (K,) regime means
-        self.sigma = sigma # (K,) regime stds
+        self.P = P # (k, k) transition matrix
+        self.mu = mu # (k,) regime means
+        self.sigma = sigma # (k,) regime stds
         self.K = P.shape[0]
         self.N = n_particles
         self.rng = np.random.default_rng(seed)

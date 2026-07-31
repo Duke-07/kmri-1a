@@ -6,7 +6,7 @@ tfpl = tfp.layers
 import numpy as np
 
 def build_mc_dropout_regime_classifier(input_dim, n_regimes=5, dropout_rate=0.3):
-    """Regime classifier with permanent dropout for MC inference."""
+    """regime classifier with permanent dropout for MC inference."""
     inputs = layers.Input(shape=(input_dim,))
     x = layers.Dense(128, activation='relu')(inputs)
     x = layers.Dropout(dropout_rate)(x, training=True) # always on
@@ -21,7 +21,7 @@ def build_mc_dropout_regime_classifier(input_dim, n_regimes=5, dropout_rate=0.3)
     return model
 
 def mc_predict(model, X, n_samples=200):
-    """Generate predictive distribution via repeated stochastic passes."""
+    """generate predictive distribution via repeated stochastic passes."""
     preds = np.stack([model(X, training=True).numpy() for _ in range(n_samples)])
     mean = preds.mean(axis=0)
     std = preds.std(axis=0)
@@ -29,7 +29,7 @@ def mc_predict(model, X, n_samples=200):
 
 
 def build_variational_regime_classifier(input_dim, n_regimes=5, train_size=2000):
-    """Mean-field VI BNN for regime classification."""
+    """mean-field VI BNN for regime classification."""
     kl_weight = 1.0 / train_size
     inputs = tf.keras.Input(shape=(input_dim,))
     x = tfpl.DenseFlipout(128, activation='relu',
@@ -47,7 +47,7 @@ def build_variational_regime_classifier(input_dim, n_regimes=5, train_size=2000)
 
 
 def train_deep_ensemble(build_fn, X_train, y_train, M=10, epochs=50):
-    """Train M independent regime classifiers."""
+    """train m independent regime classifiers."""
     ensemble = []
     for m in range(M):
         tf.random.set_seed(m * 17 + 3)

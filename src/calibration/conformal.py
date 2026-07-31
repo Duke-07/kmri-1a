@@ -1,7 +1,7 @@
 import numpy as np
 
 def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
-    """Return prediction sets with marginal coverage 1-alpha."""
+    """return prediction sets with marginal coverage 1-alpha."""
     cal_probs = model.predict(X_cal)
     # y_cal should be integer labels
     cal_scores = 1 - cal_probs[np.arange(len(y_cal)), y_cal]
@@ -14,7 +14,7 @@ def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
     return pred_sets, q_hat
 
 def adaptive_prediction_sets(model, X_cal, y_cal, X_test, alpha=0.1):
-    """Adaptive Prediction Sets (Romano et al., 2020)"""
+    """adaptive prediction sets (romano et al., 2020)"""
     cal_probs = model.predict(X_cal)
     sorted_idx = np.argsort(-cal_probs, axis=1)
     sorted_probs = np.take_along_axis(cal_probs, sorted_idx, axis=1)
@@ -47,7 +47,7 @@ def adaptive_prediction_sets(model, X_cal, y_cal, X_test, alpha=0.1):
     return pred_sets, q_hat
 
 def adaptive_conformal_inference(scores_stream, alpha_target=0.1, gamma=0.01):
-    """Online ACI: update alpha_t after each realised outcome."""
+    """online ACI: update alpha_t after each realised outcome."""
     alpha_t = alpha_target
     coverage_path = []
     

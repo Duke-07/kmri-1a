@@ -4,14 +4,14 @@ import os
 
 def generate_synthetic_market_data(start_date='2007-01-01', end_date='2024-12-31', seed=42):
     """
-    Generates synthetic daily market data mimicking Indian equity markets.
-    Contains Nifty 50, Midcap, Smallcap, VIX, FII/DII flows, macro indicators.
+    generates synthetic daily market data mimicking indian equity markets.
+    contains Nifty 50, Midcap, Smallcap, VIX, FII/DII flows, macro indicators.
     """
     np.random.seed(seed)
-    dates = pd.date_range(start=start_date, end=end_date, freq='B') # Business days
+    dates = pd.date_range(start=start_date, end=end_date, freq='B') # business days
     n_days = len(dates)
     
-    # Simulate true hidden regimes (0: Risk-On, 1: Risk-Off, 2: Transitional)
+    # simulate true hidden regimes (0: risk-on, 1: risk-off, 2: transitional)
     P = np.array([
         [0.98, 0.01, 0.01],
         [0.05, 0.90, 0.05],

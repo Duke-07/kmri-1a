@@ -6,7 +6,7 @@ except ImportError:
     ChronosPipeline = None
 
 def chronos_embed(pipeline, returns_window: np.ndarray):
-    """Extract Chronos embedding for a window of returns."""
+    """extract Chronos embedding for a window of returns."""
     if pipeline is None:
         return np.random.normal(0, 1, 1024) # mock embedding if not installed
         
@@ -20,11 +20,11 @@ class HybridRegimeModel:
         self.clf = bayesian_classifier # MC dropout / ensemble / VI
         
     def encode(self, X_windows):
-        # Assuming X_windows is a list of arrays
+        # assuming x_windows is a list of arrays
         if hasattr(self.fm, 'embed'):
             return np.vstack([self.fm.embed(w) for w in X_windows])
         else:
-            # Fallback mock embed
+            # fallback mock embed
             return np.vstack([chronos_embed(None, w) for w in X_windows])
             
     def fit(self, X_windows, y, epochs=50):

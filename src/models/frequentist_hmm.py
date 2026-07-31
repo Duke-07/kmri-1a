@@ -4,7 +4,7 @@ from hmmlearn import hmm
 import matplotlib.pyplot as plt
 
 def fit_regime_hmm(returns: pd.Series, n_states=5, n_iter=200, seed=42):
-    """Fit a Gaussian-emission HMM to a returns series."""
+    """fit a Gaussian-emission HMM to a returns series."""
     X = returns.values.reshape(-1, 1)
     model = hmm.GaussianHMM(
         n_components=n_states,
@@ -19,18 +19,18 @@ def fit_regime_hmm(returns: pd.Series, n_states=5, n_iter=200, seed=42):
     return model, states, state_probs
 
 def label_regimes(model, K=5):
-    """Map numeric states to economic regime names by mean/vol signature."""
+    """map numeric states to economic regime names by mean/vol signature."""
     summary = []
     for i in range(K):
         mu = model.means_[i, 0]
         sig = np.sqrt(model.covars_[i, 0, 0])
         summary.append((i, mu, sig))
     
-    # Sort by (mean, -vol): risk-on = high mean low vol; risk-off = low mean high vol
+    # sort by (mean, -vol): risk-on = high mean low vol; risk-off = low mean high vol
     summary.sort(key=lambda x: (x[1], -x[2]), reverse=True)
     labels = ['Risk-On', 'Late-Cycle', 'Transitional', 'Post-Shock', 'Risk-Off']
     
-    # For K != 5, fallback
+    # for k != 5, fallback
     if K != 5:
         labels = [f"Regime_{j}" for j in range(K)]
         

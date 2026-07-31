@@ -4,21 +4,21 @@ import pandas as pd
 
 def bma_weights(log_predictive_likelihoods):
     """
-    log_predictive_likelihoods: (M,) out-of-sample log-lik per model.
+    log_predictive_likelihoods: (m,) out-of-sample log-lik per model.
     """
     w = np.exp(log_predictive_likelihoods - log_predictive_likelihoods.max())
     return w / w.sum()
 
 def bma_combine(model_probs, weights):
     """
-    model_probs: (M, K) regime probs per model; weights: (M,).
+    model_probs: (m, k) regime probs per model; weights: (m,).
     """
-    return np.tensordot(weights, model_probs, axes=(0, 0)) # (K,)
+    return np.tensordot(weights, model_probs, axes=(0, 0)) # (k,)
 
 def fit_stacking_weights(base_probs, y_true):
     """
-    base_probs: (M, N, K) out-of-fold probs; y_true: (N,) labels.
-    Returns simplex weights minimising mean cross-entropy.
+    base_probs: (m, n, k) out-of-fold probs; y_true: (n,) labels.
+    returns simplex weights minimising mean cross-entropy.
     """
     M, N, K = base_probs.shape
     onehot = np.eye(K)[y_true]
@@ -29,7 +29,7 @@ def fit_stacking_weights(base_probs, y_true):
             w = w / w.sum()
         else:
             w = np.ones(M) / M
-        combined = np.tensordot(w, base_probs, axes=(0, 0)) # (N, K)
+        combined = np.tensordot(w, base_probs, axes=(0, 0)) # (n, k)
         combined = np.clip(combined, 1e-9, 1.0)
         return -np.mean(np.sum(onehot * np.log(combined), axis=1))
         

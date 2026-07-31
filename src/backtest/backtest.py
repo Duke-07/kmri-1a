@@ -2,9 +2,9 @@ import numpy as np
 
 class RegimeConditionedMC:
     def __init__(self, transition_matrix, regime_returns, regime_vols, K=5):
-        self.P = transition_matrix # (K, K)
-        self.mu = regime_returns   # (K,) daily mean returns per regime
-        self.sig = regime_vols     # (K,) daily vol per regime
+        self.P = transition_matrix # (k, k)
+        self.mu = regime_returns   # (k,) daily mean returns per regime
+        self.sig = regime_vols     # (k,) daily vol per regime
         self.K = K
         
     def simulate(self, init_regime_dist, horizon=252, n_sims=10000, seed=42):
@@ -31,7 +31,7 @@ class RegimeConditionedMC:
         return {q: np.percentile(paths, q*100, axis=0) for q in qs}
 
 def regime_var(paths, alpha=0.05):
-    """Value-at-Risk on final portfolio value distribution."""
+    """value-at-risk on final portfolio value distribution."""
     final = paths[:, -1] - 1.0
     var = np.percentile(final, alpha * 100)
     cvar = final[final <= var].mean()
@@ -47,7 +47,7 @@ def conviction_scaled_tilt(edge, variance, conviction, kelly_fraction=0.5, max_t
     return float(np.clip(tilt, -max_tilt, max_tilt))
 
 def deflated_sharpe_ratio(sharpe, n_obs, n_trials, skew=0.0, kurt=3.0):
-    """Probability the true Sharpe > 0 after correcting for selection."""
+    """probability the true Sharpe > 0 after correcting for selection."""
     from scipy.stats import norm
     e_max = (np.sqrt(2 * np.log(n_trials)) if n_trials > 1 else 0.0)
     sr_std = np.sqrt((1 - skew * sharpe + (kurt - 1) / 4 * sharpe ** 2) / (n_obs - 1))
