@@ -29,18 +29,70 @@ pip install -r requirements.txt
 
 ## Running the Pipeline
 
-1. **Generate Synthetic Data**:
-   To test the engine, you can run the synthetic data generator to simulate 15 years of Indian equity market history (Nifty, Midcap, Smallcap, VIX, Flows, Macro):
+1. **Run End-to-End Master Pipeline**:
+   To execute all 7 stages of the regime engine sequentially (data generation, feature engineering, HMM decoding, particle filtering, BOCPD, ensembling, conformal calibration, and Monte Carlo backtesting):
+   ```bash
+   python run_pipeline.py
+   ```
+
+2. **Generate Synthetic Data**:
+   To test the engine independently, simulate 15 years of Indian equity market history (Nifty, Midcap, Smallcap, VIX, Flows, Macro):
    ```bash
    python src/data/synthetic_data.py
    ```
-2. **Feature Engineering**:
+3. **Feature Engineering**:
    Generate the requisite features for regime modelling:
    ```bash
    python src/data/feature_engineering.py
    ```
-3. **Model Execution**:
+4. **Model Execution**:
    The individual scripts under `src/models/` and `src/inference/` can be executed independently to train specific components of the ensemble.
+
+## Execution Output & Pipeline Validation
+
+Running `python run_pipeline.py` outputs the full 7-stage diagnostic trace:
+
+```text
+======================================================================
+BAYESIAN REGIME DETECTION ENGINE - END-TO-END PIPELINE
+======================================================================
+
+[Step 1/7] Generating Synthetic Indian Market Data (2007 - 2024)...
+  -> Generated 4697 daily trading records with OHLC, VIX, Flows, Macro, and SIP indicators.
+
+[Step 2/7] Running Feature Engineering Pipeline (Returns, Vol, Breadth, Macro, Flows)...
+  -> Engineered 26 core features + topological correlation proxies.
+  -> Sample Composite Crash Alert Distribution:
+NORMAL            3775
+MONITOR            792
+WARNING            123
+ACUTE RISK-OFF       7
+Name: count, dtype: int64
+
+[Step 3/7] Fitting 5-State Gaussian HMM and Decoding Economic Regimes...
+  -> Decoded Regimes Mapping: {2: 'Risk-On', 4: 'Late-Cycle', 0: 'Transitional', 1: 'Post-Shock', 3: 'Risk-Off'}
+
+[Step 4/7] Running Bootstrap Particle Filter & BOCPD Changepoint Detector...
+  -> Particle Filter Posterior for last bar: [0.4351 0.4524 0.     0.0579 0.0545]
+  -> BOCPD Run-Length Matrix evaluated for recent 100 sessions. Max run length at bar 100: 100
+
+[Step 5/7] Model Ensembling (BMA & Constrained Stacking)...
+  -> Bayesian Model Averaging (BMA) Weights across 3 ensemble models: [0.3112 0.3616 0.3272]
+
+[Step 6/7] Applying Conformal Prediction Sets for Audit-Defensible Coverage...
+  -> Conformal Quantile Threshold q_hat (alpha=0.10): 0.5594
+  -> Average Prediction Set Size across test period: 0.82 states out of 5
+
+[Step 7/7] Regime-Conditioned Monte Carlo Simulation & Deflated Sharpe Ratio...
+  -> 1-Year Projected Return Mean: -1.19%
+  -> 95% Regime-Conditioned Value-at-Risk (VaR): -34.15%
+  -> 95% Regime-Conditioned Conditional VaR (CVaR): -42.54%
+  -> Deflated Sharpe Ratio (P(True Sharpe > 0)): 1.0000
+
+======================================================================
+ALL PIPELINE STAGES COMPLETED SUCCESSFULLY!
+======================================================================
+```
 
 ## Key Implementation Highlights
 
@@ -114,7 +166,7 @@ def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
     n = len(cal_scores)
     
     q_level = np.ceil((n + 1) * (1 - alpha)) / n
-    q_hat = np.quantile(cal_scores, q_level, interpolation='higher')
+    q_hat = np.quantile(cal_scores, q_level, method='higher')
     
     test_probs = model.predict(X_test)
     pred_sets = test_probs >= (1 - q_hat) # boolean mask of regimes in set
@@ -126,3 +178,4 @@ def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
 - **Direction over Price**: Focuses on the probability of regimes (Risk-On, Risk-Off, Late-Cycle, Transitional, Post-Shock) rather than unreliable point estimates.
 - **Audit-Defensible Calibration**: Enforces finite-sample coverage guarantees through Conformal Prediction, critical for regulatory compliance and Investment Committee confidence.
 - **Multi-modal Ensembling**: Rigorously aggregates signals from Bayesian neural networks, sequential HMMs, and time-series foundation models.
+
