@@ -42,6 +42,85 @@ pip install -r requirements.txt
 3. **Model Execution**:
    The individual scripts under `src/models/` and `src/inference/` can be executed independently to train specific components of the ensemble.
 
+## Key Implementation Highlights
+
+Here are some of the key code implementations driving the regime detection engine.
+
+### 1. Bayesian HMM (PyMC)
+We use `PyMC` to build a robust Bayesian Hidden Markov Model with Dirichlet priors on regime transitions, ensuring calibrated uncertainty across states:
+
+```python
+import pymc as pm
+import pytensor.tensor as pt
+import numpy as np
+
+def build_bayesian_hmm(returns: np.ndarray, K=5):
+    T = len(returns)
+    with pm.Model() as model:
+        # Priors for transition matrix
+        alpha_diag = 8.0
+        alpha_off = 1.0
+        alpha_mat = np.eye(K) * alpha_diag + (1 - np.eye(K)) * alpha_off
+        
+        P = pm.Dirichlet('P', a=alpha_mat, shape=(K, K))
+        pi = pm.Dirichlet('pi', a=np.ones(K), shape=K)
+        
+        # Emission parameters
+        mu = pm.Normal('mu', mu=0, sigma=0.02, shape=K)
+        sigma = pm.HalfNormal('sigma', sigma=0.03, shape=K)
+        
+        states = pm.Categorical('states', p=pi, shape=T)
+        obs = pm.Normal('obs', mu=mu[states], sigma=sigma[states], observed=returns)
+        
+    return model
+```
+
+### 2. Bayesian Deep Learning (TensorFlow Probability)
+We leverage Variational Inference via TensorFlow Probability to model the complex, non-linear relationships in market regimes.
+
+```python
+import tensorflow as tf
+import tensorflow_probability as tfp
+tfpl = tfp.layers
+tfd = tfp.distributions
+
+def build_variational_regime_classifier(input_dim, n_regimes=5, train_size=2000):
+    kl_weight = 1.0 / train_size
+    inputs = tf.keras.Input(shape=(input_dim,))
+    x = tfpl.DenseFlipout(128, activation='relu',
+                          kernel_divergence_fn=lambda q,p,_: kl_weight*tfd.kl_divergence(q,p))(inputs)
+    x = tfpl.DenseFlipout(64, activation='relu',
+                          kernel_divergence_fn=lambda q,p,_: kl_weight*tfd.kl_divergence(q,p))(x)
+    logits = tfpl.DenseFlipout(n_regimes,
+                               kernel_divergence_fn=lambda q,p,_: kl_weight*tfd.kl_divergence(q,p))(x)
+    outputs = tfpl.OneHotCategorical(n_regimes)(logits)
+    
+    model = tf.keras.Model(inputs, outputs)
+    nll = lambda y, rv_y: -rv_y.log_prob(y)
+    model.compile(optimizer='adam', loss=nll, metrics=['accuracy'])
+    return model
+```
+
+### 3. Conformal Prediction (Calibration)
+To guarantee finite-sample coverage (audit-defensibility), we apply conformal prediction sets to our regime probabilities.
+
+```python
+import numpy as np
+
+def split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1):
+    """Return prediction sets with marginal coverage 1-alpha."""
+    cal_probs = model.predict(X_cal)
+    cal_scores = 1 - cal_probs[np.arange(len(y_cal)), y_cal]
+    n = len(cal_scores)
+    
+    q_level = np.ceil((n + 1) * (1 - alpha)) / n
+    q_hat = np.quantile(cal_scores, q_level, interpolation='higher')
+    
+    test_probs = model.predict(X_test)
+    pred_sets = test_probs >= (1 - q_hat) # boolean mask of regimes in set
+    return pred_sets, q_hat
+```
+
 ## Key Features
 
 - **Direction over Price**: Focuses on the probability of regimes (Risk-On, Risk-Off, Late-Cycle, Transitional, Post-Shock) rather than unreliable point estimates.
