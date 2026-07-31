@@ -79,16 +79,17 @@ if __name__ == "__main__":
     y_cal = np.random.randint(0, 5, size=100)
     test_probs = np.random.dirichlet(np.ones(5), size=20)
     
-    model_cal = MockModel(cal_probs)
-    model_test = MockModel(test_probs)
+    all_probs = np.vstack([cal_probs, test_probs])
+    model = MockModel(all_probs)
     
     X_cal = np.arange(100)
-    X_test = np.arange(20)
+    X_test = np.arange(100, 120)
     
-    sets, q_hat = split_conformal_classifier(model_cal, X_cal, y_cal, X_test, alpha=0.1)
+    sets, q_hat = split_conformal_classifier(model, X_cal, y_cal, X_test, alpha=0.1)
     print(f"Split Conformal q_hat threshold: {q_hat:.4f}")
     print(f"Sample prediction set (first test point): {sets[0]}")
     
-    aps_sets, aps_q_hat = adaptive_prediction_sets(model_cal, X_cal, y_cal, X_test, alpha=0.1)
+    aps_sets, aps_q_hat = adaptive_prediction_sets(model, X_cal, y_cal, X_test, alpha=0.1)
     print(f"Adaptive Prediction Sets q_hat: {aps_q_hat:.4f}")
+
 
