@@ -6,6 +6,7 @@ sequential inference, ensembling, conformal calibration, and backtesting.
 
 import os
 import sys
+from typing import Optional, Tuple, Dict, Any
 import numpy as np
 import pandas as pd
 
@@ -27,7 +28,10 @@ from ensembling.ensembling import bma_weights, bma_combine, fit_stacking_weights
 from calibration.conformal import split_conformal_classifier, adaptive_prediction_sets
 from backtest.backtest import RegimeConditionedMC, regime_var, conviction_scaled_tilt, deflated_sharpe_ratio
 
-def run_pipeline():
+def run_pipeline() -> None:
+    """
+    Executes all 7 stages of the Bayesian Regime Detection Engine.
+    """
     print("=" * 70)
     print("BAYESIAN REGIME DETECTION ENGINE - END-TO-END PIPELINE")
     print("=" * 70)
