@@ -1302,30 +1302,33 @@ def run_pipeline():
     print(f"       HMM calibration - ECE={hmm_cal['ECE']}  Brier={hmm_cal['Brier']}  RPS={hmm_cal['RPS']}")
 
     # -------------------------------------------------------------------------
+    # -------------------------------------------------------------------------
     print("\n[10/12] Model Ensembling - BMA + Constrained Stacking ...")
+    n_stack = min(len(pt), len(ens_probs), len(vb_resp), len(y_te))
+    p_hmm_s = pt[-n_stack:]
+    p_ens_s = ens_probs[-n_stack:]
+    p_vb_s  = vb_resp[-n_stack:]
+    y_stack = y_te[-n_stack:]
+
     # Compute OOS log-liks for each model type
-    hmm_ll   = float(np.mean(np.log(np.clip(pt[np.arange(len(yt)), yt], 1e-9, 1))))
-    ens_ll   = float(np.mean(np.log(np.clip(ens_probs[np.arange(len(y_te)), y_te], 1e-9, 1))))
-    vb_resp  = vb.responsib_[-len(y_te):]
-    vb_ll    = float(np.mean(np.log(np.clip(vb_resp[np.arange(len(y_te)), y_te], 1e-9, 1))))
+    hmm_ll   = float(np.mean(np.log(np.clip(p_hmm_s[np.arange(n_stack), y_stack], 1e-9, 1))))
+    ens_ll   = float(np.mean(np.log(np.clip(p_ens_s[np.arange(n_stack), y_stack], 1e-9, 1))))
+    vb_ll    = float(np.mean(np.log(np.clip(p_vb_s[np.arange(n_stack), y_stack], 1e-9, 1))))
     log_liks = np.array([hmm_ll, ens_ll, vb_ll])
     bma_w    = bma_weights(log_liks)
     print(f"       OOS log-liks: HMM={hmm_ll:.4f}  Ensemble={ens_ll:.4f}  VB-HMM={vb_ll:.4f}")
     print(f"       BMA weights:  HMM={bma_w[0]:.4f}  Ensemble={bma_w[1]:.4f}  VB-HMM={bma_w[2]:.4f}")
 
     # Stacking
-    base3 = np.stack([pt, ens_probs[:len(pt)], vb_resp[:len(pt)]])
-    y_stack = yt[:min(len(yt), base3.shape[1])]
-    base3s  = base3[:, :len(y_stack), :]
-    sw      = stacking_weights(base3s, y_stack)
+    base3   = np.stack([p_hmm_s, p_ens_s, p_vb_s])
+    sw      = stacking_weights(base3, y_stack)
     print(f"       Stacking weights: HMM={sw[0]:.4f}  Ensemble={sw[1]:.4f}  VB-HMM={sw[2]:.4f}")
 
     # Combined ensemble
-    n_combo = min(len(pt), len(ens_probs), len(vb_resp))
-    combined_probs = (sw[0]*pt[:n_combo] + sw[1]*ens_probs[:n_combo] + sw[2]*vb_resp[:n_combo])
+    combined_probs = (sw[0]*p_hmm_s + sw[1]*p_ens_s + sw[2]*p_vb_s)
     combined_probs /= combined_probs.sum(axis=1, keepdims=True)
-    combo_acc = float((combined_probs.argmax(1) == yt[:n_combo]).mean())
-    combo_cal = calibration_metrics(combined_probs, yt[:n_combo], K=5)
+    combo_acc = float((combined_probs.argmax(1) == y_stack).mean())
+    combo_cal = calibration_metrics(combined_probs, y_stack, K=5)
     print(f"       Combined ensemble - Acc={combo_acc:.3f}  ECE={combo_cal['ECE']}  "
           f"Brier={combo_cal['Brier']}  RPS={combo_cal['RPS']}")
 
