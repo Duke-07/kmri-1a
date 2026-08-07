@@ -331,17 +331,18 @@ class GaussianHMM:
     # -- M-step ----------------------------------------------------------------
 
     def _m_step(self, obs, gamma, xi):
-        self.pi_ = gamma[0] / (gamma[0].sum() + 1e-300)
+        self.pi_ = (gamma[0] + 1e-4) / (gamma[0].sum() + 1e-4 * self.K)
 
-        # Transition matrix
-        A_num  = xi.sum(axis=0)
-        self.A_ = A_num / (A_num.sum(axis=1, keepdims=True) + 1e-300)
+        # Transition matrix with Laplace smoothing prior
+        A_num   = xi.sum(axis=0) + 1e-4
+        self.A_ = A_num / A_num.sum(axis=1, keepdims=True)
 
-        # Emissions
-        g_sum   = gamma.sum(axis=0)
-        self.mu_    = (gamma.T @ obs) / (g_sum + 1e-300)
+        # Emissions with robust variance bounds
+        g_sum       = gamma.sum(axis=0) + 1e-12
+        self.mu_    = (gamma.T @ obs) / g_sum
         resid       = obs[:, None] - self.mu_[None, :]
-        self.sigma_ = np.sqrt((gamma * resid**2).sum(axis=0) / (g_sum + 1e-300) + 1e-8)
+        var_est     = (gamma * resid**2).sum(axis=0) / g_sum
+        self.sigma_ = np.sqrt(np.clip(var_est, 1e-8, 1.0))
 
     # -- Fit -------------------------------------------------------------------
 
@@ -799,9 +800,13 @@ class ParticleFilter:
     """Bootstrap SIR particle filter with Kitagawa (1996) systematic resampling."""
 
     def __init__(self, A, mu, sigma, N=5000, seed=42):
-        self.A = A; self.mu = mu; self.sigma = sigma
         self.K = A.shape[0]; self.N = N
-        self.rng = np.random.default_rng(seed)
+        A_clean = np.nan_to_num(A, nan=1.0/self.K)
+        A_clean = np.clip(A_clean, 1e-8, None)
+        self.A  = A_clean / A_clean.sum(axis=1, keepdims=True)
+        self.mu    = np.nan_to_num(mu, nan=0.0)
+        self.sigma = np.clip(np.nan_to_num(sigma, nan=0.01), 1e-6, None)
+        self.rng   = np.random.default_rng(seed)
         self.particles = self.rng.integers(0, self.K, N)
         self.weights   = np.full(N, 1.0/N)
         self.ess_log   = []
