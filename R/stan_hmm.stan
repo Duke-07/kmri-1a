@@ -1,6 +1,11 @@
+// Stan HMM — Bayesian Regime Detection Engine
+// Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
+// Exact forward-algorithm marginalisation over latent regime states.
+// Run via CmdStanR: mod <- cmdstan_model("R/stan_hmm.stan"); fit <- mod$sample(...)
+
 data {
   int<lower=1> T;         // number of time steps
-  int<lower=1> K;         // number of regimes
+  int<lower=1> K;         // number of regimes (5 for this project)
   vector[T] returns;       // observed daily returns
 }
 
