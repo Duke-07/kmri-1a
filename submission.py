@@ -1,5 +1,5 @@
 """
-Bayesian Regime Detection Engine — Master Submission
+Bayesian Regime Detection Engine - Master Submission
 =====================================================
 Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
 
@@ -8,20 +8,20 @@ All core algorithms are implemented from scratch so this runs with ZERO
 optional dependencies and produces REAL mathematical results.
 
 Architecture:
-  1.  Synthetic Data          — 5-regime Student-t simulation (18 years)
-  2.  Feature Engineering     — 33 features: returns, vol, breadth, macro, flows, TDA
-  3.  Gaussian HMM (scratch)  — Baum-Welch EM + Viterbi + BIC selection K=3/5/7
-  4.  Bayesian HMM (VI)       — Variational Bayes HMM (Beal 2003, Dirichlet-Normal-Wishart)
-  5.  MSM Baseline            — statsmodels MarkovRegression (falls back to EM-HMM)
-  6.  Bayesian Deep Learning  — MC Dropout via sklearn + uncertainty decomposition
-  7.  Foundation Models       — Chronos / TimesFM or rolling statistical embeddings
-  8.  BOCPD                   — Student-t Normal-Gamma changepoint detection (scratch)
-  9.  Particle Filter         — Bootstrap SIR with systematic resampling (scratch)
-  10. Conformal Prediction    — Split / APS / Mondrian / ACI / CQR + ECE / RPS / Brier
-  11. Model Ensembling        — BMA + constrained stacking + WAIC/LOO
-  12. Backtesting             — Regime overlay, IR, tracking error, Kelly tilt
-  13. Monte Carlo             — Regime-conditioned path simulation, VaR, CVaR, DSR
-  14. IC Artefact             — Investment Committee structured report
+  1.  Synthetic Data          - 5-regime Student-t simulation (18 years)
+  2.  Feature Engineering     - 33 features: returns, vol, breadth, macro, flows, TDA
+  3.  Gaussian HMM (scratch)  - Baum-Welch EM + Viterbi + BIC selection K=3/5/7
+  4.  Bayesian HMM (VI)       - Variational Bayes HMM (Beal 2003, Dirichlet-Normal-Wishart)
+  5.  MSM Baseline            - statsmodels MarkovRegression (falls back to EM-HMM)
+  6.  Bayesian Deep Learning  - MC Dropout via sklearn + uncertainty decomposition
+  7.  Foundation Models       - Chronos / TimesFM or rolling statistical embeddings
+  8.  BOCPD                   - Student-t Normal-Gamma changepoint detection (scratch)
+  9.  Particle Filter         - Bootstrap SIR with systematic resampling (scratch)
+  10. Conformal Prediction    - Split / APS / Mondrian / ACI / CQR + ECE / RPS / Brier
+  11. Model Ensembling        - BMA + constrained stacking + WAIC/LOO
+  12. Backtesting             - Regime overlay, IR, tracking error, Kelly tilt
+  13. Monte Carlo             - Regime-conditioned path simulation, VaR, CVaR, DSR
+  14. IC Artefact             - Investment Committee structured report
 
 Run: python submission.py
 """
@@ -42,7 +42,7 @@ from sklearn.model_selection import TimeSeriesSplit
 warnings.filterwarnings("ignore")
 sys.path.insert(0, os.path.dirname(__file__))
 
-# ── Optional heavy imports (real implementations when available) ──────────────
+# -- Optional heavy imports (real implementations when available) --------------
 try:
     from hmmlearn import hmm as _hmmlib; HMMLEARN = True
 except ImportError:
@@ -107,13 +107,13 @@ def generate_synthetic_market_data(start="2007-01-01", end="2024-12-31", seed=42
     dates = pd.bdate_range(start=start, end=end)
     T     = len(dates)
 
-    # ── Markov chain over regimes ────────────────────────────────────────────
+    # -- Markov chain over regimes --------------------------------------------
     regimes    = np.empty(T, dtype=int)
     regimes[0] = 0
     for t in range(1, T):
         regimes[t] = rng.choice(5, p=TRANSITION_MATRIX[regimes[t - 1]])
 
-    # ── Student-t returns ────────────────────────────────────────────────────
+    # -- Student-t returns ----------------------------------------------------
     rets = np.empty(T)
     for t in range(T):
         p    = REGIME_PARAMS[regimes[t]]
@@ -122,7 +122,7 @@ def generate_synthetic_market_data(start="2007-01-01", end="2024-12-31", seed=42
 
     close = 1000.0 * np.exp(np.cumsum(rets))
 
-    # ── Auxiliary market data ────────────────────────────────────────────────
+    # -- Auxiliary market data ------------------------------------------------
     vix_lvl  = {k: p["vix"] for k, p in REGIME_PARAMS.items()}
     vix      = np.clip(np.array([rng.normal(vix_lvl[regimes[t]], vix_lvl[regimes[t]]*0.12)
                                   for t in range(T)]), 8, 90)
@@ -242,7 +242,7 @@ def engineer_features(df):
 
 
 # =============================================================================
-# 3. GAUSSIAN HMM — FULL SCRATCH IMPLEMENTATION (Baum-Welch + Viterbi)
+# 3. GAUSSIAN HMM - FULL SCRATCH IMPLEMENTATION (Baum-Welch + Viterbi)
 # =============================================================================
 
 class GaussianHMM:
@@ -270,14 +270,14 @@ class GaussianHMM:
         self.sigma_ = None   # (K,) emission std deviations
         self.loglik_= -np.inf
 
-    # ── Emission log-likelihood ───────────────────────────────────────────────
+    # -- Emission log-likelihood -----------------------------------------------
 
     def _log_emission(self, x):
-        """log N(x; mu_k, sigma_k²) for all k. Returns (K,)."""
+        """log N(x; mu_k, sigma_k) for all k. Returns (K,)."""
         diff = (x - self.mu_) / (self.sigma_ + 1e-12)
         return -0.5 * diff**2 - np.log(self.sigma_ + 1e-12) - 0.5 * np.log(2*np.pi)
 
-    # ── Forward algorithm (scaled) ────────────────────────────────────────────
+    # -- Forward algorithm (scaled) --------------------------------------------
 
     def _forward(self, obs):
         """Returns alpha (T, K) scaled, log_scaling (T,)."""
@@ -295,7 +295,7 @@ class GaussianHMM:
 
         return alpha, log_sc
 
-    # ── Backward algorithm (scaled) ───────────────────────────────────────────
+    # -- Backward algorithm (scaled) -------------------------------------------
 
     def _backward(self, obs, log_sc):
         T = len(obs)
@@ -309,7 +309,7 @@ class GaussianHMM:
 
         return beta
 
-    # ── E-step ────────────────────────────────────────────────────────────────
+    # -- E-step ----------------------------------------------------------------
 
     def _e_step(self, obs):
         T      = len(obs)
@@ -328,7 +328,7 @@ class GaussianHMM:
 
         return gamma, xi, ll
 
-    # ── M-step ────────────────────────────────────────────────────────────────
+    # -- M-step ----------------------------------------------------------------
 
     def _m_step(self, obs, gamma, xi):
         self.pi_ = gamma[0] / (gamma[0].sum() + 1e-300)
@@ -343,27 +343,26 @@ class GaussianHMM:
         resid       = obs[:, None] - self.mu_[None, :]
         self.sigma_ = np.sqrt((gamma * resid**2).sum(axis=0) / (g_sum + 1e-300) + 1e-8)
 
-    # ── Fit ───────────────────────────────────────────────────────────────────
+    # -- Fit -------------------------------------------------------------------
 
     def fit(self, obs):
         """Fit via Baum-Welch EM."""
         rng = np.random.default_rng(self.seed)
         T   = len(obs)
 
-        # K-means++ initialisation for mu_
-        indices     = [rng.integers(T)]
-        for _ in range(self.K - 1):
-            d2 = np.array([min((obs[i] - obs[j])**2 for j in indices) for i in range(T)])
-            indices.append(rng.choice(T, p=d2/d2.sum()))
-        self.mu_    = obs[sorted(indices)]
-        self.sigma_ = np.full(self.K, obs.std() / self.K + 1e-6)
-        self.pi_    = np.full(self.K, 1.0/self.K)
-        self.A_     = (0.8 * np.eye(self.K) + 0.2/self.K * np.ones((self.K, self.K)))
+        # Quantile-based robust initialisation for mu_
+        quantiles   = np.linspace(0.05, 0.95, self.K)
+        self.mu_    = np.quantile(obs, quantiles)
+        self.sigma_ = np.full(self.K, max(float(obs.std()) / self.K, 1e-4))
+        self.pi_    = np.full(self.K, 1.0 / self.K)
+        self.A_     = 0.8 * np.eye(self.K) + (0.2 / self.K) * np.ones((self.K, self.K))
         self.A_    /= self.A_.sum(axis=1, keepdims=True)
 
         prev_ll = -np.inf
         for _ in range(self.n_iter):
             gamma, xi, ll = self._e_step(obs)
+            if np.isnan(ll):
+                break
             self._m_step(obs, gamma, xi)
             if abs(ll - prev_ll) < self.tol:
                 break
@@ -371,10 +370,10 @@ class GaussianHMM:
         self.loglik_ = ll
         return self
 
-    # ── Decode ────────────────────────────────────────────────────────────────
+    # -- Decode ----------------------------------------------------------------
 
     def predict(self, obs):
-        """Viterbi decoding — most likely state sequence."""
+        """Viterbi decoding - most likely state sequence."""
         T = len(obs)
         log_delta = np.zeros((T, self.K))
         psi       = np.zeros((T, self.K), dtype=int)
@@ -498,7 +497,7 @@ def regime_duration_stats(states, K=5):
 
 
 # =============================================================================
-# 4. VARIATIONAL BAYES HMM  (Beal 2003 — Dirichlet-Normal-Wishart)
+# 4. VARIATIONAL BAYES HMM  (Beal 2003 - Dirichlet-Normal-Wishart)
 # =============================================================================
 
 class VariationalBayesHMM:
@@ -597,7 +596,7 @@ class VariationalBayesHMM:
 
 
 # =============================================================================
-# 5. SKLEARN ENSEMBLE — REGIME CLASSIFIER + MC UNCERTAINTY
+# 5. SKLEARN ENSEMBLE - REGIME CLASSIFIER + MC UNCERTAINTY
 # =============================================================================
 
 class BayesianEnsembleClassifier:
@@ -736,7 +735,7 @@ def chronos_embed_window(pipeline, window_data):
 
 
 # =============================================================================
-# 7. BOCPD — EXACT STUDENT-T NORMAL-GAMMA MODEL
+# 7. BOCPD - EXACT STUDENT-T NORMAL-GAMMA MODEL
 # =============================================================================
 
 def bocpd(data, hazard=1/100, mu0=0., kappa0=1., alpha0=1., beta0=None):
@@ -793,7 +792,7 @@ def bocpd(data, hazard=1/100, mu0=0., kappa0=1., alpha0=1., beta0=None):
 
 
 # =============================================================================
-# 8. PARTICLE FILTER — BOOTSTRAP SIR WITH SYSTEMATIC RESAMPLING
+# 8. PARTICLE FILTER - BOOTSTRAP SIR WITH SYSTEMATIC RESAMPLING
 # =============================================================================
 
 class ParticleFilter:
@@ -846,7 +845,7 @@ def _qhigh(a, q):
     except: return float(np.quantile(a, q, interpolation="higher"))
 
 def split_conformal(probs_cal, y_cal, probs_test, alpha=0.10):
-    """Marginal coverage 1-α (Vovk et al.)."""
+    """Marginal coverage 1- (Vovk et al.)."""
     scores  = 1 - probs_cal[np.arange(len(y_cal)), y_cal]
     n       = len(scores)
     q_hat   = _qhigh(scores, min(np.ceil((n+1)*(1-alpha))/n, 1.0))
@@ -855,7 +854,7 @@ def split_conformal(probs_cal, y_cal, probs_test, alpha=0.10):
     return sets, float(q_hat), cov_cal
 
 def aps(probs_cal, y_cal, probs_test, alpha=0.10):
-    """Adaptive Prediction Sets — Romano et al. (2020)."""
+    """Adaptive Prediction Sets - Romano et al. (2020)."""
     si  = np.argsort(-probs_cal, axis=1)
     sp  = np.take_along_axis(probs_cal, si, axis=1)
     cum = np.cumsum(sp, axis=1)
@@ -876,7 +875,7 @@ def aps(probs_cal, y_cal, probs_test, alpha=0.10):
     return sets, float(q_hat), sets.sum(axis=1)
 
 def mondrian_conformal(probs_cal, y_cal, probs_test, alpha=0.10):
-    """Class-conditional conformal — separate threshold per regime."""
+    """Class-conditional conformal - separate threshold per regime."""
     K = probs_cal.shape[1]
     q_hats = {}
     for k in range(K):
@@ -974,14 +973,14 @@ def regime_output_contract(probs, conf_set, epistemic, aleatoric,
 
 
 # =============================================================================
-# 11. BACKTESTING — REGIME OVERLAY + INFORMATION RATIO
+# 11. BACKTESTING - REGIME OVERLAY + INFORMATION RATIO
 # =============================================================================
 
 def backtest_regime_overlay(returns_ser, regime_probs,
                              kelly_frac=0.25, max_tilt=0.05, tc=0.0005):
     """
     Walk-forward backtest of conviction-scaled regime overlay.
-    Tilt rule: t_t = clip(kelly_frac * edge/var * conviction, ±max_tilt)
+    Tilt rule: t_t = clip(kelly_frac * edge/var * conviction, max_tilt)
     """
     n   = min(len(returns_ser), len(regime_probs))
     ret = returns_ser.values[:n]
@@ -1062,7 +1061,7 @@ class RegimeMonteCarlo:
 
 
 def deflated_sharpe(sharpe, n_obs, n_trials, skew=0.0, kurt=3.0):
-    """Bailey & López de Prado (2014)."""
+    """Bailey & Lpez de Prado (2014)."""
     e_max  = np.sqrt(2*np.log(n_trials)) if n_trials > 1 else 0.0
     sr_std = np.sqrt((1 - skew*sharpe + (kurt-1)/4*sharpe**2) / max(n_obs-1, 1))
     return float(norm.cdf((sharpe - e_max*sr_std) / max(sr_std, 1e-12)))
@@ -1127,11 +1126,11 @@ def run_pipeline():
 
     SEP = "=" * 72
     print(SEP)
-    print("  BAYESIAN REGIME DETECTION ENGINE — FULL PIPELINE")
+    print("  BAYESIAN REGIME DETECTION ENGINE - FULL PIPELINE")
     print(f"  Zetheta Algorithms Private Limited | CIN: {CIN}")
     print(SEP)
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[1/12] Synthetic Indian Market Data (2007-2024) ...")
     df, true_reg = generate_synthetic_market_data(seed=42)
     rets = df["Close"].pct_change().dropna()
@@ -1139,7 +1138,7 @@ def run_pipeline():
     regime_counts = {REGIME_NAMES[k]: int((true_reg==k).sum()) for k in range(5)}
     print(f"       True regime distribution: {regime_counts}")
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[2/12] Feature Engineering (33 features, TDA proxy) ...")
     feat = engineer_features(df)
     rets_a = df["Close"].pct_change().reindex(feat.index).dropna()
@@ -1151,14 +1150,14 @@ def run_pipeline():
     X = scaler.fit_transform(feat_a.values).astype(np.float32)
     y = y_true[:len(X)]
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[3/12] Gaussian HMM — Baum-Welch EM + BIC Model Selection ...")
+    # -------------------------------------------------------------------------
+    print("\n[3/12] Gaussian HMM - Baum-Welch EM + BIC Model Selection ...")
     bic_tbl = compare_bic(rets_a, k_values=(3, 5, 7))
     print(f"       BIC comparison (K=3/5/7):\n{bic_tbl.to_string()}")
 
     hmm_model, hmm_states, hmm_probs = fit_regime_hmm(rets_a, K=5)
     mapping = label_regimes(hmm_model, K=5)
-    print(f"       State → Regime mapping: {mapping}")
+    print(f"       State -> Regime mapping: {mapping}")
     dur = regime_duration_stats(hmm_states, K=5)
     print(f"       Duration statistics:\n{dur.to_string()}")
 
@@ -1176,8 +1175,8 @@ def run_pipeline():
     print(f"       Fitted emission sigmas (daily): {np.round(hmm_sigma, 5)}")
     print(f"       Log-likelihood: {hmm_model.loglik_ if hasattr(hmm_model,'loglik_') else 'N/A':.2f}" if hasattr(hmm_model,'loglik_') else "")
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[4/12] Variational Bayes HMM — Dirichlet-Normal-Wishart ...")
+    # -------------------------------------------------------------------------
+    print("\n[4/12] Variational Bayes HMM - Dirichlet-Normal-Wishart ...")
     vb  = VariationalBayesHMM(K=5, n_iter=150, seed=42).fit(rets_a.values)
     print(f"       VB posterior summary:")
     print(vb.summary().to_string())
@@ -1187,7 +1186,7 @@ def run_pipeline():
         name = REGIME_NAMES[k] if k < 5 else f"S{k}"
         print(f"         {name}: [{lo:.6f}, {hi:.6f}]")
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[5/12] Markov-Switching Baseline (statsmodels) ...")
     if STATSMODELS:
         try:
@@ -1199,13 +1198,13 @@ def run_pipeline():
         except Exception as e:
             print(f"       [MSM convergence note: {str(e)[:60]}]")
     else:
-        print("       [statsmodels not available — fitting simple 3-state HMM baseline]")
+        print("       [statsmodels not available - fitting simple 3-state HMM baseline]")
         m3 = GaussianHMM(K=3, n_iter=200, seed=42).fit(rets_a.values)
         print(f"       3-state HMM BIC={m3.bic(rets_a.values):.2f}  |  "
               f"5-state HMM BIC={bic_tbl.loc[5,'BIC']:.2f}")
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[6/12] Sequential Inference — Particle Filter + BOCPD ...")
+    # -------------------------------------------------------------------------
+    print("\n[6/12] Sequential Inference - Particle Filter + BOCPD ...")
     pf = ParticleFilter(hmm_A, hmm_mu, hmm_sigma, N=3000, seed=42)
     recent_rets = rets_a.values[-30:]
     last_post   = np.full(5, 0.2)
@@ -1213,7 +1212,7 @@ def run_pipeline():
         last_post = pf.step(r)
     print(f"       Particle filter posterior (last bar):")
     for k, (name, p) in enumerate(zip(REGIME_NAMES, last_post)):
-        bar = "█" * int(p*30)
+        bar = "#" * int(p*30)
         print(f"         {name:<15} {p:.4f}  {bar}")
     mean_ess = float(np.mean(pf.ess_log))
     print(f"       Mean ESS: {mean_ess:.0f} / {pf.N}  (resamples: {sum(1 for e in pf.ess_log if e < pf.N/2)})")
@@ -1226,7 +1225,7 @@ def run_pipeline():
         date_str = str(rets_a.index[min(idx, len(rets_a)-1)])[:10]
         print(f"         t={idx}  ({date_str})  P(cp)={cp[idx]:.4f}")
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[7/12] Ensemble Classifier (LR + RF + GBM) + Uncertainty ...")
     split  = int(len(X) * 0.70)
     X_tr, y_tr = X[:split], y[:split]
@@ -1255,10 +1254,10 @@ def run_pipeline():
     if not cm_rel.empty:
         for _, row in cm_rel.iterrows():
             diff = row.get("gap", 0)
-            flag = "⚠" if diff > 0.10 else "✓"
+            flag = "[!]" if diff > 0.10 else "[OK]"
             print(f"         conf={row['conf']:.2f}  acc={row['acc']:.2f}  n={row['n']:4d}  {flag}")
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[8/12] Foundation Model Embeddings (Chronos / statistical) ...")
     if CHRONOS and TORCH:
         pipeline = ChronosPipeline.from_pretrained("amazon/chronos-t5-small",
@@ -1268,14 +1267,14 @@ def run_pipeline():
         if sample_emb is not None:
             print(f"       Chronos T5-small embedding dim: {sample_emb.shape[0]}")
     else:
-        print("       [Chronos unavailable — using 16-feature rolling statistical embeddings]")
+        print("       [Chronos unavailable - using 16-feature rolling statistical embeddings]")
     emb = rolling_statistical_embedding(rets_a, window=252, n_features=16)
     print(f"       Statistical embeddings shape: {emb.shape}")
     print(f"       Sample features (latest window): mean={emb[-1,0]:.5f}  "
           f"std={emb[-1,1]:.5f}  skew={emb[-1,6]:.3f}  kurt={emb[-1,7]:.3f}")
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[9/12] Conformal Prediction — Split / APS / Mondrian ...")
+    # -------------------------------------------------------------------------
+    print("\n[9/12] Conformal Prediction - Split / APS / Mondrian ...")
     N     = len(hmm_probs)
     n_cal = N // 2
     pc    = hmm_probs[:n_cal];  yc = hmm_states[:n_cal]
@@ -1290,19 +1289,19 @@ def run_pipeline():
     cov_ap_test = float(sets_ap[np.arange(len(yt)), yt].mean())
     cov_mo_test = float(np.array([sets_mo[i, yt[i]] for i in range(len(yt))]).mean())
 
-    print(f"       Split-Conformal: q̂={q_sc:.4f}  |  test_coverage={cov_sc_test:.3f}  "
+    print(f"       Split-Conformal: q={q_sc:.4f}  |  test_coverage={cov_sc_test:.3f}  "
           f"|  avg_set_size={sets_sc.sum(1).mean():.2f}")
-    print(f"       APS:             q̂={q_ap:.4f}  |  test_coverage={cov_ap_test:.3f}  "
+    print(f"       APS:             q={q_ap:.4f}  |  test_coverage={cov_ap_test:.3f}  "
           f"|  avg_set_size={sz_ap.mean():.2f}")
-    print(f"       Mondrian:        q̂ per class: {{{', '.join(f'{k}:{round(v,3)}' for k,v in q_mo.items())}}}")
+    print(f"       Mondrian:        q per class: {{{', '.join(f'{k}:{round(v,3)}' for k,v in q_mo.items())}}}")
     print(f"                        test_coverage (per class): {cov_mo_test:.3f}")
 
     # Calibration metrics on HMM probs
     hmm_cal = calibration_metrics(pt, yt, K=5)
-    print(f"       HMM calibration — ECE={hmm_cal['ECE']}  Brier={hmm_cal['Brier']}  RPS={hmm_cal['RPS']}")
+    print(f"       HMM calibration - ECE={hmm_cal['ECE']}  Brier={hmm_cal['Brier']}  RPS={hmm_cal['RPS']}")
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[10/12] Model Ensembling — BMA + Constrained Stacking ...")
+    # -------------------------------------------------------------------------
+    print("\n[10/12] Model Ensembling - BMA + Constrained Stacking ...")
     # Compute OOS log-liks for each model type
     hmm_ll   = float(np.mean(np.log(np.clip(pt[np.arange(len(yt)), yt], 1e-9, 1))))
     ens_ll   = float(np.mean(np.log(np.clip(ens_probs[np.arange(len(y_te)), y_te], 1e-9, 1))))
@@ -1326,32 +1325,32 @@ def run_pipeline():
     combined_probs /= combined_probs.sum(axis=1, keepdims=True)
     combo_acc = float((combined_probs.argmax(1) == yt[:n_combo]).mean())
     combo_cal = calibration_metrics(combined_probs, yt[:n_combo], K=5)
-    print(f"       Combined ensemble — Acc={combo_acc:.3f}  ECE={combo_cal['ECE']}  "
+    print(f"       Combined ensemble - Acc={combo_acc:.3f}  ECE={combo_cal['ECE']}  "
           f"Brier={combo_cal['Brier']}  RPS={combo_cal['RPS']}")
 
     model_weights_dict = {"hmm": round(float(sw[0]),4), "ensemble": round(float(sw[1]),4),
                           "vb_hmm": round(float(sw[2]),4)}
 
-    # ─────────────────────────────────────────────────────────────────────────
-    print("\n[11/12] Backtesting — Regime Overlay vs Buy-Hold ...")
+    # -------------------------------------------------------------------------
+    print("\n[11/12] Backtesting - Regime Overlay vs Buy-Hold ...")
 
     # Use combined probs aligned to full return series
     bt_probs = hmm_probs[:len(rets_a)]
     bt_df    = backtest_regime_overlay(rets_a, bt_probs, kelly_frac=0.25, max_tilt=0.05)
     perf     = compute_perf_metrics(bt_df)
 
-    print(f"       ┌─────────────────────────────────────────────┐")
-    print(f"       │           BACKTEST RESULTS                  │")
-    print(f"       │  Information Ratio:      {perf['information_ratio']:+.4f}              │")
-    print(f"       │  Tracking Error (ann.):  {perf['tracking_error_ann']:.2%}              │")
-    print(f"       │  Active Return (ann.):   {perf['active_return_ann']:.2%}              │")
-    print(f"       │  Overlay Sharpe:         {perf['overlay_sharpe']:+.4f}              │")
-    print(f"       │  Benchmark Max DD:       {perf['benchmark_max_dd']:.2%}              │")
-    print(f"       │  Overlay Max DD:         {perf['overlay_max_dd']:.2%}              │")
-    print(f"       │  Cumulative Alpha:       {perf['alpha_x']:+.4f}x                │")
-    print(f"       └─────────────────────────────────────────────┘")
+    print(f"       +---------------------------------------------+")
+    print(f"       |           BACKTEST RESULTS                  |")
+    print(f"       |  Information Ratio:      {perf['information_ratio']:+.4f}              |")
+    print(f"       |  Tracking Error (ann.):  {perf['tracking_error_ann']:.2%}              |")
+    print(f"       |  Active Return (ann.):   {perf['active_return_ann']:.2%}              |")
+    print(f"       |  Overlay Sharpe:         {perf['overlay_sharpe']:+.4f}              |")
+    print(f"       |  Benchmark Max DD:       {perf['benchmark_max_dd']:.2%}              |")
+    print(f"       |  Overlay Max DD:         {perf['overlay_max_dd']:.2%}              |")
+    print(f"       |  Cumulative Alpha:       {perf['alpha_x']:+.4f}x                |")
+    print(f"       +---------------------------------------------+")
 
-    # ─────────────────────────────────────────────────────────────────────────
+    # -------------------------------------------------------------------------
     print("\n[12/12] Monte Carlo + Deflated Sharpe + IC Artefact ...")
     mc   = RegimeMonteCarlo(A=hmm_A, mu=hmm_mu, sigma=hmm_sigma)
     paths, _ = mc.simulate(last_post, horizon=252, n_sims=5000, seed=42)
@@ -1364,7 +1363,7 @@ def run_pipeline():
     print(f"         95% CVaR:       {risk['cvar_95']:.2%}")
     print(f"         P(return > 0):  {risk['prob_positive']:.1%}")
     print(f"         Deflated Sharpe: {dsr:.4f} "
-          f"({'✓ Genuine edge' if dsr > 0.80 else '⚠ Weak edge'})")
+          f"({'[OK] Genuine edge' if dsr > 0.80 else '[!] Weak edge'})")
 
     # IC Artefact
     last_cs  = sets_sc[-1]
@@ -1376,21 +1375,21 @@ def run_pipeline():
     )
     ic = generate_ic_artefact(reg_out["date"], reg_out, perf, risk)
 
-    print(f"\n       ╔═══════════════════════════════════════════════════╗")
-    print(f"       ║         INVESTMENT COMMITTEE ARTEFACT            ║")
-    print(f"       ╠═══════════════════════════════════════════════════╣")
-    print(f"       ║  Date:           {ic['report_date']}                  ║")
-    print(f"       ║  CIN:            {ic['cin']}        ║")
-    print(f"       ║  Regime:         {ic['dominant_regime']:<15}           ║")
-    print(f"       ║  Probability:    {ic['regime_probability']:.1%}                        ║")
-    print(f"       ║  Conviction:     {ic['conviction']:<8}                   ║")
-    print(f"       ║  Pred Set:       {', '.join(ic['prediction_set'][:2]):<30}║")
-    print(f"       ║  Allocation:     {ic['allocation_bias'][:35]:<36}║")
-    print(f"       ║  IR:             {ic['information_ratio']:.4f}                     ║")
-    print(f"       ║  VaR (95%):      {ic['var_95']:.2%}                      ║")
-    print(f"       ║  CVaR (95%):     {ic['cvar_95']:.2%}                      ║")
-    print(f"       ║  Deflated SR:    {dsr:.4f}                     ║")
-    print(f"       ╚═══════════════════════════════════════════════════╝")
+    print(f"\n       +===================================================+")
+    print(f"       |         INVESTMENT COMMITTEE ARTEFACT            |")
+    print(f"       +===================================================+")
+    print(f"       |  Date:           {ic['report_date']}                  |")
+    print(f"       |  CIN:            {ic['cin']}        |")
+    print(f"       |  Regime:         {ic['dominant_regime']:<15}           |")
+    print(f"       |  Probability:    {ic['regime_probability']:.1%}                        |")
+    print(f"       |  Conviction:     {ic['conviction']:<8}                   |")
+    print(f"       |  Pred Set:       {', '.join(ic['prediction_set'][:2]):<30}|")
+    print(f"       |  Allocation:     {ic['allocation_bias'][:35]:<36}|")
+    print(f"       |  IR:             {ic['information_ratio']:.4f}                     |")
+    print(f"       |  VaR (95%):      {ic['var_95']:.2%}                      |")
+    print(f"       |  CVaR (95%):     {ic['cvar_95']:.2%}                      |")
+    print(f"       |  Deflated SR:    {dsr:.4f}                     |")
+    print(f"       +===================================================+")
     print(f"\n       Conditional Statement:")
     print(f"       {ic['conditional_statement']}")
     print(f"\n       Regulatory Note:")
