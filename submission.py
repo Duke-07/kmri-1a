@@ -348,13 +348,18 @@ class GaussianHMM:
 
     def fit(self, obs):
         """Fit via Baum-Welch EM."""
+        obs = np.asarray(obs, dtype=float)
+        obs = obs[np.isfinite(obs)]
+        if len(obs) == 0:
+            obs = np.random.normal(0, 0.01, 100)
+
         rng = np.random.default_rng(self.seed)
         T   = len(obs)
 
-        # Quantile-based robust initialisation for mu_
+        # Quantile-based robust initialisation for mu_ with tiny perturbation
         quantiles   = np.linspace(0.05, 0.95, self.K)
-        self.mu_    = np.quantile(obs, quantiles)
-        self.sigma_ = np.full(self.K, max(float(obs.std()) / self.K, 1e-4))
+        self.mu_    = np.quantile(obs, quantiles) + np.linspace(-1e-4, 1e-4, self.K)
+        self.sigma_ = np.full(self.K, max(float(obs.std()) / self.K, 1e-3))
         self.pi_    = np.full(self.K, 1.0 / self.K)
         self.A_     = 0.8 * np.eye(self.K) + (0.2 / self.K) * np.ones((self.K, self.K))
         self.A_    /= self.A_.sum(axis=1, keepdims=True)
@@ -618,8 +623,7 @@ class BayesianEnsembleClassifier:
     def fit(self, X, y, eval_X=None, eval_y=None):
         # Logistic Regression
         self.models["lr"] = CalibratedClassifierCV(
-            LogisticRegression(C=0.1, max_iter=500, random_state=self.seed,
-                               multi_class="multinomial"), cv=5
+            LogisticRegression(C=0.1, max_iter=500, random_state=self.seed), cv=5
         ).fit(X, y)
 
         # Random Forest
