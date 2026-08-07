@@ -277,54 +277,41 @@ class GaussianHMM:
         diff = (x - self.mu_) / (self.sigma_ + 1e-12)
         return -0.5 * diff**2 - np.log(self.sigma_ + 1e-12) - 0.5 * np.log(2*np.pi)
 
-    # -- Forward algorithm (scaled) --------------------------------------------
-
-    def _forward(self, obs):
-        """Returns alpha (T, K) scaled, log_scaling (T,)."""
-        T = len(obs)
-        alpha  = np.zeros((T, self.K))
-        log_sc = np.zeros(T)
-
-        alpha[0] = self.pi_ * np.exp(self._log_emission(obs[0]))
-        sc = alpha[0].sum(); alpha[0] /= (sc + 1e-300); log_sc[0] = np.log(sc + 1e-300)
-
-        for t in range(1, T):
-            em = np.exp(self._log_emission(obs[t]))
-            alpha[t] = em * (alpha[t-1] @ self.A_)
-            sc = alpha[t].sum(); alpha[t] /= (sc + 1e-300); log_sc[t] = np.log(sc + 1e-300)
-
-        return alpha, log_sc
-
-    # -- Backward algorithm (scaled) -------------------------------------------
-
-    def _backward(self, obs, log_sc):
-        T = len(obs)
-        beta = np.zeros((T, self.K))
-        beta[-1] = 1.0
-
-        for t in range(T-2, -1, -1):
-            em = np.exp(self._log_emission(obs[t+1]))
-            beta[t] = self.A_ @ (em * beta[t+1])
-            sc = np.exp(log_sc[t+1]); beta[t] /= (sc + 1e-300)
-
-        return beta
-
-    # -- E-step ----------------------------------------------------------------
+    # -- Log-domain Forward-Backward -------------------------------------------
 
     def _e_step(self, obs):
-        T      = len(obs)
-        alpha, log_sc = self._forward(obs)
-        beta   = self._backward(obs, log_sc)
-        ll     = log_sc.sum()
+        T = len(obs)
+        log_A  = np.log(np.maximum(self.A_, 1e-300))
+        log_pi = np.log(np.maximum(self.pi_, 1e-300))
 
-        gamma  = alpha * beta
-        gamma /= (gamma.sum(axis=1, keepdims=True) + 1e-300)   # (T, K)
+        log_alpha = np.zeros((T, self.K))
+        log_alpha[0] = log_pi + self._log_emission(obs[0])
+
+        for t in range(1, T):
+            log_em = self._log_emission(obs[t])
+            for k in range(self.K):
+                log_alpha[t, k] = log_em[k] + logsumexp(log_alpha[t-1] + log_A[:, k])
+
+        ll = float(logsumexp(log_alpha[-1]))
+
+        log_beta = np.zeros((T, self.K))
+        log_beta[-1] = 0.0
+
+        for t in range(T-2, -1, -1):
+            log_em_tp1 = self._log_emission(obs[t+1])
+            for k in range(self.K):
+                log_beta[t, k] = logsumexp(log_A[k, :] + log_em_tp1 + log_beta[t+1])
+
+        log_gamma = log_alpha + log_beta - ll
+        gamma     = np.exp(np.clip(log_gamma, -700, 0))
+        gamma    /= (gamma.sum(axis=1, keepdims=True) + 1e-300)
 
         xi = np.zeros((T-1, self.K, self.K))
         for t in range(T-1):
-            em_tp1 = np.exp(self._log_emission(obs[t+1]))
-            xi[t]  = (alpha[t:t+1].T @ (em_tp1 * beta[t+1:t+2]) * self.A_)
-            xi[t] /= (xi[t].sum() + 1e-300)
+            log_em_tp1 = self._log_emission(obs[t+1])
+            log_xi_t   = log_alpha[t][:, None] + log_A + log_em_tp1[None, :] + log_beta[t+1][None, :] - ll
+            xi[t]      = np.exp(np.clip(log_xi_t, -700, 0))
+            xi[t]     /= (xi[t].sum() + 1e-300)
 
         return gamma, xi, ll
 
@@ -333,7 +320,7 @@ class GaussianHMM:
     def _m_step(self, obs, gamma, xi):
         self.pi_ = (gamma[0] + 1e-4) / (gamma[0].sum() + 1e-4 * self.K)
 
-        # Transition matrix with Laplace smoothing prior
+        # Transition matrix with Dirichlet Laplace smoothing prior
         A_num   = xi.sum(axis=0) + 1e-4
         self.A_ = A_num / A_num.sum(axis=1, keepdims=True)
 
@@ -342,7 +329,7 @@ class GaussianHMM:
         self.mu_    = (gamma.T @ obs) / g_sum
         resid       = obs[:, None] - self.mu_[None, :]
         var_est     = (gamma * resid**2).sum(axis=0) / g_sum
-        self.sigma_ = np.sqrt(np.clip(var_est, 1e-8, 1.0))
+        self.sigma_ = np.sqrt(np.clip(var_est, 1e-6, 1.0))
 
     # -- Fit -------------------------------------------------------------------
 
@@ -400,16 +387,21 @@ class GaussianHMM:
 
     def predict_proba(self, obs):
         """Posterior state probabilities P(S_t | y_{1:T}) via forward-backward."""
-        alpha, log_sc = self._forward(obs)
-        beta = self._backward(obs, log_sc)
-        gamma = alpha * beta
-        gamma /= (gamma.sum(axis=1, keepdims=True) + 1e-300)
+        obs = np.asarray(obs, dtype=float)
+        obs = obs[np.isfinite(obs)]
+        if len(obs) == 0:
+            return np.full((1, self.K), 1.0 / self.K)
+        gamma, _, _ = self._e_step(obs)
         return gamma
 
     def score(self, obs):
         """Log-likelihood of observation sequence."""
-        _, log_sc = self._forward(obs)
-        return log_sc.sum()
+        obs = np.asarray(obs, dtype=float)
+        obs = obs[np.isfinite(obs)]
+        if len(obs) == 0:
+            return 0.0
+        _, _, ll = self._e_step(obs)
+        return ll
 
     def bic(self, obs):
         T = len(obs)
