@@ -1115,7 +1115,38 @@ def run_pipeline():
     last_cs = sets_sc[-1]
     model_w_dict = {"hmm": round(float(s_weights[0]), 3), "vb_hmm": round(float(s_weights[1]), 3), "classifier": round(float(s_weights[2]), 3)}
 
-    from ensembling.ensembling import build_regime_output
+    def build_regime_output(ensemble_probs, conformal_set, epistemic_uncertainty, aleatoric_uncertainty, model_weights, date=None, K=5):
+        dom = int(ensemble_probs.argmax())
+        dom_p = float(ensemble_probs[dom])
+        conv_flag = "HIGH" if dom_p >= 0.55 else ("MEDIUM" if dom_p >= 0.35 else "LOW")
+        dom_name = REGIME_NAMES[dom] if dom < 5 else f"S{dom}"
+        ep_val = float(epistemic_uncertainty.mean()) if hasattr(epistemic_uncertainty, "mean") else float(epistemic_uncertainty)
+        al_val = float(aleatoric_uncertainty.mean()) if hasattr(aleatoric_uncertainty, "mean") else float(aleatoric_uncertainty)
+        conv_score = float(np.clip(dom_p * (1.0 - ep_val), 0, 1))
+        alloc_map = {
+            ("Risk-On", "HIGH"): "Overweight equity beta; trim cash",
+            ("Risk-On", "MEDIUM"): "Modest equity tilt; maintain core",
+            ("Late-Cycle", "HIGH"): "Rotate to quality; reduce duration",
+            ("Transitional", "HIGH"): "Neutral; await regime resolution",
+            ("Post-Shock", "HIGH"): "Selective re-entry; mean-reversion tilt",
+            ("Risk-Off", "HIGH"): "Raise cash; rotate defensives/gilt",
+            ("Risk-Off", "MEDIUM"): "Defensive tilt; reduce equity beta",
+        }
+        alloc = alloc_map.get((dom_name, conv_flag), "Monitor; no tactical action")
+        return {
+            "date": date or pd.Timestamp.today().strftime("%Y-%m-%d"),
+            "dominant_regime": dom_name,
+            "dominant_prob": round(dom_p, 4),
+            "conviction_flag": conv_flag,
+            "conviction_score": round(conv_score, 4),
+            "prediction_set": [REGIME_NAMES[k] for k in range(K) if conformal_set[k]],
+            "set_size": int(conformal_set.sum()),
+            "total_epistemic_mean": round(ep_val, 4),
+            "total_aleatoric_mean": round(al_val, 4),
+            "allocation_bias": alloc,
+            "ensemble_weights": model_weights,
+        }
+
     reg_out = build_regime_output(combined_probs[-1], last_cs, epistemic[-1], aleatoric[-1], model_w_dict, date=pd.Timestamp.today().strftime("%Y-%m-%d"))
     ic = generate_ic_artefact(reg_out["date"], reg_out, perf, risk, list(feat_imp.head(3).index), psi_val, recon['aligned'])
 
