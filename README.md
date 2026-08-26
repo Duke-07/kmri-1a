@@ -1,8 +1,7 @@
-﻿# Bayesian Regime Detection Engine
+# Bayesian Regime Detection Engine
 ## Indian Equity Market Regime Classification with Calibrated Uncertainty
 
-**Aaryan Dwivedi**
-****
+**Aaryan Dwivedi** · [github.com/Duke-07](https://github.com/Duke-07)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![R 4.3+](https://img.shields.io/badge/R-4.3+-blue.svg)](https://www.r-project.org)
@@ -13,7 +12,7 @@
 
 ## Overview
 
-A production-grade Bayesian Regime Detection Engine for classifying the Indian equity market into five discrete states (Risk-On, Late-Cycle, Transitional, Post-Shock, Risk-Off) with calibrated, audit-defensible uncertainty. Built for a Multi-Asset Solutions desk at a Tier 1 Indian asset management company.
+A production-grade Bayesian Regime Detection Engine for classifying the Indian equity market into five discrete states (Risk-On, Late-Cycle, Transitional, Post-Shock, Risk-Off) with calibrated, uncertainty quantification. A personal deep-dive into Bayesian probabilistic modelling, conformal prediction, and quantitative finance.
 
 > **Direction over price. Calibrated probability over point forecast. A documented ensemble of complementary models over a single black box.**
 
@@ -209,19 +208,10 @@ torch-geometric>=2.4
 
 ---
 
-## Submission Protocol
+## Disclaimer
 
-Per the assessment submission protocol:
-1. Repository ownership transferred to **@Duke-07**
-2. All deliverables committed and pushed to `github.com/Duke-07/kmri-1a`
-3. CIN **** included in all code files and documents
+All regime probabilities are conformalised with 90% marginal coverage. Outputs are for research and educational purposes only, and are not financial advice.
 
 ---
 
-## Regulatory Note
-
-All regime probabilities are conformalised with 90% marginal coverage. Outputs are indicative and subject to Investment Committee review. This engine is designed for SEBI-compliant, audit-defensible regulatory reporting as a decision-support tool.
-
----
-
-*Aaryan Dwivedi*
+*Built by [Aaryan Dwivedi](https://github.com/Duke-07)*

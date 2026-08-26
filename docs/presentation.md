@@ -1,4 +1,4 @@
-﻿# Bayesian Regime Detection Engine — 18-Slide Presentation
+# Bayesian Regime Detection Engine — 18-Slide Presentation
 ## Aaryan Dwivedi
 
 ---
@@ -8,7 +8,7 @@
 # Bayesian Regime Detection Engine
 ## Calibrated Probability Over Point Forecast for Indian Equity Markets
 
-**Data Quantitative Analyst Assessment — Submission**
+**Personal Project — Quantitative Finance & Machine Learning**
 
 Aaryan Dwivedi
 
@@ -411,19 +411,19 @@ Both implementations agree within numerical tolerance — validating the archite
 
 ---
 
-## SLIDE 18 — Submission Index
+## SLIDE 18 — Project Index
 
-# Complete Deliverables Package
+# Complete Project Package
 
 **GitHub:** `github.com/Duke-07/kmri-1a`
 
 | File | Description |
 |---|---|
-| `submission.py` | 12-stage master pipeline, runs end-to-end |
+| `main.py` | 14-stage master pipeline, runs end-to-end |
 | `docs/report.md` | 40+ page technical report |
 | `docs/presentation.md` | This 18-slide deck |
 | `docs/model_card.md` | Model specification and constraints |
-| `README.md` | Setup + CIN + repository overview |
+| `README.md` | Setup and repository overview |
 | `src/data/synthetic_data.py` | 5-regime Student-t simulation |
 | `src/data/feature_engineering.py` | 30+ features, TDA, GCN, PSI |
 | `src/models/frequentist_hmm.py` | hmmlearn + BIC + duration stats |
@@ -441,5 +441,4 @@ Both implementations agree within numerical tolerance — validating the archite
 
 ---
 
-*Aaryan Dwivedi*
-*Repository ownership to be transferred to @Duke-07 per submission protocol.*
+*Built by Aaryan Dwivedi — [github.com/Duke-07](https://github.com/Duke-07)*

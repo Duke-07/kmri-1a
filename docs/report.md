@@ -1,4 +1,4 @@
-﻿# Bayesian Regime Detection Engine for Indian Equity Markets
+# Bayesian Regime Detection Engine for Indian Equity Markets
 ## Final Project Report — Data Quantitative Analyst Assessment
 
 **Aaryan Dwivedi**
@@ -851,6 +851,5 @@ The engine embodies the "Direction Over Price" thesis: calibrated probability di
 
 ---
 
-*Aaryan Dwivedi*
-*This report is generated as part of the Bayesian Regime Detection Engine assessment project.*
-*Assessment outputs are indicative and shared with engaging parties per submission protocol.*
+*Aaryan Dwivedi — Personal project in quantitative finance and probabilistic machine learning.*
+

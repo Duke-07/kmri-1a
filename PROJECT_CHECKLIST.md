@@ -1,4 +1,4 @@
-﻿# Submission Checklist — Bayesian Regime Detection Engine
+# Submission Checklist — Bayesian Regime Detection Engine
 ## Aaryan Dwivedi
 
 ---
@@ -121,14 +121,12 @@
 
 ---
 
-## Submission Protocol
+## Project Status
 
-1. ✅ Repository: `github.com/Duke-07/kmri-1a`
-2. ✅ All code pushed to `main` branch
-3. ⬜ Transfer repository ownership to **@Duke-07**
-   - GitHub → Settings → Danger Zone → Transfer Repository
-4. ⬜ Share PDF report and model card editable versions if requested
+- ✅ Core engine complete and tested end-to-end
+- ✅ All code pushed to `main` branch
+- ✅ Documentation complete
 
 ---
 
-*Aaryan Dwivedi*
+*Built by Aaryan Dwivedi*
