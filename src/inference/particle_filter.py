@@ -1,4 +1,4 @@
-"""
+﻿"""
 Bootstrap Particle Filter — Full Production Implementation
 ==========================================================
 Section A9.1 of the Bayesian Regime Detection Engine specification.
@@ -9,8 +9,8 @@ Provides:
   - ESS monitoring and diagnostics
   - Regime trajectory extraction
 
-CIN: U62012MH2023PTC410415
-Zetheta Algorithms Private Limited
+
+Aarya Khandelwal
 """
 
 import numpy as np
@@ -211,7 +211,7 @@ if __name__ == "__main__":
     import sys
 
     print("Particle Filter Self-Test")
-    print("CIN: U62012MH2023PTC410415")
+    print("")
     print("=" * 50)
 
     K = 5

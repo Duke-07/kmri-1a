@@ -1,11 +1,11 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the **Bayesian Regime Detection Engine** are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
-**Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415**
+**Aarya Khandelwal**
 
 ---
 
@@ -100,4 +100,4 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*

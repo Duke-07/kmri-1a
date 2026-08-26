@@ -1,4 +1,4 @@
-# =============================================================================
+﻿# =============================================================================
 # R Conformal Prediction — Full Implementation
 # =============================================================================
 # Implements all conformal variants from Section A6 in R:
@@ -273,7 +273,7 @@ reconcile_conformal <- function(python_sets, r_sets) {
 
 main_conformal <- function() {
   message("\n=== R Conformal Prediction Module ===")
-  message("CIN: U62012MH2023PTC410415\n")
+  message("\n")
   
   set.seed(42)
   K      <- 5
@@ -316,7 +316,7 @@ main_conformal <- function() {
   print(rel)
   
   message("\n=== R Conformal Module Complete ===")
-  message("CIN: U62012MH2023PTC410415")
+  message("")
 }
 
 if (!interactive()) {

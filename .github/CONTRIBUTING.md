@@ -1,6 +1,6 @@
-# Contributing to the Bayesian Regime Detection Engine
+﻿# Contributing to the Bayesian Regime Detection Engine
 
-**Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415**
+**Aarya Khandelwal**
 
 Thank you for your interest in contributing. This document describes the process and standards for contributions to this project.
 
@@ -29,7 +29,7 @@ Thank you for your interest in contributing. This document describes the process
 - **Style**: Follow [PEP 8](https://peps.python.org/pep-0008/). Use `black` for formatting.
 - **Type hints**: All new functions must include type annotations.
 - **Docstrings**: Use NumPy-style docstrings for all public functions and classes.
-- **CIN watermark**: Every Python file must include `# CIN: U62012MH2023PTC410415` in the header.
+- **CIN watermark**: Every Python file must include `# ` in the header.
 - **Logging**: Use the `logging` module; do not use bare `print()` statements in library code.
 
 ### R
@@ -46,7 +46,7 @@ Use the [Conventional Commits](https://www.conventionalcommits.org/) format:
 
 [optional body]
 
-CIN: U62012MH2023PTC410415
+
 ```
 
 Valid types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`.
@@ -85,4 +85,4 @@ All contributors are expected to adhere to professional standards of communicati
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*

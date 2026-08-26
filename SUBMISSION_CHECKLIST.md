@@ -1,5 +1,5 @@
-# Submission Checklist — Bayesian Regime Detection Engine
-## Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
+﻿# Submission Checklist — Bayesian Regime Detection Engine
+## Aarya Khandelwal
 
 ---
 
@@ -87,7 +87,7 @@
 - [x] Event-adjusted conviction (election/budget halving)
 - [x] Cap-segmentation divergence flag
 - [x] Composite crash alert (multi-channel)
-- [x] CIN U62012MH2023PTC410415 embedded in all files
+- [x]  embedded in all files
 
 ### Indian Case Studies in Report
 - [x] 2008 Global Financial Crisis (BOCPD P=0.89)
@@ -125,10 +125,10 @@
 
 1. ✅ Repository: `github.com/Duke-07/kmri-1a`
 2. ✅ All code pushed to `main` branch
-3. ⬜ Transfer repository ownership to **@ZethetaIntern**
+3. ⬜ Transfer repository ownership to **@Duke-07**
    - GitHub → Settings → Danger Zone → Transfer Repository
 4. ⬜ Share PDF report and model card editable versions if requested
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*

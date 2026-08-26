@@ -1,5 +1,5 @@
-# Bayesian Regime Detection Engine — 18-Slide Presentation
-## Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
+﻿# Bayesian Regime Detection Engine — 18-Slide Presentation
+## Aarya Khandelwal
 
 ---
 
@@ -10,8 +10,8 @@
 
 **Data Quantitative Analyst Assessment — Submission**
 
-Zetheta Algorithms Private Limited
-CIN: U62012MH2023PTC410415
+Aarya Khandelwal
+
 
 *Direction Over Price | Calibrated Uncertainty | Audit-Defensible Output*
 
@@ -327,7 +327,7 @@ After correcting for 15 model selection trials, there is an **87.4% probability*
 7. **Backtest metrics** (IR, TE, max DD)
 8. **Forward risk** (VaR, CVaR, DSR)
 9. **Model lineage** (ensemble weights, dominant model)
-10. **Regulatory note** + **CIN: U62012MH2023PTC410415**
+10. **Regulatory note** + ****
 
 **Example conditional statement:**
 > "As of 2024-01-15, the engine classifies Indian equities in a **Risk-On** regime with 68.4% probability (conviction: HIGH). The 90%-coverage conformal prediction set includes: Risk-On, Late-Cycle. Recommended allocation bias: **Tilt toward equity beta; reduce cash buffer**."
@@ -441,5 +441,5 @@ Both implementations agree within numerical tolerance — validating the archite
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
-*Repository ownership to be transferred to @ZethetaIntern per submission protocol.*
+*Aarya Khandelwal*
+*Repository ownership to be transferred to @Duke-07 per submission protocol.*

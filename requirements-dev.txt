@@ -1,5 +1,5 @@
-# Development dependencies for the Bayesian Regime Detection Engine
-# CIN: U62012MH2023PTC410415
+﻿# Development dependencies for the Bayesian Regime Detection Engine
+# 
 #
 # Install with: pip install -r requirements-dev.txt
 # (Includes all production deps via -r requirements.txt)

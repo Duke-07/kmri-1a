@@ -395,7 +395,7 @@ def generate_ic_artefact(
         "document_type":            "Investment Committee Regime Report",
         "report_date":              date,
         "engine_version":           regime_output.get("engine_version", "v2.0"),
-        "cin":                      "U62012MH2023PTC410415",
+        "author":                   "Aarya Khandelwal",
         # ── Regime Assessment ──────────────────────────────────────────────
         "current_regime":           dominant,
         "regime_probability":       prob,
@@ -443,7 +443,7 @@ def format_ic_artefact_md(artefact: dict) -> str:
     """Format the IC artefact as a Markdown report string."""
     lines = [
         f"# Investment Committee Regime Report",
-        f"**Date:** {artefact['report_date']}  |  **CIN:** {artefact['cin']}",
+        f"**Date:** {artefact['report_date']}  |  **Author:** {artefact['author']}",
         f"**Engine:** {artefact['engine_version']}  |  **Generated:** {artefact['generated_at'][:19]}",
         "",
         "---",
@@ -491,12 +491,9 @@ def format_ic_artefact_md(artefact: dict) -> str:
     for model, weight in artefact.get("ensemble_weights", {}).items():
         lines.append(f"| {model} | {weight:.4f} |")
 
-    lines += [
         "",
         "---",
         f"*{artefact['regulatory_note']}*",
-        f"",
-        f"*CIN: {artefact['cin']}*",
     ]
     return "\n".join(lines)
 

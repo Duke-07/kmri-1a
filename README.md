@@ -1,8 +1,8 @@
-# Bayesian Regime Detection Engine
+﻿# Bayesian Regime Detection Engine
 ## Indian Equity Market Regime Classification with Calibrated Uncertainty
 
-**Zetheta Algorithms Private Limited**
-**CIN: U62012MH2023PTC410415**
+**Aarya Khandelwal**
+****
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![R 4.3+](https://img.shields.io/badge/R-4.3+-blue.svg)](https://www.r-project.org)
@@ -105,7 +105,7 @@ Expected output:
 [12/12] Monte Carlo Simulation + IC Artefact Generation ...
         1-Year Mean Return: +14.8% | 95% VaR: -12.3% | DSR: 0.8741
 ALL 12 PIPELINE STAGES COMPLETED SUCCESSFULLY
-CIN: U62012MH2023PTC410415
+
 ```
 
 ### R Codebase
@@ -212,9 +212,9 @@ torch-geometric>=2.4
 ## Submission Protocol
 
 Per the assessment submission protocol:
-1. Repository ownership transferred to **@ZethetaIntern**
+1. Repository ownership transferred to **@Duke-07**
 2. All deliverables committed and pushed to `github.com/Duke-07/kmri-1a`
-3. CIN **U62012MH2023PTC410415** included in all code files and documents
+3. CIN **** included in all code files and documents
 
 ---
 
@@ -224,4 +224,4 @@ All regime probabilities are conformalised with 90% marginal coverage. Outputs a
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*

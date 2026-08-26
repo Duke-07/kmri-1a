@@ -1,11 +1,11 @@
-# =============================================================================
+﻿# =============================================================================
 # Python vs R Reconciliation Script
 # =============================================================================
 # Cross-validates regime probabilities between Python (submission.py) and
 # R (models.R / conformal.R) implementations.
 #
 # Uses exported CSVs for comparison. Run after saving outputs from both sides.
-# CIN: U62012MH2023PTC410415
+# 
 # =============================================================================
 
 library(tidyverse)
@@ -116,7 +116,7 @@ reconcile_prediction_sets <- function(py_sets, r_sets) {
 
 synthetic_reconciliation_test <- function(n = 300, K = 5) {
   message("\n=== Synthetic Reconciliation Test ===")
-  message("CIN: U62012MH2023PTC410415\n")
+  message("\n")
   
   set.seed(42)
   
@@ -158,7 +158,7 @@ synthetic_reconciliation_test <- function(n = 300, K = 5) {
 
 run_full_reconciliation <- function() {
   message("=== Python vs R Full Reconciliation ===")
-  message("CIN: U62012MH2023PTC410415\n")
+  message("\n")
   
   py_probs <- load_python_probs()
   r_probs  <- load_r_probs()

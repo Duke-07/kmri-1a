@@ -1,4 +1,4 @@
-# =============================================================================
+﻿# =============================================================================
 # R Codebase — Bayesian Regime Detection Engine
 # =============================================================================
 # Implements Section A3.6, Deliverable 3:
@@ -389,7 +389,7 @@ ece_r <- function(probs_max, correct, n_bins = 10) {
 
 main_r <- function() {
   message("\n=== Bayesian Regime Detection Engine — R Codebase ===")
-  message("CIN: U62012MH2023PTC410415")
+  message("")
   
   # Try to load data from synthetic CSV
   data_path <- file.path(dirname(sys.frame(1)$ofile), 
@@ -464,7 +464,7 @@ main_r <- function() {
                   paste(round(mond_res$q_hats, 3), collapse=", ")))
   
   message("\n=== R Codebase Complete ===")
-  message("CIN: U62012MH2023PTC410415")
+  message("")
 }
 
 # Run if executed as a script (not when sourced for testing)

@@ -1,5 +1,5 @@
-# Bayesian Regime Detection Engine — Model Card
-## Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
+﻿# Bayesian Regime Detection Engine — Model Card
+## Aarya Khandelwal
 
 ---
 
@@ -10,7 +10,7 @@
 | **Model Name** | Bayesian Regime Detection Engine v2.0 |
 | **Task** | 5-class market regime classification for Indian equity markets |
 | **Version** | v2.0 (August 2026) |
-| **CIN** | U62012MH2023PTC410415 |
+| **CIN** |  |
 | **Intended Use** | Tactical allocation overlays, IC reporting, Risk-O-Meter input |
 | **Out of Scope** | Price/return prediction, individual stock selection, leverage sizing |
 
@@ -92,7 +92,7 @@
   "ensemble_weights": {"hmm": 0.0000, "rs_var": 0.0000, "bnn": 0.0000, "chronos": 0.0000, "timesfm": 0.0000},
   "dominant_model": "string",
   "engine_version": "v2.0",
-  "cin": "U62012MH2023PTC410415"
+  "cin": ""
 }
 ```
 
@@ -231,12 +231,12 @@ Starting distribution: Risk-On 50%, Late-Cycle 25%, Transitional 15%, Post-Shock
 If you use this engine in research or commercial work, please cite:
 
 ```
-Zetheta Algorithms Private Limited (2026).
+Aarya Khandelwal (2026).
 Bayesian Regime Detection Engine for Indian Equity Markets.
-CIN: U62012MH2023PTC410415.
+.
 Repository: github.com/Duke-07/kmri-1a
 ```
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*

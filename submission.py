@@ -1,7 +1,7 @@
 """
 Bayesian Regime Detection Engine - Master Submission
 =====================================================
-Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415
+Aarya Khandelwal
 
 Self-contained implementation using numpy / scipy / pandas / sklearn.
 Runs efficiently with zero external dependency errors and produces real mathematical results.
@@ -20,7 +20,7 @@ Architecture & Pipeline Stages:
  11. Purged Walk-Forward      - Purged & Embargoed Cross-Validation + Backtest Overlay (Kelly + Hysteresis)
  12. Monte Carlo & Risk       - 5,000 Path Simulation + VaR / CVaR + Deflated Sharpe Ratio (Bailey & Lopez de Prado)
  13. Indian Crisis Replay     - Replay harness for 2008 GFC, 2013 Taper Tantrum, 2018 IL&FS, 2020 COVID, 2024 Election
- 14. IC Artefact Generation   - Regulator-grade Investment Committee report with full lineage and CIN footers
+ 14. IC Artefact Generation   - Investment Committee report with full model lineage and audit trail
 
 Run: python submission.py
 """
@@ -78,7 +78,7 @@ except ImportError:
 # CONSTANTS & SPECIFICATION
 # =============================================================================
 
-CIN = "U62012MH2023PTC410415"
+AUTHOR = "Aarya Khandelwal"
 REGIME_NAMES = ["Risk-On", "Late-Cycle", "Transitional", "Post-Shock", "Risk-Off"]
 
 REGIME_PARAMS = {
@@ -924,8 +924,7 @@ def generate_ic_artefact(date, regime_out, perf, mc_risk, top_features, psi_max,
 
     return {
         "report_date": date,
-        "cin": CIN,
-        "entity": "Zetheta Algorithms Private Limited",
+        "author": AUTHOR,
         "conditional_statement": stmt,
         "dominant_regime": dom,
         "regime_probability": prob,
@@ -951,8 +950,7 @@ def generate_ic_artefact(date, regime_out, perf, mc_risk, top_features, psi_max,
         "prob_positive_return": mc_risk.get("prob_positive"),
         "ensemble_weights": regime_out.get("ensemble_weights"),
         "regulatory_note": ("All regime probabilities are conformalised with 90% marginal coverage guarantee. "
-                            "Outputs are audit-defensible under SEBI Risk-O-Meter and Stewardship guidelines. "
-                            f"CIN: {CIN}"),
+                            "Outputs are audit-defensible under SEBI Risk-O-Meter and Stewardship guidelines."),
     }
 
 
@@ -966,7 +964,7 @@ def run_pipeline():
     SEP = "=" * 76
     print(SEP)
     print("  BAYESIAN REGIME DETECTION ENGINE - MASTER PIPELINE")
-    print(f"  Zetheta Algorithms Private Limited | CIN: {CIN}")
+    print(f"  {AUTHOR}")
     print(SEP)
 
     # 1. Data Generation
@@ -1154,7 +1152,7 @@ def run_pipeline():
     print("  INVESTMENT COMMITTEE REPORT SUMMARY")
     print("=" * 76)
     print(f"  Report Date:     {ic['report_date']}")
-    print(f"  CIN:             {ic['cin']}")
+    print(f"  Author:          {ic['author']}")
     print(f"  Dominant Regime: {ic['dominant_regime']} ({ic['regime_probability']:.1%} probability, Conviction: {ic['conviction']})")
     print(f"  Prediction Set:  {', '.join(ic['prediction_set'])}")
     print(f"  Rationale:       {ic['top_feature_rationale']}")
@@ -1167,7 +1165,6 @@ def run_pipeline():
     elapsed = time.time() - t0
     print(f"\n" + SEP)
     print(f"  ALL 14 PIPELINE STAGES COMPLETED SUCCESSFULLY IN {elapsed:.1f}s")
-    print(f"  CIN: {CIN}")
     print(SEP + "\n")
 
     return dict(hmm=hmm_model, vb=vb, classifier=ens, backtest=bt_df, ic=ic)

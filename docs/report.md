@@ -1,8 +1,8 @@
-# Bayesian Regime Detection Engine for Indian Equity Markets
+﻿# Bayesian Regime Detection Engine for Indian Equity Markets
 ## Final Project Report — Data Quantitative Analyst Assessment
 
-**Zetheta Algorithms Private Limited**
-CIN: U62012MH2023PTC410415
+**Aarya Khandelwal**
+
 Prepared for: Multi-Asset Solutions Desk, Indian Asset Management Company
 
 ---
@@ -622,7 +622,7 @@ PSIS-LOO (Vehtari, Gelman & Gabry, 2017) for Bayesian models:
     "allocation_bias": "Tilt toward equity beta; reduce cash buffer",
     "ensemble_weights": {"hmm": 0.38, "rs_var": 0.25, "bnn": 0.17, "chronos": 0.12, "timesfm": 0.08},
     "engine_version": "v2.0",
-    "cin": "U62012MH2023PTC410415"
+    "cin": ""
 }
 ```
 
@@ -770,7 +770,7 @@ Engine correctly halved conviction in the 5 sessions before the counting day, pr
 | **Calibration** | Split-conformal + APS + Mondrian (90% target coverage) |
 | **Intended Use** | Tactical allocation tilts, Risk-O-Meter input, IC reporting |
 | **Out of Scope** | Price prediction, individual stock selection, leverage decisions |
-| **CIN** | U62012MH2023PTC410415 |
+| **CIN** |  |
 
 ### 13.2 MCMC Diagnostics Summary
 
@@ -851,6 +851,6 @@ The engine embodies the "Direction Over Price" thesis: calibrated probability di
 
 ---
 
-*Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
+*Aarya Khandelwal*
 *This report is generated as part of the Bayesian Regime Detection Engine assessment project.*
 *Assessment outputs are indicative and shared with engaging parties per submission protocol.*
