@@ -1,0 +1,35 @@
+# Development dependencies for the Bayesian Regime Detection Engine
+# CIN: U62012MH2023PTC410415
+#
+# Install with: pip install -r requirements-dev.txt
+# (Includes all production deps via -r requirements.txt)
+
+-r requirements.txt
+
+# ── Code Quality ──────────────────────────────────────────────────────────────
+black>=24.0               # Opinionated code formatter
+isort>=5.13               # Import sorter (compatible with black)
+flake8>=7.0               # PEP 8 linter
+mypy>=1.8                 # Static type checker
+pre-commit>=3.6           # Git pre-commit hook manager
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.0               # Test runner
+pytest-cov>=4.1           # Coverage reporting
+pytest-xdist>=3.5         # Parallel test execution
+pytest-mock>=3.12         # Mock utilities
+
+# ── Notebooks ─────────────────────────────────────────────────────────────────
+nbformat>=5.9             # Notebook format validation
+nbconvert>=7.14           # Convert notebooks to scripts/HTML
+nbstripout>=0.7           # Strip output before committing notebooks
+
+# ── Documentation ─────────────────────────────────────────────────────────────
+mkdocs>=1.5               # Static site docs generator
+mkdocs-material>=9.5      # Material theme for MkDocs
+mkdocstrings[python]>=0.24 # Auto API docs from docstrings
+
+# ── Profiling & Debugging ─────────────────────────────────────────────────────
+line_profiler>=4.1        # Line-level performance profiling
+memory_profiler>=0.61     # Memory usage profiling
+py-spy>=0.3               # Sampling profiler (no code modification needed)
