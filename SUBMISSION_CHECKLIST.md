@@ -1,5 +1,5 @@
 ﻿# Submission Checklist — Bayesian Regime Detection Engine
-## Aarya Khandelwal
+## Aaryan Dwivedi
 
 ---
 
@@ -131,4 +131,4 @@
 
 ---
 
-*Aarya Khandelwal*
+*Aaryan Dwivedi*

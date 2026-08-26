@@ -1,7 +1,7 @@
-"""
+﻿"""
 Bayesian Regime Detection Engine - Master Submission
 =====================================================
-Aarya Khandelwal
+Aaryan Dwivedi
 
 Self-contained implementation using numpy / scipy / pandas / sklearn.
 Runs efficiently with zero external dependency errors and produces real mathematical results.
@@ -78,7 +78,7 @@ except ImportError:
 # CONSTANTS & SPECIFICATION
 # =============================================================================
 
-AUTHOR = "Aarya Khandelwal"
+AUTHOR = "Aaryan Dwivedi"
 REGIME_NAMES = ["Risk-On", "Late-Cycle", "Transitional", "Post-Shock", "Risk-Off"]
 
 REGIME_PARAMS = {

@@ -1,5 +1,5 @@
 ﻿// Stan HMM — Bayesian Regime Detection Engine
-// Aarya Khandelwal
+// Aaryan Dwivedi
 // Exact forward-algorithm marginalisation over latent regime states.
 // Run via CmdStanR: mod <- cmdstan_model("R/stan_hmm.stan"); fit <- mod$sample(...)
 

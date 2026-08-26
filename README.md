@@ -1,7 +1,7 @@
 ﻿# Bayesian Regime Detection Engine
 ## Indian Equity Market Regime Classification with Calibrated Uncertainty
 
-**Aarya Khandelwal**
+**Aaryan Dwivedi**
 ****
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
@@ -224,4 +224,4 @@ All regime probabilities are conformalised with 90% marginal coverage. Outputs a
 
 ---
 
-*Aarya Khandelwal*
+*Aaryan Dwivedi*

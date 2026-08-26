@@ -1,6 +1,6 @@
 ﻿# Contributing to the Bayesian Regime Detection Engine
 
-**Aarya Khandelwal**
+**Aaryan Dwivedi**
 
 Thank you for your interest in contributing. This document describes the process and standards for contributions to this project.
 
@@ -85,4 +85,4 @@ All contributors are expected to adhere to professional standards of communicati
 
 ---
 
-*Aarya Khandelwal*
+*Aaryan Dwivedi*

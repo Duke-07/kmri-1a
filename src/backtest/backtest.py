@@ -1,4 +1,4 @@
-"""
+﻿"""
 Backtesting, Monte Carlo Simulation & Investment Committee Artefact
 ===================================================================
 Implements Section A13 (all deliverables):
@@ -395,7 +395,7 @@ def generate_ic_artefact(
         "document_type":            "Investment Committee Regime Report",
         "report_date":              date,
         "engine_version":           regime_output.get("engine_version", "v2.0"),
-        "author":                   "Aarya Khandelwal",
+        "author":                   "Aaryan Dwivedi",
         # ── Regime Assessment ──────────────────────────────────────────────
         "current_regime":           dominant,
         "regime_probability":       prob,

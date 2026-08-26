@@ -10,7 +10,7 @@ Provides:
   - Regime trajectory extraction
 
 
-Aarya Khandelwal
+Aaryan Dwivedi
 """
 
 import numpy as np

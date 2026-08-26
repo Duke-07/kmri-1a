@@ -1,5 +1,5 @@
 ﻿# Bayesian Regime Detection Engine — Model Card
-## Aarya Khandelwal
+## Aaryan Dwivedi
 
 ---
 
@@ -231,7 +231,7 @@ Starting distribution: Risk-On 50%, Late-Cycle 25%, Transitional 15%, Post-Shock
 If you use this engine in research or commercial work, please cite:
 
 ```
-Aarya Khandelwal (2026).
+Aaryan Dwivedi (2026).
 Bayesian Regime Detection Engine for Indian Equity Markets.
 .
 Repository: github.com/Duke-07/kmri-1a
@@ -239,4 +239,4 @@ Repository: github.com/Duke-07/kmri-1a
 
 ---
 
-*Aarya Khandelwal*
+*Aaryan Dwivedi*

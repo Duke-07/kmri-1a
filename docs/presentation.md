@@ -1,5 +1,5 @@
 ﻿# Bayesian Regime Detection Engine — 18-Slide Presentation
-## Aarya Khandelwal
+## Aaryan Dwivedi
 
 ---
 
@@ -10,7 +10,7 @@
 
 **Data Quantitative Analyst Assessment — Submission**
 
-Aarya Khandelwal
+Aaryan Dwivedi
 
 
 *Direction Over Price | Calibrated Uncertainty | Audit-Defensible Output*
@@ -441,5 +441,5 @@ Both implementations agree within numerical tolerance — validating the archite
 
 ---
 
-*Aarya Khandelwal*
+*Aaryan Dwivedi*
 *Repository ownership to be transferred to @Duke-07 per submission protocol.*
