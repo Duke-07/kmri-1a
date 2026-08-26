@@ -188,4 +188,55 @@ Starting distribution: Risk-On 50%, Late-Cycle 25%, Transitional 15%, Post-Shock
 
 ---
 
+## Known Limitations
+
+| # | Limitation | Mitigation |
+|---|---|---|
+| 1 | **Label switching** — HMM latent states are permutation-invariant; post-hoc ordering by mean return may fail in degenerate solutions | Permutation test + R-hat monitoring; re-run with different seeds if states collapse |
+| 2 | **Synthetic data gap** — Engine trained/tested on NSE-calibrated synthetic data; real-market microstructure effects (circuit breakers, T+1 settlement) are not modelled | Recalibrate on live NSE data before production deployment |
+| 3 | **Regime collapse risk** — With extreme market dislocation, all probability mass may concentrate on one regime | Monitor entropy of ensemble output; trigger alert if H < 0.3 nats |
+| 4 | **CPU inference latency** — Full NUTS sampling takes ~20 min on CPU for the 18-year training window | Use pre-fitted PyMC traces stored as NetCDF; restrict live updates to particle filter |
+| 5 | **Foundation model mocking** — Without GPU, Chronos and TimesFM fall back to spectral/statistical proxies, reducing embedding quality | Schedule weekly GPU batch re-embedding job; cache to disk |
+| 6 | **Static event calendar** — Election/budget conviction adjustments require manual calendar updates | Integrate with NSE corporate event API for automated calendar ingestion |
+| 7 | **Conformal coverage guarantee is marginal** — Split-conformal provides marginal (not conditional) coverage; rare regimes may have lower-than-nominal coverage | Use Mondrian conformal (class-conditional) for per-regime coverage audits |
+| 8 | **PSI threshold calibration** — PSI thresholds (0.10/0.25) are heuristic; may not be optimal for Indian market volatility clustering | Calibrate PSI thresholds on rolling out-of-sample windows annually |
+
+---
+
+## Future Work
+
+### Short-Term (Q3 2026)
+- **Live data feed**: Integrate NSE/BSE real-time tick data via SEBI-compliant WebSocket API
+- **Streamlit dashboard**: Real-time regime probability monitor with drill-down per model
+- **Model drift alerts**: Automated PSI monitoring pipeline with email/Slack notifications
+- **Unit test suite**: pytest coverage for all `src/` modules (target ≥ 80%)
+
+### Medium-Term (Q4 2026 — Q1 2027)
+- **GPU particle filter**: CuPy-accelerated bootstrap SIR for sub-millisecond online updates
+- **Multi-market extension**: Extend 5-regime taxonomy to ASEAN equity markets (SGX, SET, IDX)
+- **Options market features**: Add implied vol surface slope, put-call ratio, and VIX-India features
+- **Regime-conditional risk parity**: Replace Kelly overlay with full regime-conditional risk parity allocation
+- **R Shiny integration**: Expose R calibration and conformal outputs via Shiny for IC dashboard
+
+### Long-Term (2027+)
+- **Large Language Model integration**: Use LLM-parsed RBI/SEBI policy text as a macro regime prior
+- **Causal discovery**: Replace correlation-based GCN edges with PC-algorithm causal graph
+- **Federated learning**: Privacy-preserving multi-AMC regime signal aggregation
+- **SEBI regulatory submission**: Package model outputs as SEBI-compliant Stress Test Report (STR) format
+
+---
+
+## Citation
+
+If you use this engine in research or commercial work, please cite:
+
+```
+Zetheta Algorithms Private Limited (2026).
+Bayesian Regime Detection Engine for Indian Equity Markets.
+CIN: U62012MH2023PTC410415.
+Repository: github.com/Duke-07/kmri-1a
+```
+
+---
+
 *Zetheta Algorithms Private Limited | CIN: U62012MH2023PTC410415*
