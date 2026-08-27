@@ -35,6 +35,25 @@ Six complementary model families, ensembled and conformalised:
 
 ---
 
+## How It Works
+
+The engine runs as a **12-stage sequential pipeline** (`submission.py`):
+
+1. **Data Generation** — Synthesise 4 500+ trading days of Indian equity data using a Student-t mixture calibrated to NIFTY 50 statistics across five regimes.
+2. **Feature Engineering** — Compute 30+ features: momentum/volatility signals, TDA persistence diagrams (Giotto-TDA), graph-convolutional sector features, and Population Stability Index drift indicators.
+3. **Frequentist HMM** — Fit hmmlearn HMMs with BIC-optimal state count; decode Viterbi path and compute regime duration statistics.
+4. **Bayesian HMM** — MCMC sampling via PyMC with ArviZ diagnostics (R̂, ESS, WAIC/LOO); full posterior over transition matrices and emission parameters.
+5. **Markov-Switching Baseline** — statsmodels `MarkovRegression` single-feature baseline for benchmark comparison.
+6. **Bayesian RS-VAR** — Regime-switching Vector Autoregression capturing multivariate joint dynamics; impulse-response functions via NumPyro.
+7. **Bayesian Deep Learning** — MC Dropout, Variational Inference BNN, and Deep Ensemble; SHAP attribution for interpretability.
+8. **Foundation Models** — Chronos and TimesFM pre-trained embeddings; hybrid model combining neural embeddings with Bayesian posteriors.
+9. **Particle Filter + BOCPD** — Online sequential inference with a bootstrap particle filter and Bayesian Online Changepoint Detection for real-time regime shifts.
+10. **Conformal Prediction** — Split / APS / Mondrian / ACI / CQR wrappers deliver finite-sample-valid prediction sets with empirical ECE and RPS.
+11. **Ensemble** — Bayesian Model Averaging + stacking combiner; output contract guarantees probability simplex validity.
+12. **Backtest + Monte Carlo** — Walk-forward evaluation: Information Ratio, Tracking Error, IC artefact; 10 000-path MC simulation for 1-year return/VaR distribution.
+
+---
+
 ## Project Structure
 
 ```
