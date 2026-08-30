@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to the **Bayesian Regime Detection Engine** are documented here.
 
@@ -16,6 +16,17 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Real-time regime probability dashboard (Streamlit)
 - Automated model drift alerts via PSI monitoring pipeline
 - GPU-accelerated particle filter using CuPy
+
+---
+
+## [1.4.0] — 2026-08-30
+
+### Added
+- `docs/performance_benchmarks.md` — latency and throughput benchmarks across regime types
+- Logging improvements: structured JSON log output for production pipelines
+
+### Changed
+- Tuned HMM transition priors for improved bull/bear/sideways classification accuracy
 
 ---
 
