@@ -33,6 +33,7 @@
 - [x] `docs/report.md` — 40+ pages (856 lines): all 14 sections, 5 case studies, derivations, tables
 - [x] `docs/presentation.md` — 18 slides (445 lines): all key results, architecture, case studies
 - [x] `docs/model_card.md` — Model spec, output contract JSON, MCMC diagnostics, calibration table
+- [x] `docs/performance_benchmarks.md` — Latency, throughput, accuracy and memory benchmarks
 - [x] `README.md` — Repository overview, project structure, quick start, key results, CIN
 - [x] `SUBMISSION_CHECKLIST.md` — This file
 
