@@ -112,3 +112,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ---
 
 *Aaryan Dwivedi*
+
+## [1.4.1] - 2026-08-31
+### Fixed
+- Minor typo corrections in documentation
+
