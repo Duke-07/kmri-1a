@@ -33,3 +33,7 @@ mkdocstrings[python]>=0.24 # Auto API docs from docstrings
 line_profiler>=4.1        # Line-level performance profiling
 memory_profiler>=0.61     # Memory usage profiling
 py-spy>=0.3               # Sampling profiler (no code modification needed)
+
+# added for linting
+pylint>=3.0.0
+
