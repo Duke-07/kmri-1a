@@ -1,10 +1,10 @@
-﻿# Development dependencies for the Bayesian Regime Detection Engine
+# Development dependencies for the Bayesian Regime Detection Engine
 # 
 #
 # Install with: pip install -r requirements-dev.txt
-# (Includes all production deps via -r requirements.txt)
+# (Includes all production deps via -r requirements-engine.txt)
 
--r requirements.txt
+-r requirements-engine.txt
 
 # ── Code Quality ──────────────────────────────────────────────────────────────
 black>=24.0               # Opinionated code formatter

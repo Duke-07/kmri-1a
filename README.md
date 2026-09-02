@@ -182,8 +182,8 @@ To execute the offline quantitative research engine locally:
 python -m venv venv
 venv\Scripts\activate  # On Windows
 
-# Install Python dependencies
-pip install -r requirements.txt
+# Install Python dependencies (local research engine)
+pip install -r requirements-engine.txt
 
 # Run complete 14-stage sequential engine
 python main.py
@@ -208,9 +208,10 @@ bayesian-regime-engine/
 ├── main.py                          # Master 14-stage sequential pipeline
 ├── package.json                     # Node/Vite build specification
 ├── vercel.json                      # Vercel deployment & security headers
+├── .vercelignore                    # Vercel deployment exclusion rules
 ├── vite.config.js                   # Vite configuration
 ├── index.html                       # Web terminal entry with SEO meta
-├── requirements.txt                 # Python core dependencies
+├── requirements-engine.txt          # Python core quantitative engine dependencies
 ├── requirements-dev.txt             # Linting and testing dependencies
 ├── README.md                        # Documentation and user guide
 ├── CHANGELOG.md                     # Release version history

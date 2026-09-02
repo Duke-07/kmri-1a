@@ -1,0 +1,18 @@
+# Python environment, models, and dependencies
+requirements*.txt
+main.py
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# R scripts
+R/
+
+# Documentation and presentation assets
+docs/
+screenshots/
