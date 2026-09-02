@@ -122,11 +122,20 @@
 
 ---
 
+## v1.5.0 Additions
+
+- [x] `docs/robustness_analysis.md` — OOS stress tests for 2008, 2013, 2020 crises
+- [x] Particle filter ESS threshold tuned to 0.6N for optimal degeneracy/speed trade-off
+- [x] `GaussianHMM.fit` edge case fixed for single-cluster observations
+
+---
+
 ## Project Status
 
 - ✅ Core engine complete and tested end-to-end
 - ✅ All code pushed to `main` branch
 - ✅ Documentation complete
+- ✅ v1.5.0 robustness analysis complete
 
 ---
 
