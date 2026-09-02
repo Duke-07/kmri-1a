@@ -221,7 +221,7 @@ Starting distribution: Risk-On 50%, Late-Cycle 25%, Transitional 15%, Post-Shock
 - **Large Language Model integration**: Use LLM-parsed RBI/SEBI policy text as a macro regime prior
 - **Causal discovery**: Replace correlation-based GCN edges with PC-algorithm causal graph
 - **Federated learning**: Privacy-preserving multi-AMC regime signal aggregation
-- **SEBI regulatory submission**: Package model outputs as SEBI-compliant Stress Test Report (STR) format
+- **SEBI regulatory reporting**: Package model outputs as SEBI-compliant Stress Test Report (STR) format
 
 ---
 

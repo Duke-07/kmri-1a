@@ -61,7 +61,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `docs/last updated` badge in README reflecting August 2026
 
 ### Fixed
-- Inline `build_regime_output` definition in `submission.py` to remove external dependency
+- Inline `build_regime_output` definition in `main.py` to remove external dependency
 
 ---
 
@@ -84,7 +84,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.0.0] — 2026-08-20
 
 ### Added
-- `submission.py` — pure self-contained 12-stage Bayesian Regime Detection Engine
+- `main.py` — pure self-contained 12-stage Bayesian Regime Detection Engine
   - Zero external dependency fallbacks; all algorithms implemented from scratch
   - Baum-Welch HMM (custom implementation)
   - Variational Bayes HMM

@@ -38,7 +38,7 @@ Six complementary model families, ensembled and conformalised:
 
 ## How It Works
 
-The engine runs as a **12-stage sequential pipeline** (`submission.py`):
+The engine runs as a **12-stage sequential pipeline** (`main.py`):
 
 1. **Data Generation** — Synthesise 4 500+ trading days of Indian equity data using a Student-t mixture calibrated to NIFTY 50 statistics across five regimes.
 2. **Feature Engineering** — Compute 30+ features: momentum/volatility signals, TDA persistence diagrams (Giotto-TDA), graph-convolutional sector features, and Population Stability Index drift indicators.
@@ -58,8 +58,8 @@ The engine runs as a **12-stage sequential pipeline** (`submission.py`):
 ## Project Structure
 
 ```
-1A/
-├── submission.py                    # Master 12-stage pipeline
+bayesian-regime-engine/
+├── main.py                          # Master 12-stage pipeline
 ├── requirements.txt                 # Full dependency spec
 ├── README.md                        # This file
 │
@@ -106,6 +106,35 @@ The engine runs as a **12-stage sequential pipeline** (`submission.py`):
 
 ## Quick Start
 
+### Interactive Web Terminal (Vercel Production Ready)
+
+The engine features a production-ready interactive quantitative terminal and serverless API ready to deploy on Vercel with zero configuration:
+
+```bash
+# Install Node dependencies
+npm install
+
+# Run terminal locally
+npm run dev
+# Open http://localhost:3000
+
+# Build production bundle
+npm run build
+```
+
+#### Deploy to Vercel in 1 Click
+1. Import the repository into [Vercel](https://vercel.com)
+2. Framework Preset is automatically detected as **Vite**
+3. Click **Deploy** — zero additional environment variables or build overrides needed
+
+#### Serverless API Endpoints
+- `GET /api/health` — System status, engine version, and model convergence
+- `GET /api/regime?vix=14&fii=1500` — Real-time calibrated 5-regime posterior & conformal prediction set
+- `GET /api/crisis?id=covid_2020` — Historical Indian crisis simulation traces
+- `GET /api/backtest` — Walk-forward backtest equity curves and risk statistics
+
+---
+
 ### Python Pipeline (12 stages)
 
 ```bash
@@ -113,7 +142,7 @@ The engine runs as a **12-stage sequential pipeline** (`submission.py`):
 pip install -r requirements.txt
 
 # Run the complete pipeline
-python submission.py
+python main.py
 ```
 
 Expected output:

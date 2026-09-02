@@ -1,7 +1,7 @@
-﻿# =============================================================================
+# =============================================================================
 # Python vs R Reconciliation Script
 # =============================================================================
-# Cross-validates regime probabilities between Python (submission.py) and
+# Cross-validates regime probabilities between Python (main.py) and
 # R (models.R / conformal.R) implementations.
 #
 # Uses exported CSVs for comparison. Run after saving outputs from both sides.

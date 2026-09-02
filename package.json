@@ -1,0 +1,21 @@
+{
+  "name": "bayesian-regime-detection-engine",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Bayesian Regime Detection Engine for Indian Equity Markets with Calibrated Uncertainty",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.2.0"
+  }
+}

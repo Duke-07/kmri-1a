@@ -6,7 +6,7 @@
 ## Code Deliverables
 
 ### Python — Core Pipeline
-- [x] `submission.py` — 12-stage master pipeline, runs end-to-end (~14s)
+- [x] `main.py` — 12-stage master pipeline, runs end-to-end (~14s)
 - [x] `src/data/synthetic_data.py` — 5-regime Student-t simulation (2007-2024)
 - [x] `src/data/feature_engineering.py` — 30+ features: returns/vol/breadth/macro/flows/TDA/GCN/PSI
 - [x] `src/models/frequentist_hmm.py` — Gaussian HMM + BIC comparison (K=3/5/7) + duration stats
