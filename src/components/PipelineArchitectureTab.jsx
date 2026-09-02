@@ -19,16 +19,16 @@ export default function PipelineArchitectureTab() {
               <span>•</span>
               <span>Total Runtime: ~13.8 Seconds</span>
             </div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              12-Stage Mathematical Pipeline Architecture
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+              14-Stage Mathematical Pipeline Architecture
             </h2>
-            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Rigorous sequential workflow from Student-t synthetic market calibration to Bayesian variational inference, topological data analysis, foundation embeddings, and conformal prediction guarantees.
+            <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              Rigorous sequential workflow from Student-t synthetic market calibration to Bayesian variational inference, topological data analysis, foundation embeddings, crisis replay harnesses, and conformal prediction guarantees.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-3.5 py-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800 font-mono text-xs font-bold">
+            <span className="px-3.5 py-1.5 rounded-lg bg-cyan-50 text-cyan-800 border border-cyan-200 font-mono text-xs font-bold">
               Python 3.10+ & R 4.3+ Reconciled
             </span>
           </div>
@@ -45,17 +45,17 @@ export default function PipelineArchitectureTab() {
               onClick={() => setSelectedStageId(stage.id)}
               className={`p-3.5 rounded-xl text-left transition-all border ${
                 isSelected
-                  ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-300 dark:border-indigo-700 shadow-sm'
-                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-850'
+                  ? 'bg-indigo-50 border-indigo-300 shadow-sm'
+                  : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               }`}
             >
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="font-mono text-slate-400 font-semibold text-[10px]">STAGE {stage.id}</span>
-                <span className="font-mono text-indigo-600 dark:text-indigo-400 text-[10px] flex items-center gap-1 font-semibold">
+                <span className="font-mono text-indigo-600 text-[10px] flex items-center gap-1 font-semibold">
                   <Clock className="w-2.5 h-2.5" /> {stage.time}
                 </span>
               </div>
-              <div className={`text-xs font-bold line-clamp-1 ${isSelected ? 'text-indigo-900 dark:text-white' : 'text-slate-800 dark:text-slate-200'}`}>
+              <div className={`text-xs font-bold line-clamp-1 ${isSelected ? 'text-indigo-900' : 'text-slate-800'}`}>
                 {stage.title}
               </div>
             </button>
@@ -64,19 +64,19 @@ export default function PipelineArchitectureTab() {
       </div>
 
       {/* Selected Stage Deep-Dive Card */}
-      <div className="quant-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+      <div className="quant-card p-6 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
           <div>
-            <div className="text-xs font-mono text-indigo-600 dark:text-cyan-400 font-semibold">
-              STAGE {selectedStage.id} OF 12
+            <div className="text-xs font-mono text-indigo-600 font-semibold">
+              STAGE {selectedStage.id} OF 14
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">{selectedStage.title}</h3>
+            <h3 className="text-xl font-bold text-slate-900 mt-0.5">{selectedStage.title}</h3>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
               Execution: {selectedStage.time}
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-semibold">
+            <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
               Status: Verified
             </span>
           </div>
@@ -84,20 +84,20 @@ export default function PipelineArchitectureTab() {
 
         {/* Mathematical Formulation */}
         <div className="space-y-2">
-          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">
             Mathematical Objective & Formal Specification
           </span>
-          <div className="p-3.5 rounded-xl bg-slate-900 text-indigo-300 dark:bg-slate-950 dark:text-indigo-300 border border-slate-800 font-mono text-xs overflow-x-auto shadow-inner">
+          <div className="p-3.5 rounded-xl bg-slate-900 text-indigo-300 border border-slate-800 font-mono text-xs overflow-x-auto shadow-inner">
             <code>{selectedStage.formula}</code>
           </div>
         </div>
 
         {/* Description & Engineering Details */}
         <div className="space-y-2">
-          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
+          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider font-mono">
             Algorithmic Details & Implementation Notes
           </span>
-          <p className="text-xs text-slate-700 dark:text-slate-300 font-mono leading-relaxed bg-slate-50 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+          <p className="text-xs text-slate-700 font-mono leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
             {selectedStage.desc}
           </p>
         </div>
@@ -107,16 +107,16 @@ export default function PipelineArchitectureTab() {
           <button
             onClick={() => setSelectedStageId((prev) => Math.max(1, prev - 1))}
             disabled={selectedStageId === 1}
-            className="px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 transition-colors"
+            className="px-3.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 transition-colors"
           >
             ← Previous Stage
           </button>
           <span className="text-xs font-mono text-slate-400">
-            Stage {selectedStageId} of 12
+            Stage {selectedStageId} of 14
           </span>
           <button
-            onClick={() => setSelectedStageId((prev) => Math.min(12, prev + 1))}
-            disabled={selectedStageId === 12}
+            onClick={() => setSelectedStageId((prev) => Math.min(14, prev + 1))}
+            disabled={selectedStageId === 14}
             className="px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm font-semibold"
           >
             Next Stage →

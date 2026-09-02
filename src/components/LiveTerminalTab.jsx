@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sliders, RefreshCw, Zap, Shield, AlertTriangle, Layers, ArrowUpRight, ArrowDownRight, Compass, Sparkles } from './Icons.jsx';
+import { Sliders, RefreshCw, Zap, Shield, AlertTriangle, Layers, ArrowUpRight, ArrowDownRight, Compass, Sparkles, Info } from './Icons.jsx';
 import { REGIMES, INITIAL_LIVE_STATE } from '../engine/data';
 
 export default function LiveTerminalTab() {
@@ -377,25 +377,33 @@ export default function LiveTerminalTab() {
           </div>
 
           {/* Quick Engine Telemetry Specs */}
-          <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm grid grid-cols-2 gap-3 text-xs font-mono">
+          <div className="quant-card p-4 rounded-xl border border-slate-200 bg-white shadow-sm grid grid-cols-2 gap-3 text-xs font-mono">
             <div>
-              <div className="text-slate-400 dark:text-slate-500 text-[10px]">PARKINSON VOL</div>
-              <div className="text-slate-900 dark:text-white font-bold">{INITIAL_LIVE_STATE.parkinsonVol}</div>
+              <div className="text-slate-400 text-[10px]">PARKINSON VOL</div>
+              <div className="text-slate-900 font-bold">{INITIAL_LIVE_STATE.parkinsonVol}</div>
             </div>
             <div>
-              <div className="text-slate-400 dark:text-slate-500 text-[10px]">PSI DRIFT MONITOR</div>
-              <div className="text-emerald-600 dark:text-emerald-400 font-bold">{INITIAL_LIVE_STATE.psiDrift}</div>
+              <div className="text-slate-400 text-[10px]">PSI DRIFT MONITOR</div>
+              <div className="text-emerald-600 font-bold">{INITIAL_LIVE_STATE.psiDrift}</div>
             </div>
             <div>
-              <div className="text-slate-400 dark:text-slate-500 text-[10px]">DII INSTITUTIONAL NET</div>
-              <div className="text-slate-900 dark:text-white font-bold">{INITIAL_LIVE_STATE.diiNetFlow}</div>
+              <div className="text-slate-400 text-[10px]">DII INSTITUTIONAL NET</div>
+              <div className="text-slate-900 font-bold">{INITIAL_LIVE_STATE.diiNetFlow}</div>
             </div>
             <div>
-              <div className="text-slate-400 dark:text-slate-500 text-[10px]">SEBI RISK-O-METER</div>
-              <div className="text-amber-600 dark:text-amber-400 font-bold">{REGIMES.find(r => r.id === dominant.id)?.riskOMeter}</div>
+              <div className="text-slate-400 text-[10px]">SEBI RISK-O-METER</div>
+              <div className="text-amber-600 font-bold">{REGIMES.find(r => r.id === dominant.id)?.riskOMeter}</div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Methodology & Non-Misleading Research Disclosure Banner */}
+      <div className="p-4 rounded-xl bg-slate-100/90 border border-slate-200 text-xs font-mono text-slate-600 flex items-start gap-2.5">
+        <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+        <p className="leading-relaxed">
+          <strong className="text-slate-800">Methodology & Research Disclosure:</strong> All quantitative algorithms, transition matrices, and predictive parameters are calibrated to historical Indian equity market data (NIFTY 50, 2007–2024) and evaluated via purged walk-forward cross-validation. The Feature Sandbox above simulates model responsiveness under synthetic and historical stress perturbations. This personal quantitative research project is for analytical and educational demonstration only and does not constitute financial advice.
+        </p>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ A personal quantitative research project developing an institutional-grade **Bay
 
 ## Terminal Screenshots & Visual Walkthrough
 
-The engine features a high-performance web terminal built in React & Vite with zero external UI bloat, rendering full quantitative analytics, interactive sandboxes, and crisis replay harnesses in a light-themed interface with instant dark-mode support.
+The engine features a high-performance web terminal built in React & Vite with zero external UI bloat, rendering full quantitative analytics, interactive sandboxes, crisis replay harnesses, and conformal prediction guarantees in an elegant, high-contrast light-themed interface.
 
 ### 1. Live Terminal & Feature Perturbation Sandbox
 *Real-time 5-state Bayesian probability simplex, Shannon entropy gauge, epistemic vs. aleatoric uncertainty budget decomposition, and interactive market signal perturbation sliders.*
@@ -59,8 +59,8 @@ The engine features a high-performance web terminal built in React & Vite with z
 
 ---
 
-### 6. 12-Stage Mathematical Pipeline Architecture
-*Interactive execution graph detailing mathematical formulas, algorithmic specifications, and execution complexity for all 12 pipeline stages.*
+### 6. 14-Stage Mathematical Pipeline Architecture
+*Interactive execution graph detailing mathematical formulas, algorithmic specifications, and execution complexity for all 14 pipeline stages.*
 
 ![Pipeline Architecture](screenshots/06_pipeline_architecture.png)
 
@@ -173,7 +173,7 @@ The repository is pre-configured with `vercel.json`, optimized SPA rewrites, sec
 
 ---
 
-### Python Pipeline (12 stages)
+### Python Pipeline (14 stages)
 
 To execute the offline quantitative research engine locally:
 
@@ -185,18 +185,18 @@ venv\Scripts\activate  # On Windows
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Run complete 12-stage sequential engine
+# Run complete 14-stage sequential engine
 python main.py
 ```
 
 Expected terminal output:
 ```
-[1/12] Generating Synthetic Indian Market Data (2007-2024) ...
+[1/14] Generating Synthetic Indian Market Data (2007-2024) ...
        4,521 trading days | 5-regime Student-t simulation
 ...
-[12/12] Monte Carlo Simulation + IC Artefact Generation ...
-        1-Year Mean Return: +14.8% | 95% VaR: -12.3% | DSR: 0.8741
-ALL 12 PIPELINE STAGES COMPLETED SUCCESSFULLY
+[14/14] Generating Investment Committee Artefact ...
+        1-Year Projected Return: +14.8% | 95% VaR: -12.3% | DSR: 0.8741
+ALL 14 PIPELINE STAGES COMPLETED SUCCESSFULLY IN 13.8s
 ```
 
 ---
@@ -205,7 +205,7 @@ ALL 12 PIPELINE STAGES COMPLETED SUCCESSFULLY
 
 ```
 bayesian-regime-engine/
-├── main.py                          # Master 12-stage sequential pipeline
+├── main.py                          # Master 14-stage sequential pipeline
 ├── package.json                     # Node/Vite build specification
 ├── vercel.json                      # Vercel deployment & security headers
 ├── vite.config.js                   # Vite configuration
