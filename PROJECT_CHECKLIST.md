@@ -1,4 +1,4 @@
-# Submission Checklist — Bayesian Regime Detection Engine
+# Project Checklist — Bayesian Regime Detection Engine
 ## Aaryan Dwivedi
 
 ---
@@ -34,14 +34,14 @@
 - [x] `docs/presentation.md` — 18 slides (445 lines): all key results, architecture, case studies
 - [x] `docs/model_card.md` — Model spec, output contract JSON, MCMC diagnostics, calibration table
 - [x] `docs/performance_benchmarks.md` — Latency, throughput, accuracy and memory benchmarks
-- [x] `README.md` — Repository overview, project structure, quick start, key results, CIN
-- [x] `SUBMISSION_CHECKLIST.md` — This file
+- [x] `README.md` — Repository overview, project structure, quick start, key results
+- [x] `CHECKLIST.md` — This file
 
 ---
 
-## Content Requirements Verified
+## Feature Completeness
 
-### Specification Checklist (from PDF)
+### Core Features Implemented
 - [x] 5-regime taxonomy (Risk-On, Late-Cycle, Transitional, Post-Shock, Risk-Off)
 - [x] Student-t fat-tail simulation (ν per regime)
 - [x] Parkinson volatility estimator
@@ -112,7 +112,6 @@
 |---|---|
 | Python syntax (all files) | ✅ No errors |
 | End-to-end pipeline run | ✅ 13.8 seconds |
-| CIN in all files | ✅ Present |
 | R syntax | ✅ No errors |
 | All required keywords | ✅ Present |
 | MCMC diagnostics included | ✅ Present |

@@ -1,4 +1,4 @@
-﻿# Bayesian Regime Detection Engine — Model Card
+# Bayesian Regime Detection Engine — Model Card
 ## Aaryan Dwivedi
 
 ---
@@ -10,7 +10,6 @@
 | **Model Name** | Bayesian Regime Detection Engine v2.0 |
 | **Task** | 5-class market regime classification for Indian equity markets |
 | **Version** | v2.0 (August 2026) |
-| **CIN** |  |
 | **Intended Use** | Tactical allocation overlays, IC reporting, Risk-O-Meter input |
 | **Out of Scope** | Price/return prediction, individual stock selection, leverage sizing |
 
@@ -92,7 +91,7 @@
   "ensemble_weights": {"hmm": 0.0000, "rs_var": 0.0000, "bnn": 0.0000, "chronos": 0.0000, "timesfm": 0.0000},
   "dominant_model": "string",
   "engine_version": "v2.0",
-  "cin": ""
+  "author": "Aaryan Dwivedi"
 }
 ```
 

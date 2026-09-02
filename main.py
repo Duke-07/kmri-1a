@@ -1,12 +1,12 @@
-﻿"""
-Bayesian Regime Detection Engine - Master Submission
-=====================================================
-Aaryan Dwivedi
+"""
+Bayesian Regime Detection Engine
+=================================
+Aaryan Dwivedi — github.com/Duke-07
 
-Self-contained implementation using numpy / scipy / pandas / sklearn.
-Runs efficiently with zero external dependency errors and produces real mathematical results.
+Self-contained personal research project.
+Implemented using numpy / scipy / pandas / sklearn with zero external dependency errors.
 
-Architecture & Pipeline Stages:
+Pipeline Stages:
   1. Synthetic Data           - 5-regime Student-t simulation (18 years, 2007-2024)
   2. Feature Engineering      - 33 features: returns, vol, breadth, macro, flows, TDA, PSI
   3. Frequentist Gaussian HMM - Baum-Welch EM + Viterbi + BIC selection (K=3, 5, 7) + Geometric Duration Test
@@ -22,7 +22,7 @@ Architecture & Pipeline Stages:
  13. Indian Crisis Replay     - Replay harness for 2008 GFC, 2013 Taper Tantrum, 2018 IL&FS, 2020 COVID, 2024 Election
  14. IC Artefact Generation   - Investment Committee report with full model lineage and audit trail
 
-Run: python submission.py
+Run: python main.py
 """
 
 import os
@@ -1172,6 +1172,4 @@ def run_pipeline():
 
 if __name__ == "__main__":
     run_pipeline()
-
-# Submission verified: 2026-08-31
 

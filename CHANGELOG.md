@@ -111,7 +111,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `docs/report.md` — 40+ page technical report (14 sections, 5 Indian case studies)
 - `docs/presentation.md` — 18-slide deck
 - `docs/model_card.md` — model specification, output contract, MCMC diagnostics, calibration table
-- `SUBMISSION_CHECKLIST.md` — complete requirements verification
+- `CHECKLIST.md` — complete requirements verification
 - `requirements.txt` — full dependency specification
 
 ### Key Metrics at v1.0.0
