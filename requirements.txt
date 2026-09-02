@@ -1,3 +1,7 @@
+# Requirements — Bayesian Regime Detection Engine v1.5.0
+# Aaryan Dwivedi
+# Last updated: 2026-09-02
+
 # Core
 numpy>=1.24
 pandas>=2.0
@@ -44,6 +48,10 @@ torch-geometric>=2.4
 
 # Explainability
 shap>=0.43
+
+# Monitoring & Reporting (v1.5.0)
+evidently>=0.4        # PSI / data drift monitoring dashboard
+rich>=13.0            # structured console reporting for IC artefacts
 
 # Additional utilities
 tqdm>=4.66
