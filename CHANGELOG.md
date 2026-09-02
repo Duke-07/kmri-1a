@@ -19,6 +19,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.0] — 2026-09-02
+
+### Added
+- Regime robustness tests: out-of-sample stress scenarios for 2008, 2013, 2020 crises
+- `docs/robustness_analysis.md` — full OOS stress-test results with coverage tables
+
+### Changed
+- Improved particle filter resampling efficiency: ESS threshold tuned from 0.5N to 0.6N
+- Updated CHANGELOG to reflect v1.5.0 milestone
+
+### Fixed
+- Edge case in `GaussianHMM.fit` when all observations fall in a single regime cluster
+
+---
+
 ## [1.4.0] — 2026-08-30
 
 ### Added
