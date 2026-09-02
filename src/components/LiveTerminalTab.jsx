@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sliders, RefreshCw, Zap, Shield, AlertTriangle, Layers, ArrowUpRight, ArrowDownRight, Compass } from './Icons.jsx';
+import { Sliders, RefreshCw, Zap, Shield, AlertTriangle, Layers, ArrowUpRight, ArrowDownRight, Compass, Sparkles } from './Icons.jsx';
 import { REGIMES, INITIAL_LIVE_STATE } from '../engine/data';
 
 export default function LiveTerminalTab() {
@@ -9,15 +9,24 @@ export default function LiveTerminalTab() {
   const [mcclellan, setMcclellan] = useState(42.5);
   const [tdaNorm, setTdaNorm] = useState(1.42);
 
+  // Scenario Presets
+  const presets = [
+    { label: 'Baseline (Calm Bull)', vix: 13.45, fii: 1842, mcc: 42.5, tda: 1.42 },
+    { label: 'Late-Cycle Overheat', vix: 17.80, fii: 420, mcc: -15.0, tda: 1.95 },
+    { label: 'Transitional Shock', vix: 24.50, fii: -1200, mcc: -38.0, tda: 3.20 },
+    { label: 'Panic Risk-Off', vix: 38.20, fii: -5400, mcc: -82.0, tda: 4.60 },
+    { label: 'Post-Shock Rebound', vix: 29.00, fii: 2100, mcc: -65.0, tda: 2.10 }
+  ];
+
+  const applyPreset = (preset) => {
+    setVix(preset.vix);
+    setFiiFlow(preset.fii);
+    setMcclellan(preset.mcc);
+    setTdaNorm(preset.tda);
+  };
+
   // Dynamic Bayesian Regime Calculation based on inputs
   const { probs, dominant, entropy, uncertainty, tilt, predictionSet } = useMemo(() => {
-    // Normalised scores
-    // Risk-On features: low vix (<15), high fii (>1000), positive mcclellan (>20), low tda (<2.0)
-    // Risk-Off features: high vix (>28), heavy fii selling (<-3000), negative mcclellan (<-40), high tda (>3.5)
-    // Post-Shock features: high vix falling, oversold mcclellan (<-70), positive fii rebound
-    // Late-Cycle features: moderate vix (15-22), low positive fii, declining breadth (mcclellan <0)
-    // Transitional features: volatile vix, mixed flows, elevated tda
-
     let wOn = Math.max(0.01, (35 - vix) * 1.5 + (fiiFlow / 800) + (mcclellan / 25) - (tdaNorm - 1.5) * 4);
     let wLate = Math.max(0.01, (vix > 14 && vix < 24 ? 20 : 5) - (mcclellan / 30) + 10);
     let wTrans = Math.max(0.01, (tdaNorm > 2.0 ? 18 : 6) + Math.abs(mcclellan) / 20 + 8);
@@ -65,11 +74,11 @@ export default function LiveTerminalTab() {
 
     // Tactical Kelly Tilt (bounded [-5%, +5%])
     let computedTilt = '+0.0%';
-    if (dom.id === 'risk_on') computedTilt = `+${(dom.prob * 5.0).toFixed(1)}% Beta`;
-    else if (dom.id === 'risk_off') computedTilt = `-${(dom.prob * 5.0).toFixed(1)}% Beta`;
-    else if (dom.id === 'post_shock') computedTilt = `+${(dom.prob * 3.5).toFixed(1)}% Beta`;
-    else if (dom.id === 'late_cycle') computedTilt = 'Neutral (Quality Tilt)';
-    else computedTilt = '-2.5% Cash Buffer';
+    if (dom.id === 'risk_on') computedTilt = `+${(dom.prob * 5.0).toFixed(1)}% Beta Overweight`;
+    else if (dom.id === 'risk_off') computedTilt = `-${(dom.prob * 5.0).toFixed(1)}% Beta Underweight`;
+    else if (dom.id === 'post_shock') computedTilt = `+${(dom.prob * 3.5).toFixed(1)}% Beta Opportunistic`;
+    else if (dom.id === 'late_cycle') computedTilt = 'Neutral Beta (Quality Tilt)';
+    else computedTilt = '-2.5% Beta (Cash Buffer)';
 
     const aleatoric = Math.min(92, Math.max(45, 100 - totalEntropy * 35));
     const epistemic = 100 - aleatoric;
@@ -94,50 +103,54 @@ export default function LiveTerminalTab() {
   return (
     <div className="space-y-6">
       {/* Top Banner: Market Status & Dominant Regime Callout */}
-      <div className="glass-panel p-5 rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-indigo-950/40">
+      <div className="quant-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-gradient-to-r from-white via-slate-50 to-indigo-50/40 dark:from-slate-900 dark:via-slate-900/80 dark:to-indigo-950/40 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                Active Regime State
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                ACTIVE CLASSIFIED STATE
               </span>
-              <span className="text-slate-600">•</span>
-              <span className="text-xs font-mono text-cyan-400">NIFTY 50: {INITIAL_LIVE_STATE.niftyCurrent.toLocaleString('en-IN')}</span>
-              <span className="text-xs font-mono text-emerald-400">{INITIAL_LIVE_STATE.niftyChange}</span>
+              <span className="text-slate-300 dark:text-slate-700">•</span>
+              <span className="text-xs font-mono font-medium text-indigo-600 dark:text-cyan-400">
+                NIFTY 50: {INITIAL_LIVE_STATE.niftyCurrent.toLocaleString('en-IN')}
+              </span>
+              <span className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400">
+                {INITIAL_LIVE_STATE.niftyChange}
+              </span>
             </div>
             <div className="flex items-baseline gap-3">
-              <h2 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
+              <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
                 <span style={{ color: REGIMES.find(r => r.id === dominant.id)?.color }}>
                   {dominant.name}
                 </span>
-                <span className="text-base font-normal font-mono text-slate-400">
-                  ({(dominant.prob * 100).toFixed(1)}% Probability)
+                <span className="text-base font-normal font-mono text-slate-500 dark:text-slate-400">
+                  ({(dominant.prob * 100).toFixed(1)}% Conviction)
                 </span>
               </h2>
             </div>
-            <p className="text-xs text-slate-300 mt-1 max-w-2xl">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 max-w-2xl leading-relaxed">
               {REGIMES.find(r => r.id === dominant.id)?.description}
             </p>
           </div>
 
           {/* Allocation Tilt & SEBI Risk Scale */}
           <div className="flex flex-wrap items-center gap-3">
-            <div className="px-4 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-              <div className="text-[10px] uppercase font-mono tracking-wider text-indigo-300">
+            <div className="px-4 py-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800">
+              <div className="text-[10px] uppercase font-mono tracking-wider text-indigo-700 dark:text-indigo-300 font-semibold">
                 Tactical Overlay Tilt
               </div>
-              <div className="text-sm font-bold font-mono text-indigo-400">
+              <div className="text-sm font-bold font-mono text-indigo-900 dark:text-indigo-200">
                 {tilt}
               </div>
             </div>
 
-            <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10">
-              <div className="text-[10px] uppercase font-mono tracking-wider text-slate-400">
-                Conformal Set Ĉ(X)
+            <div className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-[10px] uppercase font-mono tracking-wider text-slate-500 dark:text-slate-400 font-semibold">
+                90% Conformal Set Ĉ(X)
               </div>
-              <div className="text-sm font-bold font-mono text-white flex items-center gap-1">
+              <div className="text-sm font-bold font-mono text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5">
                 {predictionSet.map((item, idx) => (
-                  <span key={idx} className="px-1.5 py-0.5 rounded bg-white/10 text-xs">
+                  <span key={idx} className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs border border-slate-200 dark:border-slate-700">
                     {item}
                   </span>
                 ))}
@@ -150,15 +163,15 @@ export default function LiveTerminalTab() {
       {/* Main Grid: Probabilities vs Telemetry */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Probability Simplex (7 cols) */}
-        <div className="lg:col-span-7 glass-panel p-5 rounded-2xl border border-white/5 bg-slate-900/60 space-y-5">
+        <div className="lg:col-span-7 quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Layers className="w-4 h-4 text-indigo-400" />
-              <h3 className="text-sm font-semibold text-white">
-                5-State Bayesian Probability Simplex
+              <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                5-State Bayesian Posterior Distribution
               </h3>
             </div>
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-slate-500 dark:text-slate-400 font-medium">
               Shannon Entropy: {entropy} nats
             </span>
           </div>
@@ -178,29 +191,28 @@ export default function LiveTerminalTab() {
                         className="w-2.5 h-2.5 rounded-full"
                         style={{ backgroundColor: regime.color }}
                       ></span>
-                      <span className={`font-medium ${isDom ? 'text-white font-bold' : 'text-slate-300'}`}>
+                      <span className={`font-semibold ${isDom ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>
                         {regime.name}
                       </span>
-                      <span className="text-[10px] font-mono text-slate-500">
+                      <span className="text-[10px] font-mono text-slate-400">
                         ({regime.code})
                       </span>
                     </div>
                     <div className="flex items-center gap-2 font-mono">
-                      <span className="text-slate-400 text-[11px]">{regime.allocationTilt}</span>
-                      <span className={`font-bold tabular-nums ${isDom ? 'text-white' : 'text-slate-300'}`}>
+                      <span className="text-slate-500 dark:text-slate-400 text-[11px] hidden sm:inline">{regime.allocationTilt}</span>
+                      <span className={`font-bold tabular-nums ${isDom ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>
                         {pct}%
                       </span>
                     </div>
                   </div>
 
                   {/* Progress Bar */}
-                  <div className="w-full h-2.5 rounded-full bg-slate-800/80 overflow-hidden relative">
+                  <div className="w-full h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
                     <div
                       className="h-full rounded-full transition-all duration-300 ease-out"
                       style={{
-                        width: `${Math.max(1, p * 100)}%`,
-                        backgroundColor: regime.color,
-                        boxShadow: isDom ? `0 0 12px ${regime.color}` : 'none'
+                        width: `${Math.max(1.5, p * 100)}%`,
+                        backgroundColor: regime.color
                       }}
                     ></div>
                   </div>
@@ -210,26 +222,26 @@ export default function LiveTerminalTab() {
           </div>
 
           {/* Uncertainty Budget: Aleatoric vs Epistemic */}
-          <div className="pt-4 border-t border-white/5">
-            <div className="flex items-center justify-between text-xs mb-2">
-              <span className="text-slate-300 font-medium">Uncertainty Budget Decomposition</span>
-              <span className="text-slate-400 font-mono text-[11px]">
-                Aleatoric: {uncertainty.aleatoric}% | Epistemic: {uncertainty.epistemic}%
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between text-xs mb-2 font-medium">
+              <span className="text-slate-700 dark:text-slate-300 font-semibold">Uncertainty Budget Decomposition</span>
+              <span className="text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+                Aleatoric: <strong className="text-slate-800 dark:text-slate-200">{uncertainty.aleatoric}%</strong> | Epistemic: <strong className="text-slate-800 dark:text-slate-200">{uncertainty.epistemic}%</strong>
               </span>
             </div>
-            <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden flex">
+            <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden flex">
               <div
-                className="bg-indigo-500 h-full transition-all duration-300"
+                className="bg-indigo-600 dark:bg-indigo-500 h-full transition-all duration-300"
                 style={{ width: `${uncertainty.aleatoric}%` }}
                 title="Aleatoric (Market stochasticity)"
               ></div>
               <div
-                className="bg-cyan-400 h-full transition-all duration-300"
+                className="bg-cyan-500 dark:bg-cyan-400 h-full transition-all duration-300"
                 style={{ width: `${uncertainty.epistemic}%` }}
                 title="Epistemic (Model ignorance)"
               ></div>
             </div>
-            <p className="text-[11px] text-slate-400 mt-2 font-mono">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-mono leading-normal">
               {INITIAL_LIVE_STATE.uncertaintyBreakdown.interpretation}
             </p>
           </div>
@@ -237,30 +249,45 @@ export default function LiveTerminalTab() {
 
         {/* Right Column: Live Telemetry & Interactive Feature Perturbations (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
-          {/* Interactive Feature Sliders */}
-          <div className="glass-panel p-5 rounded-2xl border border-white/5 bg-slate-900/60 space-y-4">
+          {/* Interactive Feature Sliders & Presets */}
+          <div className="quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-sm font-semibold text-white">Feature Perturbation Sandbox</h3>
+                <Sliders className="w-4 h-4 text-indigo-600 dark:text-cyan-400" />
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white">Feature Sandbox & Stress Test</h3>
               </div>
               <button
                 onClick={handleReset}
-                className="text-[11px] font-mono text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                className="text-[11px] font-mono text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white flex items-center gap-1 transition-colors"
                 title="Reset to current market telemetry"
               >
                 <RefreshCw className="w-3 h-3" /> Reset
               </button>
             </div>
-            <p className="text-xs text-slate-400">
-              Modify market signals in real time to observe the Bayesian ensemble's posterior response:
-            </p>
+
+            {/* Quick Scenario Presets */}
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 font-semibold">
+                Quick Market Presets
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {presets.map((pr, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => applyPreset(pr)}
+                    className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-50 hover:text-indigo-700 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors border border-slate-200 dark:border-slate-700"
+                  >
+                    {pr.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Slider 1: India VIX */}
-            <div className="space-y-1">
+            <div className="space-y-1 pt-1">
               <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">India VIX</span>
-                <span className="text-cyan-400 font-bold">{vix.toFixed(2)}</span>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">India VIX</span>
+                <span className="text-indigo-600 dark:text-cyan-400 font-bold">{vix.toFixed(2)}</span>
               </div>
               <input
                 type="range"
@@ -269,9 +296,9 @@ export default function LiveTerminalTab() {
                 step="0.5"
                 value={vix}
                 onChange={(e) => setVix(parseFloat(e.target.value))}
-                className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+                className="w-full accent-indigo-600 dark:accent-cyan-400 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
                 <span>9.0 (Complacent)</span>
                 <span>28.0 (Crisis Barrier)</span>
                 <span>65.0 (Extreme)</span>
@@ -281,8 +308,8 @@ export default function LiveTerminalTab() {
             {/* Slider 2: FII Net Flow */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">FII Net Flow (₹ Cr)</span>
-                <span className={`font-bold ${fiiFlow >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">FII Net Flow (₹ Cr)</span>
+                <span className={`font-bold ${fiiFlow >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                   {fiiFlow >= 0 ? `+₹${fiiFlow}` : `-₹${Math.abs(fiiFlow)}`}
                 </span>
               </div>
@@ -293,9 +320,9 @@ export default function LiveTerminalTab() {
                 step="250"
                 value={fiiFlow}
                 onChange={(e) => setFiiFlow(parseFloat(e.target.value))}
-                className="w-full accent-indigo-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+                className="w-full accent-indigo-600 dark:accent-indigo-400 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
                 <span>-₹8,000 Cr</span>
                 <span>0</span>
                 <span>+₹5,000 Cr</span>
@@ -305,8 +332,8 @@ export default function LiveTerminalTab() {
             {/* Slider 3: McClellan Oscillator */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">McClellan Market Breadth</span>
-                <span className={`font-bold ${mcclellan >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">McClellan Market Breadth</span>
+                <span className={`font-bold ${mcclellan >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                   {mcclellan > 0 ? `+${mcclellan.toFixed(1)}` : mcclellan.toFixed(1)}
                 </span>
               </div>
@@ -317,9 +344,9 @@ export default function LiveTerminalTab() {
                 step="2"
                 value={mcclellan}
                 onChange={(e) => setMcclellan(parseFloat(e.target.value))}
-                className="w-full accent-emerald-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+                className="w-full accent-emerald-600 dark:accent-emerald-400 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
                 <span>-100 (Oversold)</span>
                 <span>0 (Neutral)</span>
                 <span>+100 (Overbought)</span>
@@ -329,8 +356,8 @@ export default function LiveTerminalTab() {
             {/* Slider 4: TDA Persistence Norm */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-300">TDA Persistence Landscape L2 Norm</span>
-                <span className="text-amber-400 font-bold">{tdaNorm.toFixed(2)}</span>
+                <span className="text-slate-600 dark:text-slate-300 font-medium">TDA Persistence Landscape L2 Norm</span>
+                <span className="text-amber-600 dark:text-amber-400 font-bold">{tdaNorm.toFixed(2)}</span>
               </div>
               <input
                 type="range"
@@ -339,9 +366,9 @@ export default function LiveTerminalTab() {
                 step="0.1"
                 value={tdaNorm}
                 onChange={(e) => setTdaNorm(parseFloat(e.target.value))}
-                className="w-full accent-amber-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+                className="w-full accent-amber-600 dark:accent-amber-400 cursor-pointer h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-slate-500 font-mono">
+              <div className="flex justify-between text-[10px] text-slate-400 font-mono">
                 <span>0.5 (Regular)</span>
                 <span>3.0 (Early Warning)</span>
                 <span>6.0 (Crash Geometry)</span>
@@ -350,22 +377,22 @@ export default function LiveTerminalTab() {
           </div>
 
           {/* Quick Engine Telemetry Specs */}
-          <div className="glass-panel p-4 rounded-xl border border-white/5 bg-slate-900/60 grid grid-cols-2 gap-3 text-xs font-mono">
+          <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm grid grid-cols-2 gap-3 text-xs font-mono">
             <div>
-              <div className="text-slate-500 text-[10px]">PARKINSON VOL</div>
-              <div className="text-white font-semibold">{INITIAL_LIVE_STATE.parkinsonVol}</div>
+              <div className="text-slate-400 dark:text-slate-500 text-[10px]">PARKINSON VOL</div>
+              <div className="text-slate-900 dark:text-white font-bold">{INITIAL_LIVE_STATE.parkinsonVol}</div>
             </div>
             <div>
-              <div className="text-slate-500 text-[10px]">PSI POPULATION DRIFT</div>
-              <div className="text-emerald-400 font-semibold">{INITIAL_LIVE_STATE.psiDrift}</div>
+              <div className="text-slate-400 dark:text-slate-500 text-[10px]">PSI DRIFT MONITOR</div>
+              <div className="text-emerald-600 dark:text-emerald-400 font-bold">{INITIAL_LIVE_STATE.psiDrift}</div>
             </div>
             <div>
-              <div className="text-slate-500 text-[10px]">DII INSTITUTIONAL NET</div>
-              <div className="text-white font-semibold">{INITIAL_LIVE_STATE.diiNetFlow}</div>
+              <div className="text-slate-400 dark:text-slate-500 text-[10px]">DII INSTITUTIONAL NET</div>
+              <div className="text-slate-900 dark:text-white font-bold">{INITIAL_LIVE_STATE.diiNetFlow}</div>
             </div>
             <div>
-              <div className="text-slate-500 text-[10px]">RECOMMENDED RISK-O-METER</div>
-              <div className="text-amber-400 font-semibold">{REGIMES.find(r => r.id === dominant.id)?.riskOMeter}</div>
+              <div className="text-slate-400 dark:text-slate-500 text-[10px]">SEBI RISK-O-METER</div>
+              <div className="text-amber-600 dark:text-amber-400 font-bold">{REGIMES.find(r => r.id === dominant.id)?.riskOMeter}</div>
             </div>
           </div>
         </div>

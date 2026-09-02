@@ -10,26 +10,26 @@ export default function PipelineArchitectureTab() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="glass-panel p-5 rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-cyan-950/30">
+      <div className="quant-card p-6 rounded-2xl border border-cyan-200 dark:border-cyan-900/50 bg-gradient-to-r from-white via-cyan-50/30 to-cyan-100/20 dark:from-slate-900 dark:via-slate-900/60 dark:to-cyan-950/30 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-cyan-700 dark:text-cyan-400 mb-1 font-semibold">
               <Cpu className="w-3.5 h-3.5" />
               <span>Full End-to-End Execution Graph</span>
               <span>•</span>
               <span>Total Runtime: ~13.8 Seconds</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
               12-Stage Mathematical Pipeline Architecture
             </h2>
-            <p className="text-xs text-slate-300 mt-1 max-w-2xl">
-              Zero-loophole architecture orchestrated sequentially from Student-t synthetic market calibration to Bayesian variational inference, topological data analysis, foundation embeddings, and conformal prediction guarantees.
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
+              Rigorous sequential workflow from Student-t synthetic market calibration to Bayesian variational inference, topological data analysis, foundation embeddings, and conformal prediction guarantees.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-mono text-xs font-semibold">
-              Pure Python & R Reconciliation
+            <span className="px-3.5 py-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800 font-mono text-xs font-bold">
+              Python 3.10+ & R 4.3+ Reconciled
             </span>
           </div>
         </div>
@@ -45,36 +45,38 @@ export default function PipelineArchitectureTab() {
               onClick={() => setSelectedStageId(stage.id)}
               className={`p-3.5 rounded-xl text-left transition-all border ${
                 isSelected
-                  ? 'bg-indigo-600/20 border-indigo-500/40 shadow-sm shadow-indigo-500/10'
-                  : 'bg-slate-900/60 border-white/5 hover:border-white/10 hover:bg-slate-900/90'
+                  ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-300 dark:border-indigo-700 shadow-sm'
+                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-850'
               }`}
             >
               <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-mono text-slate-500 text-[10px]">STAGE {stage.id}</span>
-                <span className="font-mono text-indigo-400 text-[10px] flex items-center gap-1">
+                <span className="font-mono text-slate-400 font-semibold text-[10px]">STAGE {stage.id}</span>
+                <span className="font-mono text-indigo-600 dark:text-indigo-400 text-[10px] flex items-center gap-1 font-semibold">
                   <Clock className="w-2.5 h-2.5" /> {stage.time}
                 </span>
               </div>
-              <div className="text-xs font-bold text-white line-clamp-1">{stage.title}</div>
+              <div className={`text-xs font-bold line-clamp-1 ${isSelected ? 'text-indigo-900 dark:text-white' : 'text-slate-800 dark:text-slate-200'}`}>
+                {stage.title}
+              </div>
             </button>
           );
         })}
       </div>
 
       {/* Selected Stage Deep-Dive Card */}
-      <div className="glass-panel p-6 rounded-2xl border border-white/10 bg-slate-900/80 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+      <div className="quant-card p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
           <div>
-            <div className="text-xs font-mono text-cyan-400">
+            <div className="text-xs font-mono text-indigo-600 dark:text-cyan-400 font-semibold">
               STAGE {selectedStage.id} OF 12
             </div>
-            <h3 className="text-xl font-bold text-white mt-0.5">{selectedStage.title}</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">{selectedStage.title}</h3>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="px-2.5 py-1 rounded-md bg-white/5 text-slate-300">
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
               Execution: {selectedStage.time}
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 font-semibold">
               Status: Verified
             </span>
           </div>
@@ -82,20 +84,20 @@ export default function PipelineArchitectureTab() {
 
         {/* Mathematical Formulation */}
         <div className="space-y-2">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider font-mono">
-            Mathematical Objective & Formula
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
+            Mathematical Objective & Formal Specification
           </span>
-          <div className="p-3 rounded-xl bg-slate-950 border border-white/5 font-mono text-xs text-indigo-300 overflow-x-auto">
+          <div className="p-3.5 rounded-xl bg-slate-900 text-indigo-300 dark:bg-slate-950 dark:text-indigo-300 border border-slate-800 font-mono text-xs overflow-x-auto shadow-inner">
             <code>{selectedStage.formula}</code>
           </div>
         </div>
 
         {/* Description & Engineering Details */}
         <div className="space-y-2">
-          <span className="text-xs font-medium text-slate-400 uppercase tracking-wider font-mono">
-            Algorithmic Specification & Fallbacks
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
+            Algorithmic Details & Implementation Notes
           </span>
-          <p className="text-xs text-slate-300 font-mono leading-relaxed bg-slate-950/40 p-4 rounded-xl border border-white/5">
+          <p className="text-xs text-slate-700 dark:text-slate-300 font-mono leading-relaxed bg-slate-50 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
             {selectedStage.desc}
           </p>
         </div>
@@ -105,17 +107,17 @@ export default function PipelineArchitectureTab() {
           <button
             onClick={() => setSelectedStageId((prev) => Math.max(1, prev - 1))}
             disabled={selectedStageId === 1}
-            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed"
+            className="px-3.5 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-700 transition-colors"
           >
             ← Previous Stage
           </button>
-          <span className="text-xs font-mono text-slate-500">
+          <span className="text-xs font-mono text-slate-400">
             Stage {selectedStageId} of 12
           </span>
           <button
             onClick={() => setSelectedStageId((prev) => Math.min(12, prev + 1))}
             disabled={selectedStageId === 12}
-            className="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed"
+            className="px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm font-semibold"
           >
             Next Stage →
           </button>

@@ -43,13 +43,13 @@ export default function CrisisReplayTab() {
             <button
               key={c.id}
               onClick={() => handleSelectCrisis(c.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 border ${
                 isSelected
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm shadow-rose-500/10'
-                  : 'bg-slate-900/60 text-slate-400 border border-white/5 hover:border-white/10 hover:text-slate-200'
+                  ? 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-700 shadow-sm'
+                  : 'bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
-              <AlertOctagon className="w-3.5 h-3.5 text-rose-400" />
+              <AlertOctagon className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
               <span>{c.name}</span>
             </button>
           );
@@ -57,46 +57,46 @@ export default function CrisisReplayTab() {
       </div>
 
       {/* Scenario Hero Card */}
-      <div className="glass-panel p-5 rounded-2xl border border-rose-500/20 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-rose-950/30">
+      <div className="quant-card p-6 rounded-2xl border border-rose-200 dark:border-rose-900/50 bg-gradient-to-r from-white via-rose-50/30 to-rose-100/20 dark:from-slate-900 dark:via-slate-900/60 dark:to-rose-950/30 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-rose-400 mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono text-rose-700 dark:text-rose-400 mb-1 font-semibold">
               <span>{crisis.period}</span>
               <span>•</span>
               <span>BOCPD Changepoint: {crisis.bocpdConfidence}</span>
               <span>•</span>
               <span>Early Warning Lead: {crisis.leadDays}</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">{crisis.name}</h2>
-            <p className="text-xs text-slate-300 mt-1">{crisis.headline}</p>
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{crisis.name}</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{crisis.headline}</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="px-3.5 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-right font-mono text-xs">
-              <div className="text-[10px] text-slate-400">PEAK INDIA VIX</div>
-              <div className="text-rose-400 font-bold text-sm">{crisis.keyFeatures.vix}</div>
+            <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-right font-mono text-xs shadow-sm">
+              <div className="text-[10px] text-slate-400 font-semibold">PEAK INDIA VIX</div>
+              <div className="text-rose-600 dark:text-rose-400 font-bold text-sm">{crisis.keyFeatures.vix}</div>
             </div>
-            <div className="px-3.5 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-right font-mono text-xs">
-              <div className="text-[10px] text-slate-400">MAX DRAWDOWN</div>
-              <div className="text-rose-400 font-bold text-sm">{crisis.keyFeatures.drawdown}</div>
+            <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-right font-mono text-xs shadow-sm">
+              <div className="text-[10px] text-slate-400 font-semibold">MAX DRAWDOWN</div>
+              <div className="text-rose-600 dark:text-rose-400 font-bold text-sm">{crisis.keyFeatures.drawdown}</div>
             </div>
-            <div className="px-3.5 py-2 rounded-xl bg-slate-900/80 border border-white/10 text-right font-mono text-xs">
-              <div className="text-[10px] text-slate-400">TDA L2 NORM</div>
-              <div className="text-amber-400 font-bold text-sm">{crisis.keyFeatures.tdaNorm}</div>
+            <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-right font-mono text-xs shadow-sm">
+              <div className="text-[10px] text-slate-400 font-semibold">TDA L2 NORM</div>
+              <div className="text-amber-600 dark:text-amber-400 font-bold text-sm">{crisis.keyFeatures.tdaNorm}</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Interactive Playback Controller */}
-      <div className="glass-panel p-4 rounded-xl border border-white/5 bg-slate-900/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium transition-all shadow-md shadow-indigo-600/20"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-all shadow-sm"
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            <span>{isPlaying ? 'Pause Replay' : 'Play Timeline'}</span>
+            <span>{isPlaying ? 'Pause Timeline' : 'Play Timeline'}</span>
           </button>
 
           <button
@@ -104,19 +104,19 @@ export default function CrisisReplayTab() {
               setCurrentStepIdx(0);
               setIsPlaying(false);
             }}
-            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 text-xs transition-colors"
+            className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs transition-colors border border-slate-200 dark:border-slate-700"
             title="Reset replay to beginning"
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
 
-          <span className="text-xs font-mono text-slate-400">
+          <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
             Step {currentStepIdx + 1} of {crisis.timeline.length}
           </span>
         </div>
 
         {/* Scrubber step buttons */}
-        <div className="flex items-center gap-1 overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1.5 overflow-x-auto max-w-full">
           {crisis.timeline.map((step, idx) => (
             <button
               key={idx}
@@ -124,10 +124,10 @@ export default function CrisisReplayTab() {
                 setCurrentStepIdx(idx);
                 setIsPlaying(false);
               }}
-              className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+              className={`px-3 py-1 rounded-md text-[11px] font-mono transition-all border ${
                 currentStepIdx === idx
-                  ? 'bg-rose-500 text-white font-bold'
-                  : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                  ? 'bg-rose-600 text-white font-bold border-rose-600 shadow-sm'
+                  : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               {step.date.slice(5)}
@@ -139,56 +139,56 @@ export default function CrisisReplayTab() {
       {/* Step Replay Inspection Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left (7 cols): Current Date Snapshot & Action */}
-        <div className="lg:col-span-7 glass-panel p-5 rounded-2xl border border-white/5 bg-slate-900/60 space-y-4">
-          <div className="flex items-center justify-between border-b border-white/5 pb-3">
+        <div className="lg:col-span-7 quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <div>
-              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 font-semibold">
                 REPLAY DATE SNAPSHOT
               </span>
-              <h3 className="text-xl font-bold font-mono text-white flex items-center gap-2">
+              <h3 className="text-xl font-bold font-mono text-slate-900 dark:text-white flex items-center gap-2">
                 {currentStep.date}
-                <span className="text-xs px-2 py-0.5 rounded bg-white/10 text-slate-300 font-normal">
+                <span className="text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-normal border border-slate-200 dark:border-slate-700">
                   NIFTY: {currentStep.nifty.toLocaleString('en-IN')}
                 </span>
               </h3>
             </div>
             <div className="text-right">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500">
+              <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 font-semibold">
                 RISK-OFF POSTERIOR
               </span>
-              <div className="text-lg font-bold font-mono text-rose-400">
+              <div className="text-xl font-bold font-mono text-rose-600 dark:text-rose-400">
                 {(currentStep.pRiskOff * 100).toFixed(1)}%
               </div>
             </div>
           </div>
 
           {/* Engine Action Card */}
-          <div className="p-4 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs">
-            <div className="flex items-center gap-1.5 text-indigo-300 font-semibold mb-1">
+          <div className="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 text-xs">
+            <div className="flex items-center gap-1.5 text-indigo-700 dark:text-indigo-300 font-bold mb-1">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Bayesian Engine Autonomous Response</span>
             </div>
-            <p className="text-slate-200 font-mono text-[13px] leading-relaxed">
+            <p className="text-slate-800 dark:text-slate-200 font-mono text-[13px] leading-relaxed">
               "{currentStep.action}"
             </p>
           </div>
 
           {/* Probability Breakdown for this date */}
           <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-semibold text-slate-300">Regime Probabilities at {currentStep.date}:</h4>
+            <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300">Regime Probabilities at {currentStep.date}:</h4>
             {[
-              { name: 'Risk-On', p: currentStep.pRiskOn, color: '#10b981' },
-              { name: 'Late-Cycle', p: currentStep.pLateCycle, color: '#f59e0b' },
-              { name: 'Transitional', p: currentStep.pTransitional, color: '#818cf8' },
-              { name: 'Post-Shock', p: currentStep.pPostShock, color: '#06b6d4' },
-              { name: 'Risk-Off', p: currentStep.pRiskOff, color: '#f43f5e' }
+              { name: 'Risk-On', p: currentStep.pRiskOn, color: '#059669' },
+              { name: 'Late-Cycle', p: currentStep.pLateCycle, color: '#d97706' },
+              { name: 'Transitional', p: currentStep.pTransitional, color: '#4f46e5' },
+              { name: 'Post-Shock', p: currentStep.pPostShock, color: '#0891b2' },
+              { name: 'Risk-Off', p: currentStep.pRiskOff, color: '#e11d48' }
             ].map((reg, idx) => (
               <div key={idx} className="space-y-1">
                 <div className="flex justify-between text-xs font-mono">
-                  <span className="text-slate-300">{reg.name}</span>
-                  <span className="text-white font-bold">{(reg.p * 100).toFixed(1)}%</span>
+                  <span className="text-slate-600 dark:text-slate-300 font-medium">{reg.name}</span>
+                  <span className="text-slate-900 dark:text-white font-bold">{(reg.p * 100).toFixed(1)}%</span>
                 </div>
-                <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-300"
                     style={{ width: `${reg.p * 100}%`, backgroundColor: reg.color }}
@@ -200,13 +200,13 @@ export default function CrisisReplayTab() {
         </div>
 
         {/* Right (5 cols): Timeline Progression Summary */}
-        <div className="lg:col-span-5 glass-panel p-5 rounded-2xl border border-white/5 bg-slate-900/60 space-y-4">
-          <h3 className="text-sm font-semibold text-white flex items-center gap-2">
-            <TrendingDown className="w-4 h-4 text-rose-400" />
+        <div className="lg:col-span-5 quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <TrendingDown className="w-4 h-4 text-rose-600 dark:text-rose-400" />
             <span>Crisis Sequence Trace</span>
           </h3>
 
-          <div className="space-y-3 relative before:absolute before:inset-0 before:left-3 before:w-0.5 before:bg-slate-800">
+          <div className="space-y-2.5 relative before:absolute before:inset-0 before:left-3 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
             {crisis.timeline.map((step, idx) => {
               const isActive = idx === currentStepIdx;
               const isPast = idx < currentStepIdx;
@@ -218,33 +218,33 @@ export default function CrisisReplayTab() {
                     setCurrentStepIdx(idx);
                     setIsPlaying(false);
                   }}
-                  className={`relative flex items-start gap-3 p-2.5 rounded-xl cursor-pointer transition-all ${
+                  className={`relative flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all border ${
                     isActive
-                      ? 'bg-white/10 border border-white/20'
-                      : 'hover:bg-white/5'
+                      ? 'bg-rose-50/80 dark:bg-slate-800 border-rose-200 dark:border-slate-700 shadow-sm'
+                      : 'bg-white dark:bg-slate-900 border-transparent hover:border-slate-200 dark:hover:border-slate-800'
                   }`}
                 >
                   <div
                     className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-mono font-bold shrink-0 z-10 transition-colors ${
                       isActive
-                        ? 'bg-rose-500 text-white shadow-md shadow-rose-500/30'
+                        ? 'bg-rose-600 text-white shadow-sm'
                         : isPast
-                        ? 'bg-slate-700 text-slate-300'
-                        : 'bg-slate-800 text-slate-500'
+                        ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                     }`}
                   >
                     {idx + 1}
                   </div>
                   <div className="text-xs">
                     <div className="flex items-center gap-2 font-mono">
-                      <span className={isActive ? 'text-white font-bold' : 'text-slate-300'}>
+                      <span className={isActive ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400'}>
                         {step.date}
                       </span>
-                      <span className="text-[11px] text-slate-500">
+                      <span className="text-[11px] text-slate-400">
                         Nifty: {step.nifty}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-2">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2 leading-normal">
                       {step.action}
                     </p>
                   </div>
