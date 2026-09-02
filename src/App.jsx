@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header.jsx';
 import MetricCards from './components/MetricCards.jsx';
 import LiveTerminalTab from './components/LiveTerminalTab.jsx';
@@ -10,14 +10,37 @@ import PipelineArchitectureTab from './components/PipelineArchitectureTab.jsx';
 import { ShieldCheck, Github, ExternalLink } from './components/Icons.jsx';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('terminal');
+  const getInitialTab = () => {
+    const hash = window.location.hash.replace('#', '');
+    const validTabs = ['terminal', 'crisis', 'calibration', 'backtest', 'artefact', 'architecture'];
+    return validTabs.includes(hash) ? hash : 'terminal';
+  };
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    window.location.hash = tabId;
+  };
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      const validTabs = ['terminal', 'crisis', 'calibration', 'backtest', 'artefact', 'architecture'];
+      if (validTabs.includes(hash)) {
+        setActiveTab(hash);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
       {/* Top Sticky Header */}
       <Header
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
       />
 
       {/* Main Container */}

@@ -1,4 +1,4 @@
-/* Bayesian Regime Detection Engine - Institutional Quantitative Terminal CSS */
+/* Bayesian Regime Detection Engine - Institutional Quantitative Terminal CSS (Pure Light Theme) */
 :root {
   --bg-base: #f8fafc;
   --bg-surface: #ffffff;
@@ -14,40 +14,20 @@
   
   /* Regime Colors (High contrast on light backgrounds) */
   --regime-risk-on: #059669;
-  --regime-risk-on-glow: rgba(16, 185, 129, 0.15);
+  --regime-risk-on-glow: rgba(16, 185, 129, 0.12);
   --regime-late-cycle: #d97706;
-  --regime-late-cycle-glow: rgba(245, 158, 11, 0.15);
+  --regime-late-cycle-glow: rgba(245, 158, 11, 0.12);
   --regime-transitional: #4f46e5;
-  --regime-transitional-glow: rgba(99, 102, 241, 0.15);
+  --regime-transitional-glow: rgba(99, 102, 241, 0.12);
   --regime-post-shock: #0891b2;
-  --regime-post-shock-glow: rgba(6, 182, 212, 0.15);
+  --regime-post-shock-glow: rgba(6, 182, 212, 0.12);
   --regime-risk-off: #e11d48;
-  --regime-risk-off-glow: rgba(244, 63, 94, 0.15);
+  --regime-risk-off-glow: rgba(244, 63, 94, 0.12);
 
   --accent-primary: #4f46e5;
   --accent-cyan: #0891b2;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-}
-
-.dark {
-  --bg-base: #070a13;
-  --bg-surface: #0b0f19;
-  --bg-card: rgba(17, 24, 39, 0.85);
-  --bg-card-hover: rgba(31, 41, 55, 0.9);
-  --bg-card-active: rgba(30, 41, 59, 0.95);
-  --border-subtle: rgba(255, 255, 255, 0.1);
-  --border-active: rgba(99, 102, 241, 0.5);
-  
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-
-  --regime-risk-on: #10b981;
-  --regime-late-cycle: #f59e0b;
-  --regime-transitional: #818cf8;
-  --regime-post-shock: #06b6d4;
-  --regime-risk-off: #f43f5e;
 }
 
 * {
@@ -64,7 +44,6 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Tabular numbers for financial metrics */
@@ -77,19 +56,14 @@ body {
 .quant-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .quant-card:hover {
   border-color: #cbd5e1;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-}
-
-.dark .quant-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
 }
 
 /* Custom Scrollbar */
@@ -100,10 +74,6 @@ body {
 
 ::-webkit-scrollbar-track {
   background: rgba(241, 245, 249, 0.8);
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: rgba(11, 15, 25, 0.8);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -163,34 +133,4 @@ body {
   background: rgba(244, 63, 94, 0.1);
   color: #e11d48;
   border: 1px solid rgba(244, 63, 94, 0.25);
-}
-
-.dark .badge-risk-on {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border-color: rgba(16, 185, 129, 0.3);
-}
-
-.dark .badge-late-cycle {
-  background: rgba(245, 158, 11, 0.15);
-  color: #fbbf24;
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-.dark .badge-transitional {
-  background: rgba(129, 140, 248, 0.15);
-  color: #a5b4fc;
-  border-color: rgba(129, 140, 248, 0.3);
-}
-
-.dark .badge-post-shock {
-  background: rgba(6, 182, 212, 0.15);
-  color: #22d3ee;
-  border-color: rgba(6, 182, 212, 0.3);
-}
-
-.dark .badge-risk-off {
-  background: rgba(244, 63, 94, 0.15);
-  color: #fb7185;
-  border-color: rgba(244, 63, 94, 0.3);
 }
