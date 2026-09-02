@@ -6,7 +6,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
 [![R 4.3+](https://img.shields.io/badge/R-4.3+-blue.svg)](https://www.r-project.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Last Updated](https://img.shields.io/badge/last%20updated-August%202026-brightgreen.svg)]()
+[![Version](https://img.shields.io/badge/version-1.5.0-orange.svg)]()
+[![Last Updated](https://img.shields.io/badge/last%20updated-September%202026-brightgreen.svg)]()
 
 ---
 
