@@ -5,7 +5,7 @@ import { INITIAL_LIVE_STATE } from '../engine/data';
 export default function ICArtefactTab() {
   const [copied, setCopied] = useState(false);
 
-  // Generate the live institutional JSON output contract
+  // Generate the research-oriented JSON output contract
   const contractJson = {
     schema_version: '2.0.0',
     timestamp_utc: '2026-09-02T11:25:00Z',
@@ -44,8 +44,7 @@ export default function ICArtefactTab() {
       equity_beta_tilt: INITIAL_LIVE_STATE.tacticalOverlay.equityBetaTilt,
       portfolio_allocation: INITIAL_LIVE_STATE.tacticalOverlay.recommendedAllocation,
       half_kelly_fraction: 0.50,
-      risk_o_meter: 'Moderate to High',
-      sebi_stress_tested: true
+      risk_o_meter: 'Moderate to High'
     },
     regulatory_lineage: {
       data_drift_psi: 0.042,
@@ -90,7 +89,7 @@ export default function ICArtefactTab() {
               Investment Committee (IC) Governance Artefact
             </h2>
             <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
-              Standardized JSON schema delivering model lineage, MCMC convergence diagnostics, conformal prediction guarantees, and SEBI Risk-O-Meter alignment scale for institutional asset allocation auditability.
+              Standardized JSON schema delivering model lineage, MCMC convergence diagnostics, conformal prediction guarantees, and SEBI Risk-O-Meter alignment scale for systematic asset allocation auditability.
             </p>
           </div>
 

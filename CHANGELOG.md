@@ -34,6 +34,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.4.1] — 2026-08-31
+
+### Fixed
+- Minor typo corrections in documentation
+
+---
+
 ## [1.4.0] — 2026-08-30
 
 ### Added
@@ -84,7 +91,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.0.0] — 2026-08-20
 
 ### Added
-- `main.py` — pure self-contained 12-stage Bayesian Regime Detection Engine
+- `main.py` — pure self-contained 14-stage Bayesian Regime Detection Engine
   - Zero external dependency fallbacks; all algorithms implemented from scratch
   - Baum-Welch HMM (custom implementation)
   - Variational Bayes HMM
@@ -127,8 +134,4 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ---
 
 *Aaryan Dwivedi*
-
-## [1.4.1] - 2026-08-31
-### Fixed
-- Minor typo corrections in documentation
 

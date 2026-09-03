@@ -7,14 +7,14 @@
 [![R 4.3+](https://img.shields.io/badge/R-4.3+-blue.svg)](https://www.r-project.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.5.0-indigo.svg)]()
-[![Status](https://img.shields.io/badge/status-production--ready-emerald.svg)]()
+[![Status](https://img.shields.io/badge/status-research--complete-emerald.svg)]()
 [![Last Updated](https://img.shields.io/badge/last%20updated-September%202026-brightgreen.svg)]()
 
 ---
 
 ## Overview
 
-A personal quantitative research project developing an institutional-grade **Bayesian Regime Detection Engine** for the Indian equity market (NIFTY 50). The engine classifies market dynamics into five discrete states (**Risk-On**, **Late-Cycle**, **Transitional**, **Post-Shock**, **Risk-Off**) with mathematically rigorous, finite-sample-calibrated uncertainty quantification.
+A personal quantitative research project developing a **Bayesian Regime Detection Engine** for the Indian equity market (NIFTY 50). The engine classifies market dynamics into five discrete states (**Risk-On**, **Late-Cycle**, **Transitional**, **Post-Shock**, **Risk-Off**) with finite-sample-calibrated uncertainty quantification.
 
 > **Direction over price. Calibrated probability over point forecast. A documented ensemble of complementary models over a single black box.**
 
@@ -22,7 +22,7 @@ A personal quantitative research project developing an institutional-grade **Bay
 
 ## Terminal Screenshots & Visual Walkthrough
 
-The engine features a high-performance web terminal built in React & Vite with zero external UI bloat, rendering full quantitative analytics, interactive sandboxes, crisis replay harnesses, and conformal prediction guarantees in an elegant, high-contrast light-themed interface.
+The engine features an interactive web terminal built in React & Vite with zero external UI bloat, rendering full quantitative analytics, interactive sandboxes, crisis replay harnesses, and conformal prediction guarantees in an elegant, high-contrast light-themed interface.
 
 ### 1. Live Terminal & Feature Perturbation Sandbox
 *Real-time 5-state Bayesian probability simplex, Shannon entropy gauge, epistemic vs. aleatoric uncertainty budget decomposition, and interactive market signal perturbation sliders.*
@@ -131,8 +131,8 @@ Using half-Kelly ($\lambda = 0.50$) bounded strictly within $\pm 5.0\%$ equity b
 2. Click **Export JSON** to download the audited contract file.
 3. Verify the model lineage weights and MCMC convergence diagnostics.
 
-### 12-Stage Pipeline
-1. Click through the 12 execution nodes across the top grid.
+### 14-Stage Pipeline
+1. Click through the 14 execution nodes across the top grid.
 2. Inspect the mathematical objective formulas, complexity metrics, and implementation notes for any stage.
 
 ---
@@ -271,12 +271,14 @@ bayesian-regime-engine/
 
 ## Key Performance Results
 
+> **Research Disclosure:** All metrics below are evaluated on **synthetic market data** calibrated to historical NIFTY 50 statistical moments (2007–2024), demonstrating algorithmic behavior under controlled historical conditions rather than live trading results.
+
 | Metric | Bayesian Regime Overlay | Buy & Hold Benchmark (NIFTY 50) | Advantage |
 |---|---|---|---|
 | **Information Ratio** | **+0.6142** | 0.00 | +0.6142 active alpha |
 | **Annualized Tracking Error** | **2.14%** | — | High tracking efficiency |
 | **Maximum Drawdown** | **-32.1%** | -54.4% | **+22.3pp risk reduction** |
-| **Deflated Sharpe Ratio (DSR)** | **0.8741** | 0.42 | Statistically significant ($p < 0.05$) |
+| **Deflated Sharpe Ratio (DSR)** | **0.8741** | 0.42 | Exceeds DSR benchmark ($> 0.50$) |
 | **Conformal Marginal Coverage** | **91.2%** | — | Target 90.0% satisfied |
 | **Expected Calibration Error (ECE)** | **0.0156** | 0.0892 | Superior calibration |
 | **Brier Score** | **0.1432** | 0.2810 | $49\%$ error reduction |

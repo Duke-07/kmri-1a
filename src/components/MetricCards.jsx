@@ -7,7 +7,7 @@ export default function MetricCards() {
     {
       title: 'Information Ratio',
       value: `+${BACKTEST_METRICS.informationRatio}`,
-      subtitle: 'Walk-Forward OOS (18 Yrs)',
+      subtitle: 'Walk-Forward OOS · Simulated (18 Yrs)',
       badge: 'Alpha Positive',
       accent: 'stat-card--emerald',
       icon: TrendingUp,

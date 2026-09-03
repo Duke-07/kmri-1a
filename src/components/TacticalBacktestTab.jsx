@@ -90,7 +90,7 @@ export default function TacticalBacktestTab() {
               <span>Cumulative Growth of ₹100 Invested (2007 – 2024)</span>
             </h3>
             <p className="text-xs text-slate-500">
-              Comparing Bayesian Regime Tactical Overlay vs Buy & Hold Benchmark (NIFTY 50 TRI)
+              Comparing Bayesian Regime Tactical Overlay vs Buy & Hold Benchmark (Simulated NIFTY 50 Parameters)
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs font-mono">

@@ -7,9 +7,9 @@
 
 | Field | Value |
 |---|---|
-| **Model Name** | Bayesian Regime Detection Engine v2.0 |
+| **Model Name** | Bayesian Regime Detection Engine v1.5.0 |
 | **Task** | 5-class market regime classification for Indian equity markets |
-| **Version** | v2.0 (August 2026) |
+| **Version** | v1.5.0 (September 2026) |
 | **Intended Use** | Tactical allocation overlays, IC reporting, Risk-O-Meter input |
 | **Out of Scope** | Price/return prediction, individual stock selection, leverage sizing |
 
@@ -90,7 +90,7 @@
   "allocation_bias": "string",
   "ensemble_weights": {"hmm": 0.0000, "rs_var": 0.0000, "bnn": 0.0000, "chronos": 0.0000, "timesfm": 0.0000},
   "dominant_model": "string",
-  "engine_version": "v2.0",
+  "engine_version": "v1.5.0",
   "author": "Aaryan Dwivedi"
 }
 ```
@@ -163,15 +163,6 @@ Starting distribution: Risk-On 50%, Late-Cycle 25%, Transitional 15%, Post-Shock
 
 **Thresholds:** PSI > 0.10: monitor | PSI > 0.25: alert + retrain
 
----
-
-## Known Limitations
-
-1. **Synthetic training data:** All results are from synthetic NSE-calibrated data. Real-data deployment requires recalibration.
-2. **Chronos/TimesFM latency:** Real foundation model inference requires GPU; mock embeddings are used in CPU environments.
-3. **PyMC sampling time:** Full NUTS (~20min on CPU for 18-year series) — use pre-fitted traces in production.
-4. **Event calendar:** Manual calendar input required for election/budget conviction adjustment.
-5. **Regime label alignment:** HMM state labels are ordered post-hoc by mean/vol; occasional numerical instability may require reordering.
 
 ---
 

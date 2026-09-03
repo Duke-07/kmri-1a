@@ -83,7 +83,7 @@ export default function ConformalCalibrationTab() {
         />
         <div className="flex justify-between text-[11px] text-slate-400 font-mono mt-1">
           <span>80% (Aggressive, Smaller Sets)</span>
-          <span>90% (Institutional Standard)</span>
+          <span>90% (Standard Target)</span>
           <span>99% (Conservative, Wider Sets)</span>
         </div>
       </div>

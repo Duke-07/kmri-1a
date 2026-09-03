@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-This report presents a production-grade **Bayesian Regime Detection Engine** designed to classify the Indian equity market into five discrete regime states — Risk-On, Late-Cycle, Transitional, Post-Shock, and Risk-Off — with calibrated, audit-defensible uncertainty. The engine replaces point forecasts with calibrated probability distributions over market direction, fulfilling the "Direction Over Price" thesis that underpins next-generation quantitative processes at Tier 1 Indian fund houses.
+This report presents a research-grade **Bayesian Regime Detection Engine** designed to classify the Indian equity market into five discrete regime states — Risk-On, Late-Cycle, Transitional, Post-Shock, and Risk-Off — with calibrated uncertainty quantification. The engine replaces point forecasts with calibrated probability distributions over market direction, fulfilling the "Direction Over Price" thesis for systematic regime-aware allocation.
 
 The architecture combines six complementary model families into a documented ensembling layer, wrapped in conformal prediction for finite-sample-valid coverage guarantees:
 
@@ -843,7 +843,7 @@ The Bayesian Regime Detection Engine v2.0 fulfils all seven assessment dimension
 4. **Presentation & Clarity:** Structured Investment Committee artefact with full audit lineage
 5. **Innovation:** TDA leading indicators, dual foundation model comparison, PSI drift monitoring, class-conditional conformal coverage
 6. **Feasibility:** All models run on 15-year data; particle filter achieves real-time throughput; production deployment path documented
-7. **CV Alignment:** Production-grade quantitative research standards; SEBI-compliant outputs
+7. **Research Alignment:** Rigorous quantitative research standards and regulatory-aligned output structures
 
 The engine embodies the "Direction Over Price" thesis: calibrated probability distributions over regime states, audit-defensible uncertainty budgets, and allocation tilts that are proportional to conviction — directly usable by a Multi-Asset Solutions desk as a decision-support tool.
 
