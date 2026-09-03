@@ -24,44 +24,44 @@ export default function TacticalBacktestTab() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="quant-card p-6 rounded-2xl border border-emerald-200 dark:border-emerald-900/50 bg-gradient-to-r from-white via-emerald-50/30 to-emerald-100/20 dark:from-slate-900 dark:via-slate-900/60 dark:to-emerald-950/30 shadow-sm">
+      <div className="hero-banner hero-banner--emerald p-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 dark:text-emerald-400 mb-1 font-semibold">
+            <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 mb-1 font-semibold">
               <span>Purged & Embargoed Walk-Forward (18 Years)</span>
               <span>•</span>
               <span>Kelly Criterion Overlay (Bounded ±5%)</span>
             </div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
               Tactical Allocation & Walk-Forward Backtest
             </h2>
-            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Strict walk-forward evaluation using combinatorial purged cross-validation. The engine tilts portfolio equity beta based on regime conviction, delivering <span className="text-emerald-700 dark:text-emerald-400 font-bold font-mono">IR = +0.6142</span> with a 22.3 percentage-point drawdown reduction over Buy & Hold.
+            <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
+              Strict walk-forward evaluation using combinatorial purged cross-validation. The engine tilts portfolio equity beta based on regime conviction, delivering <span className="text-emerald-700 font-bold font-mono">IR = +0.6142</span> with a 22.3 percentage-point drawdown reduction over Buy & Hold.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-right font-mono text-xs shadow-sm">
+            <div className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-right font-mono text-xs shadow-sm">
               <div className="text-[10px] text-slate-400 font-semibold">INFORMATION RATIO</div>
-              <div className="text-emerald-600 dark:text-emerald-400 font-bold text-base">+{BACKTEST_METRICS.informationRatio}</div>
+              <div className="text-emerald-600 font-bold text-base">+{BACKTEST_METRICS.informationRatio}</div>
             </div>
-            <div className="px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-right font-mono text-xs shadow-sm">
+            <div className="px-4 py-2 rounded-xl bg-white border border-slate-200 text-right font-mono text-xs shadow-sm">
               <div className="text-[10px] text-slate-400 font-semibold">TRACKING ERROR (ANN.)</div>
-              <div className="text-indigo-600 dark:text-cyan-400 font-bold text-base">{BACKTEST_METRICS.trackingErrorAnn}</div>
+              <div className="text-indigo-600 font-bold text-base">{BACKTEST_METRICS.trackingErrorAnn}</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Kelly Fraction Sizing Slider */}
-      <div className="quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+      <div className="quant-card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            <span className="text-sm font-bold text-slate-900 dark:text-white">Kelly Leverage Multiplier (λ)</span>
+            <Sliders className="w-4 h-4 text-emerald-600" />
+            <span className="text-sm font-bold text-slate-900">Kelly Leverage Multiplier (λ)</span>
           </div>
-          <div className="font-mono text-xs text-slate-600 dark:text-slate-300">
-            Current: <strong className="text-emerald-700 dark:text-emerald-400 font-bold">{kellyFraction === 0.5 ? 'Half-Kelly (λ = 0.50)' : `λ = ${kellyFraction.toFixed(2)}`}</strong>
+          <div className="font-mono text-xs text-slate-600">
+            Current: <strong className="text-emerald-700 font-bold">{kellyFraction === 0.5 ? 'Half-Kelly (λ = 0.50)' : `λ = ${kellyFraction.toFixed(2)}`}</strong>
             <span className="text-slate-400 ml-2">Bounded Max Overlay: ±5.0% Beta</span>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function TacticalBacktestTab() {
           step="0.05"
           value={kellyFraction}
           onChange={(e) => setKellyFraction(parseFloat(e.target.value))}
-          className="w-full accent-emerald-600 dark:accent-emerald-500 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg"
+          className="w-full accent-emerald-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
         />
         <div className="flex justify-between text-[11px] text-slate-400 font-mono mt-1">
           <span>0.10 (Conservative)</span>
@@ -82,23 +82,23 @@ export default function TacticalBacktestTab() {
       </div>
 
       {/* Equity Curve Visualizer */}
-      <div className="quant-card p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm space-y-4">
+      <div className="quant-card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-600" />
               <span>Cumulative Growth of ₹100 Invested (2007 – 2024)</span>
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500">
               Comparing Bayesian Regime Tactical Overlay vs Buy & Hold Benchmark (NIFTY 50 TRI)
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs font-mono">
-            <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-semibold">
-              <span className="w-3 h-1 bg-emerald-600 dark:bg-emerald-400 inline-block rounded-full"></span>
+            <span className="flex items-center gap-1.5 text-emerald-700 font-semibold">
+              <span className="w-3 h-1 bg-emerald-600 inline-block rounded-full"></span>
               Regime Overlay: ₹672 (+572%)
             </span>
-            <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1.5 text-slate-500">
               <span className="w-3 h-1 bg-slate-400 inline-block rounded-full"></span>
               Benchmark: ₹485 (+385%)
             </span>
@@ -109,20 +109,20 @@ export default function TacticalBacktestTab() {
         <div className="space-y-3 pt-2">
           {equityPoints.map((pt, idx) => (
             <div key={idx} className="space-y-1 text-xs font-mono">
-              <div className="flex justify-between text-slate-500 dark:text-slate-400 text-[11px]">
-                <span className="text-slate-900 dark:text-white font-bold">{pt.year}</span>
+              <div className="flex justify-between text-slate-500 text-[11px]">
+                <span className="text-slate-900 font-bold">{pt.year}</span>
                 <span className="text-slate-400 hidden sm:inline">{pt.note}</span>
                 <span>
-                  Strategy: <strong className="text-emerald-700 dark:text-emerald-400 font-bold">₹{pt.strat}</strong> | Bench: ₹{pt.bench}
+                  Strategy: <strong className="text-emerald-700 font-bold">₹{pt.strat}</strong> | Bench: ₹{pt.bench}
                 </span>
               </div>
-              <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden relative flex">
+              <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden relative flex">
                 <div
-                  className="bg-emerald-600 dark:bg-emerald-500 h-full rounded-full transition-all duration-300"
+                  className="bg-emerald-600 h-full rounded-full transition-all duration-300"
                   style={{ width: `${(pt.strat / maxStrat) * 100}%` }}
                 ></div>
                 <div
-                  className="bg-slate-400 dark:bg-slate-600 h-full opacity-50 rounded-full"
+                  className="bg-slate-400 h-full opacity-50 rounded-full"
                   style={{ width: `${(pt.bench / maxStrat) * 100}%`, position: 'absolute', top: 0, left: 0 }}
                 ></div>
               </div>
@@ -133,24 +133,24 @@ export default function TacticalBacktestTab() {
 
       {/* Monte Carlo & Risk Distribution Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
-        <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="quant-card p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="text-slate-400 text-[10px] uppercase font-semibold">1-YEAR MC MEAN RETURN</div>
-          <div className="text-emerald-700 dark:text-emerald-400 font-bold text-lg mt-1">{BACKTEST_METRICS.monteCarlo.meanReturn}</div>
+          <div className="text-emerald-700 font-bold text-lg mt-1">{BACKTEST_METRICS.monteCarlo.meanReturn}</div>
           <div className="text-slate-400 text-[11px] mt-0.5">5,000 Regime-Conditioned Paths</div>
         </div>
-        <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="quant-card p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="text-slate-400 text-[10px] uppercase font-semibold">95% VALUE-AT-RISK (1-YR)</div>
-          <div className="text-rose-600 dark:text-rose-400 font-bold text-lg mt-1">{BACKTEST_METRICS.monteCarlo.var95}</div>
+          <div className="text-rose-600 font-bold text-lg mt-1">{BACKTEST_METRICS.monteCarlo.var95}</div>
           <div className="text-slate-400 text-[11px] mt-0.5">CVaR 95%: {BACKTEST_METRICS.monteCarlo.cvar95}</div>
         </div>
-        <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="quant-card p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="text-slate-400 text-[10px] uppercase font-semibold">MAX DRAWDOWN COMPARISON</div>
-          <div className="text-amber-600 dark:text-amber-400 font-bold text-lg mt-1">{BACKTEST_METRICS.maxDrawdownStrategy}</div>
+          <div className="text-amber-600 font-bold text-lg mt-1">{BACKTEST_METRICS.maxDrawdownStrategy}</div>
           <div className="text-slate-400 text-[11px] mt-0.5">vs {BACKTEST_METRICS.maxDrawdownBenchmark} Benchmark</div>
         </div>
-        <div className="quant-card p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="quant-card p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="text-slate-400 text-[10px] uppercase font-semibold">DEFLATED SHARPE RATIO (DSR)</div>
-          <div className="text-indigo-600 dark:text-cyan-400 font-bold text-lg mt-1">{BACKTEST_METRICS.deflatedSharpeRatio}</div>
+          <div className="text-indigo-600 font-bold text-lg mt-1">{BACKTEST_METRICS.deflatedSharpeRatio}</div>
           <div className="text-slate-400 text-[11px] mt-0.5">Bailey & López de Prado (2014)</div>
         </div>
       </div>

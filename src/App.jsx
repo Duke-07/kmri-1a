@@ -7,7 +7,7 @@ import ConformalCalibrationTab from './components/ConformalCalibrationTab.jsx';
 import TacticalBacktestTab from './components/TacticalBacktestTab.jsx';
 import ICArtefactTab from './components/ICArtefactTab.jsx';
 import PipelineArchitectureTab from './components/PipelineArchitectureTab.jsx';
-import { ShieldCheck, Github, ExternalLink } from './components/Icons.jsx';
+import { Github } from './components/Icons.jsx';
 
 export default function App() {
   const getInitialTab = () => {
@@ -36,20 +36,13 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
-      {/* Top Sticky Header */}
-      <Header
-        activeTab={activeTab}
-        setActiveTab={handleTabChange}
-      />
+    <div className="min-h-screen app-shell text-slate-900 flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-900">
+      <Header activeTab={activeTab} setActiveTab={handleTabChange} />
 
-      {/* Main Container */}
-      <main className="flex-1 app-container py-6">
-        {/* High-Level Quant KPIs */}
+      <main className="flex-1 app-container">
         <MetricCards />
 
-        {/* Tab Content Panels */}
-        <div className="transition-opacity duration-200">
+        <div className="tab-panel">
           {activeTab === 'terminal' && <LiveTerminalTab />}
           {activeTab === 'crisis' && <CrisisReplayTab />}
           {activeTab === 'calibration' && <ConformalCalibrationTab />}
@@ -59,18 +52,14 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer (Personal project attribution, non-misleading transparency) */}
-      <footer className="border-t border-slate-200 bg-white py-6 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">
-              Bayesian Regime Detection Engine
-            </span>
-            <span className="text-slate-300">•</span>
-            <span>Personal Quantitative Research by <strong>Aaryan Dwivedi</strong></span>
+      <footer className="border-t border-slate-200/80 bg-white/80 backdrop-blur-sm py-5">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs text-slate-500">
+            <span className="font-semibold text-slate-800">Bayesian Regime Detection Engine</span>
+            <span className="text-slate-300">·</span>
+            <span>Personal quantitative research by <strong className="text-slate-700">Aaryan Dwivedi</strong></span>
           </div>
-
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 text-xs text-slate-500">
             <a
               href="https://github.com/Duke-07/kmri-1a"
               target="_blank"
@@ -79,11 +68,11 @@ export default function App() {
             >
               <Github className="w-3.5 h-3.5" /> GitHub
             </a>
-            <span className="text-slate-300">•</span>
-            <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-indigo-700 font-mono text-[11px]">
-              Release v1.5.0
+            <span className="text-slate-300">·</span>
+            <span className="px-2 py-0.5 rounded-md bg-indigo-50 border border-indigo-200/80 text-indigo-700 font-mono text-[10px] font-semibold">
+              v1.5.0
             </span>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-300">·</span>
             <span>MIT License</span>
           </div>
         </div>

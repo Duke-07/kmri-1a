@@ -10,10 +10,10 @@ export default function PipelineArchitectureTab() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="quant-card p-6 rounded-2xl border border-cyan-200 dark:border-cyan-900/50 bg-gradient-to-r from-white via-cyan-50/30 to-cyan-100/20 dark:from-slate-900 dark:via-slate-900/60 dark:to-cyan-950/30 shadow-sm">
+      <div className="hero-banner hero-banner--cyan p-6">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-cyan-700 dark:text-cyan-400 mb-1 font-semibold">
+            <div className="flex items-center gap-2 text-xs font-mono text-cyan-700 mb-1 font-semibold">
               <Cpu className="w-3.5 h-3.5" />
               <span>Full End-to-End Execution Graph</span>
               <span>•</span>
