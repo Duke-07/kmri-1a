@@ -4,9 +4,10 @@
 **Aaryan Dwivedi** · [github.com/Duke-07](https://github.com/Duke-07)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org)
+[![CI](https://github.com/Duke-07/kmri-1a/actions/workflows/ci.yml/badge.svg)](https://github.com/Duke-07/kmri-1a/actions/workflows/ci.yml)
 [![R 4.3+](https://img.shields.io/badge/R-4.3+-blue.svg)](https://www.r-project.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.5.0-indigo.svg)]()
+[![Version](https://img.shields.io/badge/version-1.5.1-indigo.svg)]()
 [![Status](https://img.shields.io/badge/status-research--complete-emerald.svg)]()
 [![Last Updated](https://img.shields.io/badge/last%20updated-September%202026-brightgreen.svg)]()
 
@@ -284,7 +285,24 @@ bayesian-regime-engine/
 | **Brier Score** | **0.1432** | 0.2810 | $49\%$ error reduction |
 
 ---
-
+ 
+## Automated Testing & CI/CD
+ 
+The repository includes a comprehensive automated test suite and continuous integration workflow verifying both the mathematical research pipeline and web application:
+ 
+```bash
+# Run unit and integration test suite
+pytest tests/
+ 
+# Run pipeline diagnostic CLI runner
+python scripts/run_pipeline.py --mode validate
+ 
+# Build quantitative web terminal
+npm run build
+```
+ 
+---
+ 
 ## License
 
 MIT License. Designed and engineered by **Aaryan Dwivedi** ([Duke-07](https://github.com/Duke-07)).

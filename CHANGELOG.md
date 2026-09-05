@@ -17,6 +17,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Automated model drift alerts via PSI monitoring pipeline
 - GPU-accelerated particle filter using CuPy
 
+## [1.5.1] — 2026-09-05
+
+### Added
+- Automated GitHub Actions CI workflow covering frontend build and Python unit test suites
+- Unit and integration test suite (`tests/`) covering synthetic data, feature engineering, conformal prediction, and data validation
+- `MarketDataValidator` schema and numerical sanity assurance engine
+- Diagnostic CLI runner `scripts/run_pipeline.py` with multi-mode execution
+- Project metadata and tool configuration specification in `pyproject.toml`
+
 ---
 
 ## [1.5.0] — 2026-09-02
